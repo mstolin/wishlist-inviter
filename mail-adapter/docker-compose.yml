@@ -1,0 +1,26 @@
+networks:
+  mail:
+    driver: bridge
+
+services:
+
+  mail-service:
+    image: localhost/present-roulette/mail-service:latest
+    networks:
+      - mail
+    environment:
+      - GMAIL_SERVICE_HOST=gmail-service
+      - GMAIL_SERVICE_PORT=8082
+    ports:
+      - 8081:8080
+    depends_on:
+      - gmail
+
+  gmail-service:
+    image: localhost/present-roulette/gmail-service:latest
+    networks:
+      - mail
+    env_file:
+      - ./gmail-service.env
+    ports:
+      - 8082:8080

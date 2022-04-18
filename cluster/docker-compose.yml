@@ -1,0 +1,96 @@
+networks:
+  present-roulette: # Add more networks for deeper isolation
+    driver: bridge
+
+volumes:
+  data:
+
+services:
+  gmail-service: # MAKE GMAIL ADAPTER
+    image: localhost/present-roulette/gmail-service
+    #env_file:
+    #  - env/gmail-service/.env
+    environment:
+      - GMAIL_HOST=smtp.gmail.com
+      - GMAIL_PORT=587
+    restart: always
+    networks:
+      - present-roulette
+
+  mail-adapter: # MAKE GMAIL SERVICE
+    image: localhost/present-roulette/mail-adapter
+    ports:
+      - "8021:8080"
+    environment:
+      - GMAIL_SERVICE_HOST=http://gmail-service # Make only GMAIL_SERVICE
+      - GMAIL_SERVICE_PORT=8080
+    depends_on:
+      - gmail-service
+    restart: always
+    networks:
+      - present-roulette
+
+  amazon-scrapper:
+    image: localhost/present-roulette/amazon-scrapper
+    environment:
+      - AMAZON_HOST=http://whishlist-clone:8041 # MAKE AMAZON_URL
+    restart: always
+    networks:
+      - present-roulette
+
+  scrapper-facade:
+    image: localhost/present-roulette/scrapper-facade
+    ports:
+      - "8022:8080"
+    environment:
+      - AMAZON_SCRAPPER=http://amazon-scrapper:8080
+    depends_on:
+      - amazon-scrapper
+    restart: always
+    networks:
+      - present-roulette
+
+  database-adapter:
+    image: localhost/present-roulette/database-adapter
+    ports:
+      - "8023:8080"
+    environment:
+      - DB_HOST=database
+      - DB_PORT=value
+      - DB_USER=admin
+      - DB_PASSWORD=admin123
+      - DB_NAME=present-roulette
+    depends_on:
+      - database
+    restart: always
+    networks:
+      - present-roulette
+
+  database:
+    build: ./database
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=present-roulette
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - present-roulette
+
+  whishlist-clone:
+    image: nginx:latest
+    privileged: true # Give access to filesystem
+    ports:
+      - "8041:8041"
+    #environment:
+    #  - NGINX_HOST=foobar.com
+    #  - NGINX_PORT=80
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    restart: always
+    networks:
+      - present-roulette
