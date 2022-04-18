@@ -7,7 +7,7 @@ volumes:
 
 services:
   gmail-service: # MAKE GMAIL ADAPTER
-    image: localhost/present-roulette/gmail-service
+    build: ./gmail-service
     #env_file:
     #  - env/gmail-service/.env
     environment:
@@ -17,8 +17,8 @@ services:
     networks:
       - present-roulette
 
-  mail-adapter: # MAKE GMAIL SERVICE
-    image: localhost/present-roulette/mail-adapter
+  mail-adapter: # MAKE MAIL SERVICE
+    build: ./mail-adapter
     ports:
       - "8021:8080"
     environment:
@@ -31,7 +31,7 @@ services:
       - present-roulette
 
   amazon-scrapper:
-    image: localhost/present-roulette/amazon-scrapper
+    build: ./amazon-scrapper
     environment:
       - AMAZON_HOST=http://whishlist-clone:8041 # MAKE AMAZON_URL
     restart: always
@@ -39,7 +39,7 @@ services:
       - present-roulette
 
   scrapper-facade:
-    image: localhost/present-roulette/scrapper-facade
+    build: ./scrapper-facade
     ports:
       - "8022:8080"
     environment:
@@ -51,7 +51,7 @@ services:
       - present-roulette
 
   database-adapter:
-    image: localhost/present-roulette/database-adapter
+    build: ./database-adapter
     ports:
       - "8023:8080"
     environment:
