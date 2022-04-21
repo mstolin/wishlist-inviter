@@ -25,11 +25,15 @@ func NewMailClient(url string) (MailClient, error) {
 	return client, nil
 }
 
-func (client MailClient) sendInvitation(invitation *models.Invitation) (*models.Invitation, error) {
-	result := &models.Invitation{}
+func (client MailClient) SendInvitation(invitation models.InvitationReq, itemId int) (models.InvitationRes, error) {
+	result := models.InvitationRes{}
 
-	url := client.URL + "/mail/send"
-	jsonStr := []byte(fmt.Sprintf(`{"recipient":"%s","subject":"%s","message":"%s"}`, invitation.Recipient, invitation.Subject, invitation.Message))
+	jsonStr, err := json.Marshal(invitation)
+	if err != nil {
+		return result, err
+	}
+
+	url := fmt.Sprintf("%s/mail/send/invitation/%d", client.URL, itemId)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		return result, err
@@ -48,7 +52,7 @@ func (client MailClient) sendInvitation(invitation *models.Invitation) (*models.
 		return result, err
 	}
 
-	if err := json.Unmarshal(body, result); err != nil {
+	if err := json.Unmarshal(body, &result); err != nil {
 		return result, err
 	}
 
