@@ -6,6 +6,13 @@ volumes:
   data:
 
 services:
+  user-endpoint:
+    build: ./user-endpoint
+    environment:
+      - USER_SERVICE=http://user-service
+      - WISHLIST_SERVICE=http://wishlist-service
+      - MAIL_SERVICE=http://mail-adapter
+
   gmail-service: # MAKE GMAIL ADAPTER
     build: ./gmail-service
     #env_file:
@@ -32,8 +39,10 @@ services:
 
   amazon-scrapper:
     build: ./amazon-scrapper
+    ports:
+      - "8042:8080"
     environment:
-      - AMAZON_HOST=http://whishlist-clone:8041 # MAKE AMAZON_URL
+      - AMAZON_HOST=http://amazon-clone:8041 # MAKE AMAZON_URL
     restart: always
     networks:
       - present-roulette
@@ -80,7 +89,7 @@ services:
     networks:
       - present-roulette
 
-  whishlist-clone:
+  amazon-clone:
     image: nginx:latest
     privileged: true # Give access to filesystem
     ports:
@@ -89,8 +98,8 @@ services:
     #  - NGINX_HOST=foobar.com
     #  - NGINX_PORT=80
     volumes:
-      - ./nginx/html:/usr/share/nginx/html
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./amazon-clone/nginx/html:/usr/share/nginx/html
+      - ./amazon-clone/nginx/nginx.conf:/etc/nginx/nginx.conf
     restart: always
     networks:
       - present-roulette
