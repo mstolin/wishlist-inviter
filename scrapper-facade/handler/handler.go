@@ -18,7 +18,7 @@ func NewHandler(scrapperFacade scrapper.ScrapperFacade) http.Handler {
 	router.Use(render.SetContentType(render.ContentTypeJSON))
 	router.MethodNotAllowed(methodNotAllowedHandler)
 	router.NotFound(notFoundHandler)
-	router.Route("/wishlist/", scrapWishlist)
+	router.Route("/amazon", amazonHandler)
 	return router
 }
 
