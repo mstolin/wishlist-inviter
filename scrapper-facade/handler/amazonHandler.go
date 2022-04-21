@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
+	"github.com/mstolin/present-roulette/utils/errors"
 )
 
 const PARAM_WISHLIST_ID = "wishlistId"
@@ -20,7 +21,7 @@ func amazonHandler(r chi.Router) {
 func wishlistCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if whishlistId := chi.URLParam(r, PARAM_WISHLIST_ID); whishlistId == "" {
-			render.Render(w, r, ErrBadRequest)
+			render.Render(w, r, errors.ErrBadRequest)
 			return
 		} else {
 			ctx := context.WithValue(r.Context(), PARAM_WISHLIST_ID, whishlistId)
@@ -34,12 +35,12 @@ func scrapWishlist(w http.ResponseWriter, r *http.Request) {
 
 	resp, error := scrapperFacadeInstance.ScrapAmazonWishlist(whishlistId)
 	if error != nil {
-		render.Render(w, r, ErrorRenderer(error))
+		render.Render(w, r, errors.ErrorRenderer(error))
 		return
 	}
 
 	if error := render.Render(w, r, &resp); error != nil {
-		render.Render(w, r, ServerErrorRenderer(error))
+		render.Render(w, r, errors.ServerErrorRenderer(error))
 		return
 	}
 }
