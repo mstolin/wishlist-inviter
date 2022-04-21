@@ -1,13 +1,12 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/mail-adapter/models"
+	"github.com/mstolin/present-roulette/utils/errors"
 )
 
 func send(router chi.Router) {
@@ -18,21 +17,18 @@ func invitationHandler(writer http.ResponseWriter, request *http.Request) {
 	invitation := &models.Invitation{}
 
 	if error := render.Bind(request, invitation); error != nil {
-		fmt.Fprintf(os.Stderr, "Error: %q\n", error)
-		render.Render(writer, request, ErrBadRequest)
+		render.Render(writer, request, errors.ErrBadRequest)
 		return
 	}
 
 	gmailResp, error := gmailClientInstance.PostInvitation(invitation)
 	if error != nil {
-		fmt.Fprintf(os.Stderr, "Error: %q\n", error)
-		render.Render(writer, request, ErrorRenderer(error))
+		render.Render(writer, request, errors.ErrorRenderer(error))
 		return
 	}
 
 	if error := render.Render(writer, request, gmailResp); error != nil {
-		fmt.Fprintf(os.Stderr, "Error: %q\n", error)
-		render.Render(writer, request, ServerErrorRenderer(error))
+		render.Render(writer, request, errors.ServerErrorRenderer(error))
 		return
 	}
 }

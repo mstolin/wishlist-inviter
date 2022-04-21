@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/user-service/clients"
+	"github.com/mstolin/present-roulette/utils/errors"
 )
 
 var dbClientInstance clients.DatabaseClient
@@ -24,10 +25,10 @@ func NewHandler(dbClient clients.DatabaseClient) http.Handler {
 
 func methodNotAllowedHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(405)
-	render.Render(writer, request, ErrMethodNotAllowed)
+	render.Render(writer, request, errors.ErrMethodNotAllowed)
 }
 
 func notFoundHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(400)
-	render.Render(writer, request, ErrNotFound)
+	render.Render(writer, request, errors.ErrNotFound)
 }
