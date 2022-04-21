@@ -2,29 +2,33 @@ package scrapper
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
 	"github.com/mstolin/present-roulette/scrapper-facade/models"
 )
 
-func (facade ScrapperFacade) ScrapAmazonWishlist(whishlistId string) (*models.Whishlist, error) {
-	whishlist := &models.Whishlist{}
+func (facade ScrapperFacade) ScrapAmazonWishlist(wishlistId string) (models.Whishlist, error) {
+	wishlist := models.Whishlist{}
+	if facade.AmazonScrapper == "" {
+		return wishlist, fmt.Errorf("can't establish connection to Amazon Scrapper, because AMAZON_SCRAPPER is empty")
+	}
 
-	whishlistUrl := facade.Scrapper.AmazonScrapper + "/wishlist/" + whishlistId
-	resp, err := http.Get(whishlistUrl)
+	wishlistUrl := fmt.Sprintf("%s/wishlist/%s", facade.AmazonScrapper, wishlistId)
+	resp, err := http.Get(wishlistUrl)
 	if err != nil {
-		return whishlist, err
+		return wishlist, err
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return whishlist, err
+		return wishlist, err
 	}
 
-	if err := json.Unmarshal(body, whishlist); err != nil {
-		return whishlist, err
+	if err := json.Unmarshal(body, &wishlist); err != nil {
+		return wishlist, err
 	}
 
-	return whishlist, nil
+	return wishlist, nil
 }
