@@ -15,9 +15,9 @@ services:
           - SERVICE_PROJECT_PATH=./user-endpoint
     image: localhost/present-roulette/user-endpoint
     environment:
-      - USER_SERVICE=http://user-service
-      - WISHLIST_SERVICE=http://scrapper-facade
-      - MAIL_SERVICE=http://mail-adapter
+      - USER_SERVICE=http://user-service:8080
+      - WISHLIST_SERVICE=http://scrapper-facade:8080
+      - MAIL_SERVICE=http://mail-adapter:8080
 
   gmail-service: # MAKE GMAIL ADAPTER
     build:
@@ -36,19 +36,18 @@ services:
     networks:
       - present-roulette
 
-  mail-adapter: # MAKE MAIL SERVICE
+  mail-service: # MAKE MAIL SERVICE
     build:
       context: .
         dockerfile: go-service.Dockerfile
         args:
-          - SERVICE_NAME=mail-adapter
-          - SERVICE_PROJECT_PATH=./mail-adapter
-    image: localhost/present-roulette/mail-adapter
+          - SERVICE_NAME=mail-service
+          - SERVICE_PROJECT_PATH=./mail-service
+    image: localhost/present-roulette/mail-service
     ports:
       - "8021:8080"
     environment:
-      - GMAIL_SERVICE_HOST=http://gmail-service # Make only GMAIL_SERVICE
-      - GMAIL_SERVICE_PORT=8080
+      - GMAIL_SERVICE=http://gmail-service:8080
     depends_on:
       - gmail-service
     restart: always
@@ -94,7 +93,7 @@ services:
     image: localhost/present-roulette/database-adapter
     ports:
       - "8023:8080"
-    environment: # make db env file
+    environment:
       - DB_HOST=database
       - DB_PORT=value
       - DB_USER=admin
@@ -109,7 +108,7 @@ services:
   database:
     build: ./database
     image: localhost/present-roulette/postgres-database
-    environment: # use db env file
+    environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin123
       - POSTGRES_DB=present-roulette
