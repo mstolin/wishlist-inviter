@@ -46,7 +46,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if error := render.Render(w, r, resp); error != nil { // TODO better success response
+	if error := render.Render(w, r, &resp); error != nil { // TODO better success response
 		fmt.Fprintf(os.Stderr, "Error: %q\n", error)
 		render.Render(w, r, errors.ServerErrorRenderer(error))
 		return
