@@ -11,7 +11,7 @@ import (
 func (gClient GMailClient) PostInvitation(invitation models.Invitation) (models.GMailResponse, error) {
 	gmailResp := models.GMailResponse{}
 
-	url := fmt.Sprintf("%s:%s/mail/send", gClient.Host, gClient.Port)
+	url := fmt.Sprintf("%s/mail/send", gClient.URL)
 	jsonStr, err := json.Marshal(fmt.Sprintf(`{"recipient":"%s","subject":"%s","message":"%s"}`, invitation.Recipient, invitation.Subject, invitation.Message))
 	if err != nil {
 		return gmailResp, err
