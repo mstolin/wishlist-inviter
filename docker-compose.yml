@@ -7,15 +7,25 @@ volumes:
 
 services:
   user-endpoint:
-    build: ./user-endpoint
+    build:
+      context: .
+        dockerfile: go-service.Dockerfile
+        args:
+          - SERVICE_NAME=user-endpoint
+          - SERVICE_PROJECT_PATH=./user-endpoint
     image: localhost/present-roulette/user-endpoint
     environment:
       - USER_SERVICE=http://user-service
-      - WISHLIST_SERVICE=http://wishlist-service
+      - WISHLIST_SERVICE=http://scrapper-facade
       - MAIL_SERVICE=http://mail-adapter
 
   gmail-service: # MAKE GMAIL ADAPTER
-    build: ./gmail-service
+    build:
+      context: .
+        dockerfile: go-service.Dockerfile
+        args:
+          - SERVICE_NAME=gmail-service
+          - SERVICE_PROJECT_PATH=./gmail-service
     image: localhost/present-roulette/gmail-service
     #env_file:
     #  - env/gmail-service/.env
@@ -27,7 +37,12 @@ services:
       - present-roulette
 
   mail-adapter: # MAKE MAIL SERVICE
-    build: ./mail-adapter
+    build:
+      context: .
+        dockerfile: go-service.Dockerfile
+        args:
+          - SERVICE_NAME=mail-adapter
+          - SERVICE_PROJECT_PATH=./mail-adapter
     image: localhost/present-roulette/mail-adapter
     ports:
       - "8021:8080"
@@ -52,7 +67,12 @@ services:
       - present-roulette
 
   scrapper-facade:
-    build: ./scrapper-facade
+    build:
+      context: .
+      dockerfile: go-service.Dockerfile
+      args:
+        - SERVICE_NAME=scrapper-facade
+        - SERVICE_PROJECT_PATH=./scrapper-facade
     image: localhost/present-roulette/scrapper-facade
     ports:
       - "8022:8080"
@@ -65,11 +85,16 @@ services:
       - present-roulette
 
   database-adapter:
-    build: ./database-adapter
+    build:
+      context: .
+        dockerfile: go-service.Dockerfile
+        args:
+          - SERVICE_NAME=database-adapter
+          - SERVICE_PROJECT_PATH=./database-adapter
     image: localhost/present-roulette/database-adapter
     ports:
       - "8023:8080"
-    environment:
+    environment: # make db env file
       - DB_HOST=database
       - DB_PORT=value
       - DB_USER=admin
@@ -84,7 +109,7 @@ services:
   database:
     build: ./database
     image: localhost/present-roulette/postgres-database
-    environment:
+    environment: # use db env file
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin123
       - POSTGRES_DB=present-roulette
