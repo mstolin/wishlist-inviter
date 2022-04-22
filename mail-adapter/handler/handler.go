@@ -14,13 +14,13 @@ var gmailClientInstance gmail.GMailClient
 
 func NewHandler(gmailClient gmail.GMailClient) http.Handler {
 	gmailClientInstance = gmailClient
-	router := chi.NewRouter()
-	router.Use(middleware.Logger)
-	router.Use(render.SetContentType(render.ContentTypeJSON))
-	router.MethodNotAllowed(methodNotAllowedHandler)
-	router.NotFound(notFoundHandler)
-	router.Route("/mail/send", send)
-	return router
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Use(render.SetContentType(render.ContentTypeJSON))
+	r.MethodNotAllowed(methodNotAllowedHandler)
+	r.NotFound(notFoundHandler)
+	r.Route("/invitation", invitationHandler)
+	return r
 }
 
 func methodNotAllowedHandler(writer http.ResponseWriter, request *http.Request) {
