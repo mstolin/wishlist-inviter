@@ -1,4 +1,4 @@
-module github.com/mstolin/present-roulette/mail-adapter
+module github.com/mstolin/present-roulette/mail-service
 
 go 1.17
 

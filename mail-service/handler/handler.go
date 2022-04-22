@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/mail-adapter/gmail"
+	"github.com/mstolin/present-roulette/mail-service/gmail"
 	"github.com/mstolin/present-roulette/utils/errors"
 )
 

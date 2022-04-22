@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/mstolin/present-roulette/mail-adapter/models"
+	"github.com/mstolin/present-roulette/mail-service/models"
 )
 
 // Sends POST request to send an invitation mail.
