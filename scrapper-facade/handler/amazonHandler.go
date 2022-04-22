@@ -12,7 +12,7 @@ import (
 const PARAM_WISHLIST_ID = "wishlistId"
 
 func amazonHandler(r chi.Router) {
-	r.Route("/wishlist/{wishlistId}", func(r chi.Router) {
+	r.Route("/wishlists/{wishlistId}", func(r chi.Router) {
 		r.Use(wishlistCtx)
 		r.Get("/", scrapWishlist) // GET /wishlist/amazon/1234
 	})
