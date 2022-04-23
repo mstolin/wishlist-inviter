@@ -19,14 +19,14 @@ services:
       - WISHLIST_SERVICE=http://scrapper-facade:8080
       - MAIL_SERVICE=http://mail-adapter:8080
 
-  gmail-service: # MAKE GMAIL ADAPTER
+  gmail-adapter:
     build:
       context: .
         dockerfile: go-service.Dockerfile
         args:
-          - SERVICE_NAME=gmail-service
-          - SERVICE_PROJECT_PATH=./gmail-service
-    image: localhost/present-roulette/gmail-service
+          - SERVICE_NAME=gmail-adapter
+          - SERVICE_PROJECT_PATH=./gmail-adapter
+    image: localhost/present-roulette/gmail-adapter
     #env_file:
     #  - env/gmail-service/.env
     environment:
@@ -36,7 +36,7 @@ services:
     networks:
       - present-roulette
 
-  mail-service: # MAKE MAIL SERVICE
+  mail-service:
     build:
       context: .
         dockerfile: go-service.Dockerfile
@@ -47,7 +47,7 @@ services:
     ports:
       - "8021:8080"
     environment:
-      - GMAIL_SERVICE=http://gmail-service:8080
+      - GMAIL_SERVICE=http://gmail-adapter:8080
     depends_on:
       - gmail-service
     restart: always
