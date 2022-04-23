@@ -3,7 +3,7 @@ package mail
 import (
 	"net/smtp"
 
-	"github.com/mstolin/present-roulette/gmail-service/models"
+	"github.com/mstolin/present-roulette/gmail-adapter/models"
 )
 
 func (smtpClient SMTPClient) SendMail(mail *models.Mail) error {

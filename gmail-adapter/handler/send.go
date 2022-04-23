@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/gmail-service/models"
+	"github.com/mstolin/present-roulette/gmail-adapter/models"
 	"github.com/mstolin/present-roulette/utils/errors"
 )
 

@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mstolin/present-roulette/gmail-service/handler"
-	"github.com/mstolin/present-roulette/gmail-service/mail"
+	"github.com/mstolin/present-roulette/gmail-adapter/handler"
+	"github.com/mstolin/present-roulette/gmail-adapter/mail"
 )
 
 func main() {

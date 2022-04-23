@@ -1,4 +1,4 @@
-module github.com/mstolin/present-roulette/gmail-service
+module github.com/mstolin/present-roulette/gmail-adapter
 
 go 1.17
 
