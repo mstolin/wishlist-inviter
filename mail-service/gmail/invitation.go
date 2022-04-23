@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/mstolin/present-roulette/mail-service/models"
+	"github.com/mstolin/present-roulette/utils/models"
 )
 
 // Sends POST request to send an invitation mail.
-func (gClient GMailClient) PostInvitation(invitation models.Invitation) (models.GMailResponse, error) {
+func (gClient GMailClient) SendInvitation(invitation models.Invitation) (models.GMailResponse, error) {
 	gmailResp := models.GMailResponse{}
 
 	url := fmt.Sprintf("%s/mail/send", gClient.URL)
