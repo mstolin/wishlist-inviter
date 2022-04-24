@@ -1,17 +1,16 @@
 package clients
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 
-	"github.com/mstolin/present-roulette/user-endpoint/models"
+	"github.com/mstolin/present-roulette/utils/clients"
+	"github.com/mstolin/present-roulette/utils/models"
 )
 
 type MailClient struct {
-	URL string
+	URL        string
+	httpFacade clients.HTTPFacade
 }
 
 func NewMailClient(url string) (MailClient, error) {
@@ -22,39 +21,26 @@ func NewMailClient(url string) (MailClient, error) {
 		client.URL = url
 	}
 
+	client.httpFacade = clients.NewHTTPFacade()
 	return client, nil
 }
 
-func (client MailClient) SendInvitation(invitation models.InvitationReq, itemId int) (models.InvitationRes, error) {
-	result := models.InvitationRes{}
-
-	jsonStr, err := json.Marshal(invitation)
+// Sends an request to the mail service to send an invitation
+func (client MailClient) SendInvitation(invitationReq models.InvitationReq) (models.Invitation, error) {
+	invitationRes := models.Invitation{}
+	jsonStr, err := json.Marshal(invitationReq)
 	if err != nil {
-		return result, err
+		return invitationRes, err
 	}
 
-	url := fmt.Sprintf("%s/mail/send/invitation/%d", client.URL, itemId)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	url := fmt.Sprintf("%s/invitation", client.URL)
+	res, err := client.httpFacade.DoPost(url, jsonStr)
 	if err != nil {
-		return result, err
-	}
-	req.Header.Set("Content-Type", "application/json")
-
-	httpClient := &http.Client{}
-	resp, err := httpClient.Do(req)
-	if err != nil {
-		return result, err
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return result, err
+		return invitationRes, err
 	}
 
-	if err := json.Unmarshal(body, &result); err != nil {
-		return result, err
+	if err := json.Unmarshal(res, &invitationRes); err != nil {
+		return invitationRes, err
 	}
-
-	return result, nil
+	return invitationRes, nil
 }
