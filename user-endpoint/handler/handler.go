@@ -6,30 +6,40 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/user-service/clients"
+	"github.com/mstolin/present-roulette/user-endpoint/clients"
+	"github.com/mstolin/present-roulette/utils/errors"
 )
 
-var dbClientInstance clients.DatabaseClient
+var wishlistClientInstance clients.WishlistClient
+var mailClientInstance clients.MailClient
+var userClientInstance clients.UserClient
 
-func NewHandler(dbClient clients.DatabaseClient) http.Handler {
-	dbClientInstance = dbClient
+func NewHandler(userClient clients.UserClient, mailClient clients.MailClient, wishlistClient clients.WishlistClient) http.Handler {
+	wishlistClientInstance = wishlistClient
+	mailClientInstance = mailClient
+	userClientInstance = userClient
+
+	return newRouter()
+}
+
+func newRouter() http.Handler {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 	router.Use(render.SetContentType(render.ContentTypeJSON))
 	router.MethodNotAllowed(methodNotAllowedHandler)
 	router.NotFound(notFoundHandler)
-	router.Route("/user", userHandler)
-	router.Route("/wishlist", wishlisthandler)
-	router.Route("/invitation", invitationHandler)
+	router.Route("/users", userHandler)
+	router.Route("/items", itemHandler)
+	router.Route("/mail", mailHandler)
 	return router
 }
 
 func methodNotAllowedHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(405)
-	render.Render(writer, request, ErrMethodNotAllowed)
+	render.Render(writer, request, errors.ErrMethodNotAllowed)
 }
 
 func notFoundHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(400)
-	render.Render(writer, request, ErrNotFound)
+	render.Render(writer, request, errors.ErrNotFound)
 }
