@@ -29,7 +29,7 @@ func NewDatabaseClient(url string) (DatabaseClient, error) {
 func (client DatabaseClient) CreateUser() (models.User, error) {
 	user := models.User{}
 
-	jsonStr, err := json.Marshal("{\"items\": []}") // empty user with no items
+	jsonStr, err := json.Marshal(`{"items": []}`) // empty user with no items
 	if err != nil {
 		return user, err
 	}
