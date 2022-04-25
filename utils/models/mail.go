@@ -13,7 +13,7 @@ type Mail struct {
 
 func (mail *Mail) Bind(request *http.Request) error {
 	if mail.Recipient == "" || mail.Subject == "" || mail.Message == "" {
-		return fmt.Errorf("Recipient, Subject, and Message are required fields")
+		return fmt.Errorf("recipient, subject, and message can't be empty")
 	}
 	return nil
 }
