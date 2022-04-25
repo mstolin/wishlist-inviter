@@ -18,7 +18,7 @@ func mailHandler(r chi.Router) {
 }
 
 func sendInvitation(w http.ResponseWriter, r *http.Request) {
-	invitationReq := models.InvitationReq{}
+	invitationReq := models.Invitation{}
 	if err := render.Bind(r, &invitationReq); err != nil {
 		render.Render(w, r, errors.ErrBadRequest)
 		return
