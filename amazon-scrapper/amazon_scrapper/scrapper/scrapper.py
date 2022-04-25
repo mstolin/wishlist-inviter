@@ -57,7 +57,7 @@ class Scrapper:
         if amazon_host is None:
             raise Exception("Environment variable AMAZON_HOST is not defined")
 
-        url = amazon_host + "/hz/wishlist/ls/" + id
+        url = f"{amazon_host}/hz/wishlist/ls/{id}"
         try:
             page = self._requests_session.get(url, timeout=10000)
 

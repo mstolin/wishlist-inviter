@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/mstolin/present-roulette/scrapper-facade/models"
+	"github.com/mstolin/present-roulette/utils/models"
 )
 
 func (facade ScrapperFacade) ScrapAmazonWishlist(wishlistId string) (models.Whishlist, error) {
