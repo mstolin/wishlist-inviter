@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/mstolin/present-roulette/database-adapter/models"
+	"github.com/mstolin/present-roulette/utils/models"
 )
 
 func (dbHandler DatabaseHandler) CreateUser(user *models.User) (models.User, error) {

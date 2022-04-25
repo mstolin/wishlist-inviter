@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 
-	"github.com/mstolin/present-roulette/database-adapter/models"
+	"github.com/mstolin/present-roulette/utils/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 
-	"github.com/mstolin/present-roulette/database-adapter/models"
+	"github.com/mstolin/present-roulette/utils/models"
 )
 
 func (dbHandler DatabaseHandler) GetItemByUser(user models.User, itemId int) (models.Item, error) {
