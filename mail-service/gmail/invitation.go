@@ -8,8 +8,8 @@ import (
 )
 
 // Sends POST request to send an invitation mail.
-func (gClient GMailClient) SendInvitation(invitation models.Invitation) (models.GMailResponse, error) {
-	gmailResp := models.GMailResponse{}
+func (gClient GMailClient) SendInvitation(invitation models.Mail) (models.Mail, error) {
+	gmailResp := models.Mail{}
 
 	url := fmt.Sprintf("%s/mail/send", gClient.URL)
 	jsonStr, err := json.Marshal(fmt.Sprintf(`{"recipient":"%s","subject":"%s","message":"%s"}`, invitation.Recipient, invitation.Subject, invitation.Message))

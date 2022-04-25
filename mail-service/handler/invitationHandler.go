@@ -10,35 +10,35 @@ import (
 )
 
 func invitationHandler(r chi.Router) {
-	r.Post("/send", sendInvitation)
+	r.Post("/", sendInvitation)
 }
 
 // Send invitation endpoint
 func sendInvitation(w http.ResponseWriter, r *http.Request) {
-	invitationReq := models.InvitationReq{}
-	if error := render.Bind(r, &invitationReq); error != nil {
+	invitation := models.Invitation{}
+	if error := render.Bind(r, &invitation); error != nil {
 		render.Render(w, r, errors.ErrBadRequest)
 		return
 	}
 
 	// Get all items
-	items, err := getItemsForUser(invitationReq.UserId, invitationReq.Items)
+	items, err := getItemsForUser(invitation.UserId, invitation.Items)
 	if err != nil {
 		render.Render(w, r, errors.ErrorRenderer(err))
 		return
 	}
 
 	// Generate invitation
-	invitation := generateInvitation(invitationReq.Subject, invitationReq.Recipient, items)
+	invitationMail := genInvitationMail(invitation.Subject, invitation.Recipient, items)
 
 	// Send Invitation
-	gmailResp, err := gmailClientInstance.SendInvitation(invitation)
+	resp, err := gmailClientInstance.SendInvitation(invitationMail)
 	if err != nil {
 		render.Render(w, r, errors.ErrorRenderer(err))
 		return
 	}
 
-	if err := render.Render(w, r, &gmailResp); err != nil {
+	if err := render.Render(w, r, &resp); err != nil {
 		render.Render(w, r, errors.ServerErrorRenderer(err))
 		return
 	}
@@ -74,10 +74,10 @@ func contains(search uint, array []uint) bool {
 	return false
 }
 
-// Creates an instance if Invitation.
-func generateInvitation(subject string, recipient string, items []models.Item) models.Invitation {
-	message := msgFactoryInstance.GenerateInvitationMessage(items)
-	return models.Invitation{
+// Creates an instance of an Invitation.
+func genInvitationMail(subject string, recipient string, items []models.Item) models.Mail {
+	message := msgFactoryInstance.GenInvitationMsg("", recipient, subject, items)
+	return models.Mail{
 		Subject:   subject,
 		Recipient: recipient,
 		Message:   message,
