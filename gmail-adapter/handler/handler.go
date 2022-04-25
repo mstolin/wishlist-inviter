@@ -19,7 +19,7 @@ func NewHandler(smtpClient mail.SMTPClient) http.Handler {
 	router.Use(render.SetContentType(render.ContentTypeJSON))
 	router.MethodNotAllowed(methodNotAllowedHandler)
 	router.NotFound(notFoundHandler)
-	router.Route("/mail/send", send)
+	router.Route("/mail", mailHandler)
 	return router
 }
 
