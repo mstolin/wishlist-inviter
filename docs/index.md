@@ -24,7 +24,7 @@ adapter and facade services, including
 *Scrapper-Facade*.
 
 Lastly, the Data Services Layer includes all external
-resources THIS IS WRONG.
+resources ***THIS IS WRONG***.
 
 ## Services
 
@@ -32,7 +32,6 @@ resources THIS IS WRONG.
 - [User-Service](./user-service.md)
 - [Wishlist-Service](./wishlist-service.md)
 - [Mail-Service](./mail-service.md)
-- [Scrapper-Facade](./scrapper-facade.md)
 - [GMail-Adapter](./gmail-adapter.md)
 - [Database-Adapter](./database-adapter.md)
 - [Amazon-Adapter](./amazon-adapter.md)
