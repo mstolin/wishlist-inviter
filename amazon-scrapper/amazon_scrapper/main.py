@@ -18,7 +18,7 @@ async def on_startup():
 async def on_shutdown():
     app.requests_session.close()
 
-@app.get("/wishlist/{id}")
+@app.get("/wishlists/{id}")
 async def wishlist_handler(id: str):
     scrapper = Scrapper(app.requests_session)
     try:
