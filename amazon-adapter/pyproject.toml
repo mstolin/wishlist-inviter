@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "amazon-scrapper"
+name = "amazon-adapter"
 version = "0.1.0"
 description = ""
 authors = ["Marcel Stolin <mstolin@mailbox.org>"]
 
 [tool.poetry.scripts]
-start = "amazon_scrapper.main:start"
+start = "amazon_adapter.main:start"
 
 [tool.poetry.dependencies]
 python = "^3.10"
