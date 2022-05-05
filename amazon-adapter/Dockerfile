@@ -1,7 +1,7 @@
 FROM python:3.10-slim-bullseye
 
 COPY pyproject.toml poetry.lock /app/
-COPY amazon_scrapper /app/amazon_scrapper/
+COPY amazon_adapter /app/amazon_adapter/
 
 RUN pip install -U poetry
 
@@ -11,4 +11,4 @@ RUN poetry install --no-dev
 
 EXPOSE 8080
 
-ENTRYPOINT uvicorn amazon_scrapper.main:app --host="${HOST:-0.0.0.0}" --port=8080
+ENTRYPOINT uvicorn amazon_adapter.main:app --host="${HOST:-0.0.0.0}" --port=8080
