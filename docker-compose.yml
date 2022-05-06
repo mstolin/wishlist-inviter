@@ -9,10 +9,10 @@ services:
   user-endpoint:
     build:
       context: .
-        dockerfile: go-service.Dockerfile
-        args:
-          - SERVICE_NAME=user-endpoint
-          - SERVICE_PROJECT_PATH=./user-endpoint
+      dockerfile: go-service.Dockerfile
+      args:
+        - SERVICE_NAME=user-endpoint
+        - SERVICE_PROJECT_PATH=./user-endpoint
     image: localhost/present-roulette/user-endpoint
     environment:
       - USER_SERVICE=http://user-service:8080
@@ -22,13 +22,15 @@ services:
   gmail-adapter:
     build:
       context: .
-        dockerfile: go-service.Dockerfile
-        args:
-          - SERVICE_NAME=gmail-adapter
-          - SERVICE_PROJECT_PATH=./gmail-adapter
+      dockerfile: go-service.Dockerfile
+      args:
+        - SERVICE_NAME=gmail-adapter
+        - SERVICE_PROJECT_PATH=./gmail-adapter
     image: localhost/present-roulette/gmail-adapter
-    #env_file:
-    #  - env/gmail-service/.env
+    ports:
+      - "8043:8080"
+    env_file:
+      - env/gmail-adapter.env
     environment:
       - GMAIL_HOST=smtp.gmail.com
       - GMAIL_PORT=587
@@ -39,24 +41,24 @@ services:
   mail-service:
     build:
       context: .
-        dockerfile: go-service.Dockerfile
-        args:
-          - SERVICE_NAME=mail-service
-          - SERVICE_PROJECT_PATH=./mail-service
+      dockerfile: go-service.Dockerfile
+      args:
+        - SERVICE_NAME=mail-service
+        - SERVICE_PROJECT_PATH=./mail-service
     image: localhost/present-roulette/mail-service
     ports:
       - "8021:8080"
     environment:
       - GMAIL_SERVICE=http://gmail-adapter:8080
-    depends_on:
-      - gmail-service
+    #depends_on:
+    #  - gmail-service
     restart: always
     networks:
       - present-roulette
 
-  amazon-scrapper:
-    build: ./amazon-scrapper
-    image: localhost/present-roulette/amazon-scrapper
+  amazon-adapter:
+    build: ./amazon-adapter
+    image: localhost/present-roulette/amazon-adapter
     ports:
       - "8042:8080"
     environment:
@@ -78,7 +80,7 @@ services:
     environment:
       - AMAZON_SCRAPPER=http://amazon-scrapper:8080
     depends_on:
-      - amazon-scrapper
+      - amazon-adapter
     restart: always
     networks:
       - present-roulette
@@ -86,10 +88,10 @@ services:
   database-adapter:
     build:
       context: .
-        dockerfile: go-service.Dockerfile
-        args:
-          - SERVICE_NAME=database-adapter
-          - SERVICE_PROJECT_PATH=./database-adapter
+      dockerfile: go-service.Dockerfile
+      args:
+        - SERVICE_NAME=database-adapter
+        - SERVICE_PROJECT_PATH=./database-adapter
     image: localhost/present-roulette/database-adapter
     ports:
       - "8023:8080"
