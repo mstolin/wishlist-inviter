@@ -19,7 +19,7 @@ func NewHandler(dbClient clients.DatabaseClient) http.Handler {
 	router.Use(render.SetContentType(render.ContentTypeJSON))
 	router.MethodNotAllowed(methodNotAllowedHandler)
 	router.NotFound(notFoundHandler)
-	router.Route("/user", userHandler)
+	router.Route("/users", userHandler)
 	return router
 }
 

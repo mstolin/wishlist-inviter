@@ -12,7 +12,7 @@ import (
 const ITEM_ID_KEY = "itemId"
 
 func mailHandler(r chi.Router) {
-	r.Route("/invitation", func(r chi.Router) {
+	r.Route("/invitations", func(r chi.Router) {
 		r.Post("/", sendInvitation)
 	})
 }

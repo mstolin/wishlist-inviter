@@ -15,7 +15,7 @@ const WISHLIST_ID_KEY = "wishlistId"
 
 func itemHandler(r chi.Router) {
 	r.Route("/amazon", func(r chi.Router) {
-		r.Route("/wishlist/{wishlistId}", func(r chi.Router) {
+		r.Route("/wishlists/{wishlistId}", func(r chi.Router) {
 			r.Use(wishlistCtx)
 			r.Get("/", importWishlist)
 		})

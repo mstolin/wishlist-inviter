@@ -26,7 +26,7 @@ func NewHandler(gmailClient gmail.GMailClient, dbClient database.DatabaseClient,
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 	r.MethodNotAllowed(methodNotAllowedHandler)
 	r.NotFound(notFoundHandler)
-	r.Route("/invitation", invitationHandler)
+	r.Route("/invitations", invitationHandler)
 	return r
 }
 
