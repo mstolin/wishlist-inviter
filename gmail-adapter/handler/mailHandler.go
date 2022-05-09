@@ -17,17 +17,17 @@ func send(w http.ResponseWriter, r *http.Request) {
 	mail := models.Mail{}
 
 	if err := render.Bind(r, &mail); err != nil {
-		render.Render(w, r, errors.ErrBadRequest)
+		render.Render(w, r, errors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	if err := smtpClientInstance.SendMail(mail); err != nil {
-		render.Render(w, r, errors.ErrorRenderer(err))
+		render.Render(w, r, errors.ErrServerErrorRenderer(err))
 		return
 	}
 
 	if err := render.Render(w, r, &mail); err != nil {
-		render.Render(w, r, errors.ServerErrorRenderer(err))
+		render.Render(w, r, errors.ErrServerErrorRenderer(err))
 		return
 	}
 }
