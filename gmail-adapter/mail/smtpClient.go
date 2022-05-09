@@ -37,9 +37,9 @@ func NewSMTPClient(host, port, sender, password string) (SMTPClient, error) {
 func (client SMTPClient) SendMail(mail models.Mail) error {
 	server := fmt.Sprintf("%s:%s", client.Host, client.Port)
 	auth := smtp.PlainAuth("", client.Credentials.Sender, client.Credentials.Password, client.Host)
-	message := []byte(mail.Message)
+	body := []byte(mail.Body)
 
-	err := smtp.SendMail(server, auth, client.Credentials.Sender, []string{mail.Recipient}, message)
+	err := smtp.SendMail(server, auth, client.Credentials.Sender, []string{mail.Recipient}, body)
 	if err != nil {
 		return err
 	}
