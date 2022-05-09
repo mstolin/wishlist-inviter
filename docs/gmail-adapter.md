@@ -8,6 +8,12 @@ to facade the usage of the Google Mail service.
 
 Overall, it is only used to send mails via Google Mail.
 
+```bash
+$ curl -X POST http://gmail-adapter/mail \
+  -H 'Content-Type: application/json' \
+  -d '{"recipient":"test@name.org","subject":"Test Subject","body":"This is a sample text"}'
+```
+
 ## Mail Endpoint [/mail]
 
 The `/mail` endpoint is used to send a mail.
@@ -18,26 +24,44 @@ The `/mail` endpoint is used to send a mail.
 
         {
             "recipient": "recipient@domain.tld",
-            "subject": "You have been invited",
-            "message": "This is a longer text ..."
+            "subject": "Email subject",
+            "body": "Email body"
         }
 
 + Response 200 (application/json)
 
         {
             "recipient": "recipient@domain.tld",
-            "subject": "You have been invited",
-            "message": "This is a longer text ..."
+            "subject": "Email subject",
+            "body": "Email body"
         }
-        
+
 + Response 400
 
         {
-            "error": "recipient, subject, and message are required fields"
+            "error": {
+                "status": 400,
+                "error": "Bad Request",
+                "message": "GENERIC ERROR MESSAGE"
+            } 
+        }
+    
++ Response 404
+
+        {
+            "error": {
+                "status": 404,
+                "error": "Not Found",
+                "message": "The requested resource is not available."
+            } 
         }
 
 + Response 500
 
         {
-            "error": "recipient, subject, and message are required fields"
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
