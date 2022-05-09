@@ -80,6 +80,6 @@ func genInvitationMail(subject string, recipient string, items []models.Item) mo
 	return models.Mail{
 		Subject:   subject,
 		Recipient: recipient,
-		Message:   message,
+		Body:      message,
 	}
 }
