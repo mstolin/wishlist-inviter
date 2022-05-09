@@ -17,14 +17,14 @@ func invitationHandler(r chi.Router) {
 func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	invitation := models.Invitation{}
 	if error := render.Bind(r, &invitation); error != nil {
-		render.Render(w, r, errors.ErrBadRequest)
+		render.Render(w, r, &errors.ErrBadRequest)
 		return
 	}
 
 	// Get all items
 	items, err := getItemsForUser(invitation.UserId, invitation.Items)
 	if err != nil {
-		render.Render(w, r, errors.ErrorRenderer(err))
+		render.Render(w, r, errors.ErrBadRequestRenderer(err))
 		return
 	}
 
@@ -34,12 +34,12 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	// Send Invitation
 	resp, err := gmailClientInstance.SendInvitation(invitationMail)
 	if err != nil {
-		render.Render(w, r, errors.ErrorRenderer(err))
+		render.Render(w, r, errors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	if err := render.Render(w, r, &resp); err != nil {
-		render.Render(w, r, errors.ServerErrorRenderer(err))
+		render.Render(w, r, errors.ErrServerErrorRenderer(err))
 		return
 	}
 }
