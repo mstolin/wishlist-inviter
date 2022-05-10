@@ -7,7 +7,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/database-adapter/db"
-	"github.com/mstolin/present-roulette/utils/errors"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
 
 var dbHandler db.DatabaseHandler
@@ -26,5 +26,5 @@ func NewHandler(db db.DatabaseHandler) http.Handler {
 
 func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(404)
-	render.Render(w, r, &errors.ErrNotFound)
+	render.Render(w, r, &httpErrors.ErrNotFound)
 }
