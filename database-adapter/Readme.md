@@ -41,125 +41,36 @@ $ podman run -d -p 8080:8080 --rm --env-file .env localhost/present-roulette/dat
 
 It is important to map the exact same OS port to the container port.
 
-## REST Endpoints
-
-### `/wishlist`
-
-Creates a new wishlist
-
-- Method: `POST`
-- Content-Type: `application/json`
+## REST Endpoint
 
 ```
-$ curl -X POST http://localhost:8080/wishlist \
-  -H 'Content-Type: application/json' \
-  -d '{"recipient":"r@domain.tld","subject":"Test Subject","message":"This is a sample text"}'
-```
-
-### `/wishlist/WISHLIST_ID`
-
-Returns the wishlist for the requested ID.
-
-- Method: `GET`
-
-```
-$ curl http://localhost:8080/wishlist/1
-```
-
-### `/wishlist/WISHLIST_ID`
-
-Updates the requested wishlist with the given data.
-
-- Method: `PUT`
-- Content-Type: `application/json`
-
-```
-$ curl -X PUT http://localhost:8080/wishlist/1 \
-  -H 'Content-Type: application/json' \
-  -d '{"recipient":"r@domain.tld","subject":"Test Subject","message":"This is a sample text"}'
-```
-
-### `/wishlist/WISHLIST_ID`
-
-Deletes the requested wishlist.
-
-- Method: `DELETE`
-
-```
-$ curl -X DELETE http://localhost:8080/wishlist/1
-```
-
-### `/wishlist/WISHLIST_ID/item`
-
-Adds a new item to the given wishlist
-
-- Method: `POST`
-- Content-Type: `application/json`
-
-```
-$ curl -X POST http://localhost:8080/wishlist/1/item \
-  -H 'Content-Type: application/json' \
-  -d '{"recipient":"r@domain.tld","subject":"Test Subject","message":"This is a sample text"}'
-```
-
-### `/wishlist/WISHLIST_ID/item/ITEM_ID`
-
-Returns the requested item from the wishlist.
-
-- Method: `GET`
-
-```
-# Return item with ID 3 from wishlist with ITEM 1
-$ curl http://localhost:8080/wishlist/1/item/3
-```
-
-### `/wishlist/WISHLIST_ID/item/ITEM_ID`
-
-Updates the requested item with the given data.
-
-- Method: `PUT`
-- Content-Type: `application/json`
-
-```
-$ curl -X PUT http://localhost:8080/wishlist/1/item/3 \
-  -H 'Content-Type: application/json' \
-  -d '{"recipient":"r@domain.tld","subject":"Test Subject","message":"This is a sample text"}'
-```
-
-### `/wishlist/WISHLIST_ID/item/ITEM_ID`
-
-Deletes the requested item from the wishlist.
-
-- Method: `DELETE`
-
-```
-$ curl -X DELETE http://localhost:8080/wishlist/1/item/3
-```
-
-### `/user`
-
-Creates a new user.
-
-```
-$ curl -X POST http://localhost:8080/user \
+$ curl -X POST http://localhost:8080/users \
   -H 'Content-Type: application/json' \
   -d '{}'
 ```
 
-### `/user/USER_ID`
-
-Returns the data of the requested user.
-
 ```
-$ curl http://localhost:8080/user/2b7ec5fd-2623-483a-8b15-f376ff2297c6
+$ curl http://localhost:8080/users/c8dc276b-176a-4468-b6b6-4af63f1b98f1
 ```
 
-### `/user/USER_ID`
-
-Deletes the requested user.
-
-- Method: `DELETE`
+```
+$ curl -X DELETE http://localhost:8080/users/c8dc276b-176a-4468-b6b6-4af63f1b98f1
+```
 
 ```
-$ curl -X DELETE http://localhost:8080/user/2b7ec5fd-2623-483a-8b15-f376ff2297c6
+$ curl http://localhost:8080/users/7dd27df6-5af3-4968-92cd-ad28b6e644f6/items
+```
+
+```
+$ curl -X POST http://localhost:8080/users/7dd27df6-5af3-4968-92cd-ad28b6e644f6/items \
+  -H 'Content-Type: application/json' \
+  -d '[{"name": "Test Item 1", "price": 4.89, "vendor": "amazon", "vendor_id": "SOME_ID"}, {"name": "Test Item 2", "price": 4.89, "vendor": "amazon", "vendor_id": "SOME_ID"}]'
+```
+
+```
+$ curl http://localhost:8080/users/7dd27df6-5af3-4968-92cd-ad28b6e644f6/items/14
+```
+
+```
+$ curl -X DELETE http://localhost:8080/users/7dd27df6-5af3-4968-92cd-ad28b6e644f6/items/14
 ```
