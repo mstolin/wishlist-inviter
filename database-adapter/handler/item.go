@@ -52,7 +52,7 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	itemLstRenderer := models.NewItemListRenderer(user.Items)
+	itemLstRenderer := models.NewItemResponseListRenderer(user.Items)
 	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
 		render.Render(w, r, errors.ErrServerErrorRenderer(err))
 		return
@@ -78,11 +78,8 @@ func addItems(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	itemLstRenderer := models.NewItemListRenderer(itemLst)
-	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
-		render.Render(w, r, errors.ErrServerErrorRenderer(err))
-		return
-	}
+	// response all items
+	getItems(w, r)
 }
 
 func getItem(w http.ResponseWriter, r *http.Request) {
