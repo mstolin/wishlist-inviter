@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/go-chi/render"
 )
 
 type Item struct {
@@ -32,18 +34,45 @@ func (*Item) Render(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-type ItemList struct {
-	Items []Item `json:"items"`
-}
+type ItemList []Item
 
-func (req *ItemList) Bind(r *http.Request) error {
-	if len(req.Items) > 0 {
-		return nil
-	} else {
-		return fmt.Errorf("items is empty")
-	}
-}
-
-func (*ItemList) Render(w http.ResponseWriter, r *http.Request) error {
+func (*ItemList) Bind(r *http.Request) error {
 	return nil
+}
+
+type ItemResponse struct {
+	ID        uint      `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Name      string    `json:"name"`
+	Price     float32   `json:"price"`
+	Vendor    string    `json:"vendor"`
+	VendorID  string    `json:"vendor_id"`
+}
+
+func NewItemReponse(item Item) ItemResponse {
+	res := ItemResponse{}
+	res.ID = item.ID
+	res.CreatedAt = item.CreatedAt
+	res.UpdatedAt = item.UpdatedAt
+	res.Name = item.Name
+	res.Price = item.Price
+	res.Vendor = item.Vendor
+	res.VendorID = item.VendorID
+	return res
+}
+
+func (*ItemResponse) Render(w http.ResponseWriter, r *http.Request) error {
+	return nil
+}
+
+type ItemResponseList []ItemResponse
+
+func NewItemResponseListRenderer(items ItemList) []render.Renderer {
+	list := []render.Renderer{}
+	for _, item := range items {
+		res := NewItemReponse(item)
+		list = append(list, &res)
+	}
+	return list
 }
