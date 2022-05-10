@@ -20,7 +20,6 @@ func itemHandler(r chi.Router) {
 	r.Route("/{itemId}", func(r chi.Router) {
 		r.Use(itemCtx)
 		r.Get("/", getItem)
-		r.Put("/", updateItem)
 		r.Delete("/", deleteItem)
 	})
 }
@@ -98,34 +97,6 @@ func getItem(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := render.Render(w, r, &item); err != nil {
-		render.Render(w, r, errors.ErrServerErrorRenderer(err))
-		return
-	}
-}
-
-func updateItem(w http.ResponseWriter, r *http.Request) {
-	// TODO Before update, check if request only has allowed data
-	userId := r.Context().Value(USER_ID_KEY).(string)
-	user, err := dbHandler.GetUserById(userId)
-	if err != nil {
-		render.Render(w, r, errors.ErrNotFoundRenderer(fmt.Errorf("user with id %s not found", userId)))
-		return
-	}
-
-	item := &models.Item{}
-	if err := render.Bind(r, item); err != nil {
-		render.Render(w, r, errors.ErrBadRequestRenderer(err))
-		return
-	}
-
-	itemId := r.Context().Value(ITEM_ID_KEY).(int)
-	update, err := dbHandler.UpdateItemByUser(user, itemId, *item)
-	if err != nil {
-		render.Render(w, r, errors.ErrBadRequestRenderer(err))
-		return
-	}
-
-	if err := render.Render(w, r, &update); err != nil {
 		render.Render(w, r, errors.ErrServerErrorRenderer(err))
 		return
 	}
