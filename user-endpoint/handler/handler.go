@@ -7,7 +7,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/user-endpoint/clients"
-	"github.com/mstolin/present-roulette/utils/errors"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
 
 var wishlistClientInstance clients.WishlistClient
@@ -36,10 +36,10 @@ func newRouter() http.Handler {
 
 func methodNotAllowedHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(405)
-	render.Render(writer, request, errors.ErrMethodNotAllowed)
+	render.Render(writer, request, &httpErrors.ErrMethodNotAllowed)
 }
 
 func notFoundHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(400)
-	render.Render(writer, request, errors.ErrNotFound)
+	render.Render(writer, request, &httpErrors.ErrNotFound)
 }

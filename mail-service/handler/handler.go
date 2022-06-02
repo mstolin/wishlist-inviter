@@ -9,7 +9,7 @@ import (
 	"github.com/mstolin/present-roulette/mail-service/database"
 	"github.com/mstolin/present-roulette/mail-service/gmail"
 	"github.com/mstolin/present-roulette/mail-service/messages"
-	"github.com/mstolin/present-roulette/utils/errors"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
 
 var gmailClientInstance gmail.GMailClient
@@ -31,5 +31,5 @@ func NewHandler(gmailClient gmail.GMailClient, dbClient database.DatabaseClient,
 
 func notFoundHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(404)
-	render.Render(writer, request, &errors.ErrNotFound)
+	render.Render(writer, request, &httpErrors.ErrNotFound)
 }

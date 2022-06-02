@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/utils/errors"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
@@ -16,15 +16,15 @@ func invitationHandler(r chi.Router) {
 // Send invitation endpoint
 func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	invitation := models.Invitation{}
-	if error := render.Bind(r, &invitation); error != nil {
-		render.Render(w, r, &errors.ErrBadRequest)
+	if err := render.Bind(r, &invitation); err != nil {
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	// Get all items
 	items, err := getItemsForUser(invitation.UserId, invitation.Items)
 	if err != nil {
-		render.Render(w, r, errors.ErrBadRequestRenderer(err))
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
@@ -34,12 +34,12 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	// Send Invitation
 	resp, err := gmailClientInstance.SendInvitation(invitationMail)
 	if err != nil {
-		render.Render(w, r, errors.ErrBadRequestRenderer(err))
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	if err := render.Render(w, r, &resp); err != nil {
-		render.Render(w, r, errors.ErrServerErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 }

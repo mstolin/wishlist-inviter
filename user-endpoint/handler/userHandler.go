@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/utils/errors"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
@@ -30,7 +30,7 @@ func userCtx(nxt http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		userId := chi.URLParam(r, USER_ID_KEY)
 		if userId == "" {
-			render.Render(w, r, errors.ErrorRenderer(fmt.Errorf("user ID is required")))
+			render.Render(w, r, httpErrors.ErrBadRequestRenderer(fmt.Errorf("user ID is required")))
 			return
 		}
 
@@ -43,12 +43,12 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	// Create User
 	resp, err := userClientInstance.CreateEmptyUser()
 	if err != nil {
-		render.Render(w, r, errors.ErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	if err := render.Render(w, r, &resp); err != nil { // TODO better success response
-		render.Render(w, r, errors.ServerErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 }
@@ -57,11 +57,11 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	user, err := userClientInstance.GetUser(userId)
 	if err != nil {
-		render.Render(w, r, errors.ErrNotFound)
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer())
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
-		render.Render(w, r, errors.ServerErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 }
@@ -70,11 +70,11 @@ func getUserItems(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	itemLst, err := userClientInstance.GetUserItems(userId)
 	if err != nil {
-		render.Render(w, r, errors.ErrNotFound)
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 	if err := render.Render(w, r, &itemLst); err != nil {
-		render.Render(w, r, errors.ServerErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 }
@@ -84,18 +84,18 @@ func addUserItems(w http.ResponseWriter, r *http.Request) {
 
 	itemLstReq := models.ItemList{}
 	if err := render.Bind(r, &itemLstReq); err != nil {
-		render.Render(w, r, errors.ErrBadRequest)
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	res, err := userClientInstance.AddUserItems(userId, itemLstReq.Items)
 	if err != nil {
-		render.Render(w, r, errors.ErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	if err := render.Render(w, r, &res); err != nil {
-		render.Render(w, r, errors.ServerErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 }

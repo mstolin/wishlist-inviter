@@ -7,7 +7,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/gmail-adapter/mail"
-	"github.com/mstolin/present-roulette/utils/errors"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
 
 var smtpClientInstance mail.SMTPClient
@@ -24,5 +24,5 @@ func NewHandler(smtpClient mail.SMTPClient) http.Handler {
 
 func notFoundHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(404)
-	render.Render(writer, request, &errors.ErrNotFound)
+	render.Render(writer, request, &httpErrors.ErrNotFound)
 }

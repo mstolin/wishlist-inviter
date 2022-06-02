@@ -30,6 +30,7 @@ type ErrorDetail struct {
 )*/
 
 var (
+	ErrMethodNotAllowed = ErrorDetail{Status: 405, Err: "Method Not Allowed", Message: "The target resource doesn't support this method."}
 	ErrDetailNotFound   = ErrorDetail{Status: 404, Err: "Not Found", Message: "The requested resource is not available."}
 	ErrDetailBadRequest = ErrorDetail{Status: 400, Err: "Bad Request", Message: "Received request is invalid."}
 )

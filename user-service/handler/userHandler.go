@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/utils/errors"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
 
 const USER_ID_KEY = "userId"
@@ -28,7 +28,7 @@ func userCtx(nxt http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		userId := chi.URLParam(r, USER_ID_KEY)
 		if userId == "" {
-			render.Render(w, r, errors.ErrorRenderer(fmt.Errorf("user ID is required")))
+			render.Render(w, r, httpErrors.ErrBadRequestRenderer(fmt.Errorf("user ID is required")))
 			return
 		}
 
@@ -42,13 +42,13 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	resp, err := dbClientInstance.CreateUser()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %q\n", err)
-		render.Render(w, r, errors.ErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	if error := render.Render(w, r, &resp); error != nil { // TODO better success response
 		fmt.Fprintf(os.Stderr, "Error: %q\n", error)
-		render.Render(w, r, errors.ServerErrorRenderer(error))
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(error))
 		return
 	}
 }
@@ -57,11 +57,11 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	user, err := dbClientInstance.GetUser(userId)
 	if err != nil {
-		render.Render(w, r, errors.ErrNotFound)
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
-		render.Render(w, r, errors.ServerErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 }
@@ -70,11 +70,11 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	user, err := dbClientInstance.DeleteUser(userId)
 	if err != nil {
-		render.Render(w, r, errors.ErrNotFound)
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
-		render.Render(w, r, errors.ServerErrorRenderer(err))
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 }
