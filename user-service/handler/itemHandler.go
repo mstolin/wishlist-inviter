@@ -52,7 +52,8 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := render.Render(w, r, &itemLst); err != nil {
+	itemLstRenderer := models.NewItemResponseListRenderer(itemLst)
+	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
@@ -71,7 +72,9 @@ func addItems(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
-	if err := render.Render(w, r, &items); err != nil {
+
+	itemLstRenderer := models.NewItemResponseListRenderer(items)
+	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}

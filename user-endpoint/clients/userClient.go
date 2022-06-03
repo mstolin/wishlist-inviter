@@ -79,12 +79,10 @@ func (client UserClient) GetUserItems(userId string) (models.ItemList, error) {
 }
 
 // Adds an item list to a specific user.
-func (client UserClient) AddUserItems(userId string, items []models.Item) (models.ItemList, error) {
-	itemLst := models.ItemList{}
+func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (models.ItemList, error) {
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
 
-	update := models.ItemList{Items: items}
-	jsonStr, err := json.Marshal(update)
+	jsonStr, err := json.Marshal(itemLst)
 	if err != nil {
 		return itemLst, err
 	}

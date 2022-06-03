@@ -47,7 +47,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := render.Render(w, r, &resp); err != nil { // TODO better success response
+	if err := render.Render(w, r, &resp); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
@@ -57,7 +57,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	user, err := userClientInstance.GetUser(userId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer())
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
@@ -73,7 +73,9 @@ func getUserItems(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
-	if err := render.Render(w, r, &itemLst); err != nil {
+
+	itemLstRenderer := models.NewItemResponseListRenderer(itemLst)
+	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
@@ -88,13 +90,14 @@ func addUserItems(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := userClientInstance.AddUserItems(userId, itemLstReq.Items)
+	itemLst, err := userClientInstance.AddUserItems(userId, itemLstReq)
 	if err != nil {
 		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
-	if err := render.Render(w, r, &res); err != nil {
+	itemLstRenderer := models.NewItemResponseListRenderer(itemLst)
+	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}

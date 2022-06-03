@@ -50,7 +50,7 @@ func getItemsForUser(userId string, wantedIds []uint) ([]models.Item, error) {
 	if err != nil {
 		return []models.Item{}, err
 	}
-	return filterItems(itemLst.Items, wantedIds), nil
+	return filterItems(itemLst, wantedIds), nil
 }
 
 // Filters an array of items based on their IDs

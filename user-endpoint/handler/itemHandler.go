@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
+	"github.com/mstolin/present-roulette/utils/models"
 )
 
 const WISHLIST_ID_KEY = "wishlistId"
@@ -26,9 +27,7 @@ func wishlistCtx(nxt http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		wishlistId := chi.URLParam(r, WISHLIST_ID_KEY)
 		if wishlistId == "" {
-			render.Render(w, r, &httpErrors.ErrBadRequest)
-			// TODO Mach uberall so
-			// render.Render(w, r, httpErrors.ErrorRenderer(fmt.Errorf("wishlist ID is required")))
+			render.Render(w, r, httpErrors.ErrBadRequestRenderer(fmt.Errorf("wishlist ID is required")))
 			return
 		}
 
@@ -52,7 +51,8 @@ func importWishlist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := render.Render(w, r, &itemLst); err != nil {
+	itemLstRenderer := models.NewItemResponseListRenderer(itemLst)
+	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
