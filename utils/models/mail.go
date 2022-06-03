@@ -8,12 +8,12 @@ import (
 type Mail struct {
 	Recipient string `json:"recipient"`
 	Subject   string `json:"subject"`
-	Message   string `json:"message"`
+	Body      string `json:"body"`
 }
 
 func (mail *Mail) Bind(request *http.Request) error {
-	if mail.Recipient == "" || mail.Subject == "" || mail.Message == "" {
-		return fmt.Errorf("recipient, subject, and message can't be empty")
+	if mail.Recipient == "" || mail.Subject == "" || mail.Body == "" {
+		return fmt.Errorf("a recipient, subject, and body is required")
 	}
 	return nil
 }
