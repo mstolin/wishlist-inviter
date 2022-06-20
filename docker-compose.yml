@@ -1,5 +1,5 @@
 networks:
-  present-roulette: # Add more networks for deeper isolation
+  present-roulette: # TODO Add more networks for deeper isolation
     driver: bridge
 
 volumes:
@@ -50,8 +50,8 @@ services:
       - "8021:8080"
     environment:
       - GMAIL_SERVICE=http://gmail-adapter:8080
-    #depends_on:
-    #  - gmail-service
+    depends_on:
+      - gmail-service
     restart: always
     networks:
       - present-roulette
@@ -62,7 +62,7 @@ services:
     ports:
       - "8042:8080"
     environment:
-      - AMAZON_HOST=http://amazon-clone:8041 # MAKE AMAZON_URL
+      - AMAZON_HOST=http://amazon-clone:8041 # TODO MAKE AMAZON_URL
     restart: always
     networks:
       - present-roulette
@@ -97,7 +97,7 @@ services:
       - "8023:8080"
     environment:
       - DB_HOST=database
-      - DB_PORT=value
+      - DB_PORT=5432
       - DB_USER=admin
       - DB_PASSWORD=admin123
       - DB_NAME=present-roulette
