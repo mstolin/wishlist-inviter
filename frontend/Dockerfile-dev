@@ -1,0 +1,7 @@
+FROM node:lts-alpine
+
+WORKDIR /var/www/html/app/
+COPY ./package* .
+RUN npm install
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
