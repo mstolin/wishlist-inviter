@@ -15,13 +15,18 @@ export default {
             userId: null,
         };
     },
+    methods: {
+        updateUserId(userId) {
+            this.userId = userId;
+        } 
+    },
 };
 </script>
 
 <template>
     <header>
         <h1>Present-Roulette</h1>
-        <UserInfo v-bind:userId="userId" />
+        <UserInfo v-bind:userId="userId" @receivedUserId="updateUserId" />
     </header>
 
     <main>
