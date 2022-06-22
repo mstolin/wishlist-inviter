@@ -1,18 +1,32 @@
 <script>
+import UserHelper from "../helper/UserHelper"
+
+const url = "";
+
 export default {
+    name: 'UserInfo',
     props: {
         userId: String,
     },
     emits: ['receivedUserId'],
     methods: {
         getUserId() {
-            this.$emit('receivedUserId', 'testetst');
+            UserHelper
+                .fetchUserId()
+                .then(json => {
+                    console.log(json);
+                    this.$emit('receivedUserId', 'testetst')
+                })
+                .catch(error => alert(error));
+        },
+        async _fetchUserId() {
+            return fetch(url, {method: 'POST'}).then(data => data.json())
         }
     }
 };
 </script>
 
 <template>
-    <div v-if="userId">Welcome {{ userId }}</div>
+    <div v-if="userId">Welcome <strong>{{ userId }}</strong></div>
     <div v-else>Log in or <button @click="getUserId">create new user</button></div>
 </template>

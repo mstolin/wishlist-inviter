@@ -34,7 +34,7 @@ export default {
             <ImportWishlist />
             <Wishlist />
         </div>
-        <div>
+        <div v-else>
             <p>You are not logged in</p>
         </div>
     </main>
