@@ -6,6 +6,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
+	"github.com/go-chi/cors"
 	"github.com/mstolin/present-roulette/user-endpoint/clients"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
@@ -26,6 +27,14 @@ func newRouter() http.Handler {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 	router.Use(render.SetContentType(render.ContentTypeJSON))
+	router.Use(cors.Handler(cors.Options{
+    AllowedOrigins:   []string{"https://*", "http://*"},
+    AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
+    AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+    ExposedHeaders:   []string{"Link"},
+    AllowCredentials: false,
+    MaxAge:           300,
+  }))
 	router.MethodNotAllowed(methodNotAllowedHandler)
 	router.NotFound(notFoundHandler)
 	router.Route("/users", userHandler)
