@@ -1,5 +1,5 @@
 networks:
-  present-roulette: # TODO Add more networks for deeper isolation
+  present-roulette-dev: # TODO Add more networks for deeper isolation
     driver: bridge
 
 volumes:
@@ -10,7 +10,7 @@ services:
     build:
       context: frontend/
       dockerfile: Dockerfile-dev
-    image: localhost/present-roulette/dev/frontend
+    #image: localhost/present-roulette/dev/frontend
     ports:
       - "3000:3000"
     volumes:
@@ -18,21 +18,73 @@ services:
       - ./frontend/index.html:/var/www/html/app/index.html
       - ./frontend/vite.config.js:/var/www/html/app/vite.config.js
       - ./frontend/.env:/var/www/html/app/.env
+    networks:
+      - present-roulette-dev
 
   user-endpoint:
     build:
       context: .
-      dockerfile: go-service.Dockerfile
+      dockerfile: go-service.dev.Dockerfile
       args:
-        - SERVICE_NAME=user-endpoint
         - SERVICE_PROJECT_PATH=./user-endpoint
-    image: localhost/present-roulette/user-endpoint
     ports:
       - "8080:8080"
     environment:
       - USER_SERVICE=http://user-service:8080
       - WISHLIST_SERVICE=http://scrapper-facade:8080
       - MAIL_SERVICE=http://mail-adapter:8080
+    depends_on:
+      - user-service
+    networks:
+      - present-roulette-dev
+
+  user-service:
+    build:
+      context: .
+      dockerfile: go-service.dev.Dockerfile
+      args:
+        - SERVICE_PROJECT_PATH=./user-service
+    ports:
+      - "8081:8080"
+    environment:
+      - DATABASE_ADAPTER=http://database-adapter:8080
+    depends_on:
+      - database-adapter
+    networks:
+      - present-roulette-dev
+
+  database-adapter:
+    build:
+      context: .
+      dockerfile: go-service.dev.Dockerfile
+      args:
+        - SERVICE_PROJECT_PATH=./database-adapter
+    ports:
+      - "8082:8080"
+    environment:
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USER=admin
+      - DB_PASSWORD=admin123
+      - DB_NAME=present-roulette
+    depends_on:
+      - database
+    networks:
+      - present-roulette-dev
+
+  database:
+    build:
+      context: ./database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=present-roulette
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - present-roulette-dev
 
   # gmail-adapter:
   #   build:
@@ -100,42 +152,7 @@ services:
   #   networks:
   #     - present-roulette
 
-  # database-adapter:
-  #   build:
-  #     context: .
-  #     dockerfile: go-service.Dockerfile
-  #     args:
-  #       - SERVICE_NAME=database-adapter
-  #       - SERVICE_PROJECT_PATH=./database-adapter
-  #   image: localhost/present-roulette/database-adapter
-  #   ports:
-  #     - "8023:8080"
-  #   environment:
-  #     - DB_HOST=database
-  #     - DB_PORT=5432
-  #     - DB_USER=admin
-  #     - DB_PASSWORD=admin123
-  #     - DB_NAME=present-roulette
-  #   depends_on:
-  #     - database
-  #   restart: always
-  #   networks:
-  #     - present-roulette
-
-  # database:
-  #   build: ./database
-  #   image: localhost/present-roulette/postgres-database
-  #   environment:
-  #     - POSTGRES_USER=admin
-  #     - POSTGRES_PASSWORD=admin123
-  #     - POSTGRES_DB=present-roulette
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - data:/var/lib/postgresql/data
-  #   restart: always
-  #   networks:
-  #     - present-roulette
+  
 
   # amazon-clone:
   #   image: nginx:latest
