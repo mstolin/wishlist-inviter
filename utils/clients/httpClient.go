@@ -2,6 +2,7 @@ package clients
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -29,6 +30,17 @@ func (facade HTTPFacade) do(method string, url string, data []byte) ([]byte, err
 	if err != nil {
 		return body, err
 	}
+
+	// A non 2xx status does not cause an error
+	if resp.StatusCode != 200 {
+		// TODO Hier kann man ganz einfach die fehlermeldung weiterleiten!!
+		/*errResp := httpErrors.ErrorResponse{}
+		if err := json.Unmarshal(body, &errResp); err != nil {
+			return body, err
+		}*/
+		return []byte{}, fmt.Errorf("status code: %d", resp.StatusCode)
+	}
+
 	return body, nil
 }
 
