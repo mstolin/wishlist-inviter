@@ -17,7 +17,7 @@ type DatabaseClient struct {
 func NewDatabaseClient(url string) (DatabaseClient, error) {
 	client := DatabaseClient{}
 	if url == "" {
-		return client, fmt.Errorf("DATABASE_URL can't be mepty")
+		return client, fmt.Errorf("DATABASE_ADAPTER can't be empty")
 	}
 
 	client.URL = url
@@ -43,6 +43,7 @@ func (client DatabaseClient) CreateUser() (models.User, error) {
 	if err := json.Unmarshal(res, &user); err != nil {
 		return user, err
 	}
+
 	return user, nil
 }
 

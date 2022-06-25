@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	databaseUrl := os.Getenv("DATABASE_URL")
+	databaseUrl := os.Getenv("DATABASE_ADAPTER")
 	dbClient, err := clients.NewDatabaseClient(databaseUrl)
 	if err != nil {
 		log.Fatalf("Could not create Database Client: %v", err)
