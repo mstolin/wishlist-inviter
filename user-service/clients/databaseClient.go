@@ -29,13 +29,8 @@ func NewDatabaseClient(url string) (DatabaseClient, error) {
 func (client DatabaseClient) CreateUser() (models.User, error) {
 	user := models.User{}
 
-	jsonStr, err := json.Marshal(`{"items": []}`) // empty user with no items
-	if err != nil {
-		return user, err
-	}
-
 	url := fmt.Sprintf("%s/users", client.URL)
-	res, err := client.httpFacade.DoPost(url, jsonStr)
+	res, err := client.httpFacade.DoPost(url, []byte{}) // send nothing
 	if err != nil {
 		return user, err
 	}

@@ -40,14 +40,9 @@ func userCtx(nxt http.Handler) http.Handler {
 }
 
 func createUser(w http.ResponseWriter, r *http.Request) {
-	user := &models.User{}
+	user := models.User{}
 
-	if err := render.Bind(r, user); err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
-		return
-	}
-
-	model, err := dbHandler.CreateUser(user)
+	model, err := dbHandler.CreateUser(&user) // create empty user
 	if err != nil {
 		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
