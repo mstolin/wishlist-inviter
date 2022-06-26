@@ -1,4 +1,4 @@
-FROM python:3.10-slim-bullseye
+FROM docker.io/python:3.10-slim-bullseye
 
 COPY pyproject.toml poetry.lock /app/
 COPY amazon_adapter /app/amazon_adapter/
