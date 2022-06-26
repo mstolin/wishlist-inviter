@@ -23,6 +23,8 @@ If needed, set the environment varibles accordingly.
 
 ```
 $ ./run.sh
+# or from root directory
+$ DB_HOST=localhost DB_PORT=5432 DB_USER=admin DB_PASSWORD=admin123 DB_NAME=present-roulette go run ./database-adapter
 ```
 
 ## Build and Run
