@@ -87,7 +87,7 @@ func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (mod
 		return itemLst, err
 	}
 
-	res, err := client.httpFacade.DoPut(url, jsonStr)
+	res, err := client.httpFacade.DoPost(url, jsonStr)
 	if err != nil {
 		return itemLst, err
 	}

@@ -21,7 +21,7 @@ func userHandler(r chi.Router) {
 
 		r.Route("/items", func(r chi.Router) {
 			r.Get("/", getUserItems)
-			r.Put("/", addUserItems)
+			r.Post("/", addUserItems)
 		})
 	})
 }
