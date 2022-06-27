@@ -43,7 +43,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	// Create User
 	resp, err := userClientInstance.CreateEmptyUser()
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 
@@ -57,7 +57,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	user, err := userClientInstance.GetUser(userId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
@@ -70,7 +70,7 @@ func getUserItems(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	itemLst, err := userClientInstance.GetUserItems(userId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 
@@ -92,7 +92,7 @@ func addUserItems(w http.ResponseWriter, r *http.Request) {
 
 	itemLst, err := userClientInstance.AddUserItems(userId, itemLstReq)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 

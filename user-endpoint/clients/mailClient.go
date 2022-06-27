@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mstolin/present-roulette/utils/clients"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
@@ -26,21 +27,21 @@ func NewMailClient(url string) (MailClient, error) {
 }
 
 // Sends an request to the mail service to send an invitation
-func (client MailClient) SendInvitation(invitation models.Invitation) (models.Mail, error) {
+func (client MailClient) SendInvitation(invitation models.Invitation) (models.Mail, *httpErrors.ErrorResponse) {
 	mailRes := models.Mail{}
 	jsonStr, err := json.Marshal(invitation)
 	if err != nil {
-		return mailRes, err
+		return mailRes, httpErrors.ErrBadRequestRenderer(err)
 	}
 
 	url := fmt.Sprintf("%s/invitation", client.URL)
-	res, err := client.httpFacade.DoPost(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
 	if err != nil {
-		return mailRes, err
+		return mailRes, httpErr
 	}
 
 	if err := json.Unmarshal(res, &mailRes); err != nil {
-		return mailRes, err
+		return mailRes, httpErrors.ErrBadRequestRenderer(err)
 	}
 	return mailRes, nil
 }

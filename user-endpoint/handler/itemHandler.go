@@ -47,7 +47,7 @@ func importWishlist(w http.ResponseWriter, r *http.Request) {
 
 	itemLst, err := wishlistClientInstance.ImportAmazonWishlist(wishlistId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 

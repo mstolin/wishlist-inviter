@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mstolin/present-roulette/utils/clients"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
@@ -27,7 +28,7 @@ func NewWishlistClient(url string) (WishlistClient, error) {
 }
 
 // Sends a request to the item service to import all items from an Amazon wishlist
-func (client WishlistClient) ImportAmazonWishlist(wishlistId string) (models.ItemList, error) {
+func (client WishlistClient) ImportAmazonWishlist(wishlistId string) (models.ItemList, *httpErrors.ErrorResponse) {
 	itemLst := models.ItemList{}
 
 	url := fmt.Sprintf("%s/amazon/wishlist/%s", client.URL, wishlistId)
@@ -37,7 +38,7 @@ func (client WishlistClient) ImportAmazonWishlist(wishlistId string) (models.Ite
 	}
 
 	if err := json.Unmarshal(res, &itemLst); err != nil {
-		return itemLst, err
+		return itemLst, httpErrors.ErrBadRequestRenderer(err)
 	}
 	return itemLst, nil
 }

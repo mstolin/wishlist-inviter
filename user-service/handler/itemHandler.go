@@ -48,7 +48,7 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	itemLst, err := dbClientInstance.GetItemsByUser(userId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 
@@ -69,7 +69,7 @@ func addItems(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	items, err := dbClientInstance.AddItemsToUser(userId, itemLst)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 
@@ -85,7 +85,7 @@ func getItem(w http.ResponseWriter, r *http.Request) {
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
 	item, err := dbClientInstance.GetItemByUser(userId, itemId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 
@@ -107,7 +107,7 @@ func updateItem(w http.ResponseWriter, r *http.Request) {
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
 	update, err := dbClientInstance.UpdateItemByUser(userId, itemId, item)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 	if err := render.Render(w, r, &update); err != nil {
@@ -121,7 +121,7 @@ func deleteItem(w http.ResponseWriter, r *http.Request) {
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
 	item, err := dbClientInstance.DeleteItemByUser(userId, itemId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 	if err := render.Render(w, r, &item); err != nil {

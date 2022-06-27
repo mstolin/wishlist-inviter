@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mstolin/present-roulette/utils/clients"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
@@ -25,7 +26,7 @@ func NewDatabaseClient(url string) (DatabaseClient, error) {
 }
 
 // Requests all items of a specific user
-func (client DatabaseClient) GetItemsForUser(userId string) (models.ItemList, error) {
+func (client DatabaseClient) GetItemsForUser(userId string) (models.ItemList, *httpErrors.ErrorResponse) {
 	items := models.ItemList{}
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
@@ -35,7 +36,7 @@ func (client DatabaseClient) GetItemsForUser(userId string) (models.ItemList, er
 	}
 
 	if err := json.Unmarshal(res, &items); err != nil {
-		return items, err
+		return items, httpErrors.ErrServerErrorRenderer(err)
 	}
 	return items, nil
 }

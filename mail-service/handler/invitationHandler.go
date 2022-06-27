@@ -24,7 +24,7 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	// Get all items
 	items, err := getItemsForUser(invitation.UserId, invitation.Items)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 
@@ -32,9 +32,9 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	invitationMail := genInvitationMail(invitation.Subject, invitation.Recipient, items)
 
 	// Send Invitation
-	resp, err := gmailClientInstance.SendInvitation(invitationMail)
+	resp, httpErr := gmailClientInstance.SendInvitation(invitationMail)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, httpErr)
 		return
 	}
 
@@ -45,7 +45,7 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 }
 
 // Returns an array of all requested user items
-func getItemsForUser(userId string, wantedIds []uint) ([]models.Item, error) {
+func getItemsForUser(userId string, wantedIds []uint) ([]models.Item, *httpErrors.ErrorResponse) {
 	itemLst, err := dbClientInstance.GetItemsForUser(userId)
 	if err != nil {
 		return []models.Item{}, err

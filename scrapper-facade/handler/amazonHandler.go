@@ -33,14 +33,14 @@ func wishlistCtx(next http.Handler) http.Handler {
 func scrapWishlist(w http.ResponseWriter, r *http.Request) {
 	whishlistId := r.Context().Value(PARAM_WISHLIST_ID).(string)
 
-	resp, error := scrapperFacadeInstance.ScrapAmazonWishlist(whishlistId)
-	if error != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(error))
+	resp, err := scrapperFacadeInstance.ScrapAmazonWishlist(whishlistId)
+	if err != nil {
+		render.Render(w, r, err)
 		return
 	}
 
-	if error := render.Render(w, r, &resp); error != nil {
-		render.Render(w, r, httpErrors.ErrServerErrorRenderer(error))
+	if err := render.Render(w, r, &resp); err != nil {
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 }

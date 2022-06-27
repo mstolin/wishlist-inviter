@@ -26,7 +26,7 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := mailClientInstance.SendInvitation(invitationReq)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 

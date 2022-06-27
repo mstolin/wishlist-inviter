@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mstolin/present-roulette/utils/clients"
+	"github.com/mstolin/present-roulette/utils/httpErrors"
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
@@ -27,27 +28,27 @@ func NewUserClient(url string) (UserClient, error) {
 }
 
 // Sends a request to the user server to create an empty user.
-func (client UserClient) CreateEmptyUser() (models.User, error) {
+func (client UserClient) CreateEmptyUser() (models.User, *httpErrors.ErrorResponse) {
 	user := models.User{}
 	url := fmt.Sprintf("%s/users", client.URL)
 
 	jsonStr, err := json.Marshal("{}")
 	if err != nil {
-		return user, err
+		return user, httpErrors.ErrBadRequestRenderer(err)
 	}
-	res, err := client.httpFacade.DoPost(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
 	if err != nil {
-		return user, err
+		return user, httpErr
 	}
 
 	if err := json.Unmarshal(res, &user); err != nil {
-		return user, err
+		return user, httpErrors.ErrBadRequestRenderer(err)
 	}
 	return user, nil
 }
 
 // Sends a GET request to the user service to receive the user given the ID.
-func (client UserClient) GetUser(userId string) (models.User, error) {
+func (client UserClient) GetUser(userId string) (models.User, *httpErrors.ErrorResponse) {
 	user := models.User{}
 	url := fmt.Sprintf("%s/users/%s", client.URL, userId)
 
@@ -57,13 +58,13 @@ func (client UserClient) GetUser(userId string) (models.User, error) {
 	}
 
 	if err := json.Unmarshal(res, &user); err != nil {
-		return user, err
+		return user, httpErrors.ErrBadRequestRenderer(err)
 	}
 	return user, nil
 }
 
 // Returns all items of a specific user.
-func (client UserClient) GetUserItems(userId string) (models.ItemList, error) {
+func (client UserClient) GetUserItems(userId string) (models.ItemList, *httpErrors.ErrorResponse) {
 	itemLst := models.ItemList{}
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
 
@@ -73,27 +74,27 @@ func (client UserClient) GetUserItems(userId string) (models.ItemList, error) {
 	}
 
 	if err := json.Unmarshal(res, &itemLst); err != nil {
-		return itemLst, err
+		return itemLst, httpErrors.ErrBadRequestRenderer(err)
 	}
 	return itemLst, nil
 }
 
 // Adds an item list to a specific user.
-func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (models.ItemList, error) {
+func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (models.ItemList, *httpErrors.ErrorResponse) {
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
 
 	jsonStr, err := json.Marshal(itemLst)
 	if err != nil {
-		return itemLst, err
+		return itemLst, httpErrors.ErrBadRequestRenderer(err)
 	}
 
-	res, err := client.httpFacade.DoPost(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
 	if err != nil {
-		return itemLst, err
+		return itemLst, httpErr
 	}
 
 	if err := json.Unmarshal(res, &itemLst); err != nil {
-		return itemLst, err
+		return itemLst, httpErrors.ErrBadRequestRenderer(err)
 	}
 	return itemLst, nil
 }

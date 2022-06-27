@@ -40,7 +40,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	// Create User
 	resp, err := dbClientInstance.CreateUser()
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 
@@ -54,7 +54,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	user, err := dbClientInstance.GetUser(userId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
@@ -67,7 +67,7 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	user, err := dbClientInstance.DeleteUser(userId)
 	if err != nil {
-		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		render.Render(w, r, err)
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
