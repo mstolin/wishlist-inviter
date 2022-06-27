@@ -36,7 +36,7 @@ func itemCtx(nxt http.Handler) http.Handler {
 		// convert id to int
 		id, err := strconv.Atoi(itemId)
 		if err != nil {
-			render.Render(w, r, httpErrors.ErrBadRequestRenderer(fmt.Errorf("invalid item ID")))
+			render.Render(w, r, httpErrors.ErrServerErrorRenderer(fmt.Errorf("invalid item ID")))
 		}
 
 		ctx := context.WithValue(r.Context(), ITEM_ID_KEY, id)
@@ -62,7 +62,7 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 func addItems(w http.ResponseWriter, r *http.Request) {
 	itemLst := models.ItemList{}
 	if err := render.Bind(r, &itemLst); err != nil {
-		render.Render(w, r, &httpErrors.ErrBadRequest)
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
@@ -99,7 +99,7 @@ func updateItem(w http.ResponseWriter, r *http.Request) {
 	// TODO Before update, check if request only has allowed data
 	item := models.Item{}
 	if err := render.Bind(r, &item); err != nil {
-		render.Render(w, r, &httpErrors.ErrBadRequest)
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 

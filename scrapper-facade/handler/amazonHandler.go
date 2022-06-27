@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -21,7 +22,7 @@ func amazonHandler(r chi.Router) {
 func wishlistCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if whishlistId := chi.URLParam(r, PARAM_WISHLIST_ID); whishlistId == "" {
-			render.Render(w, r, &httpErrors.ErrBadRequest)
+			render.Render(w, r, httpErrors.ErrBadRequestRenderer(fmt.Errorf("wishlist_id is required")))
 			return
 		} else {
 			ctx := context.WithValue(r.Context(), PARAM_WISHLIST_ID, whishlistId)
