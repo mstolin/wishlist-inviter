@@ -16,19 +16,6 @@ type ErrorDetail struct {
 	Message string `json:"message"`
 }
 
-/*type ErrorResponse struct {
-	Err        error  `json:"-"`
-	StatusCode int    `json:"-"`
-	StatusText string `json:"status_text"`
-	Message    string `json:"message"`
-}*/
-
-/*var (
-	ErrMethodNotAllowed = &ErrorResponse{StatusCode: 405, Message: "Method not allowed"}
-	ErrNotFound         = &ErrorResponse{StatusCode: 404, Message: "Resource not found"}
-	ErrBadRequest       = &ErrorResponse{StatusCode: 400, Message: "Bad request"}
-)*/
-
 var (
 	ErrMethodNotAllowed = ErrorDetail{Status: 405, Err: "Method Not Allowed", Message: "The target resource doesn't support this method."}
 	ErrDetailNotFound   = ErrorDetail{Status: 404, Err: "Not Found", Message: "The requested resource is not available."}
