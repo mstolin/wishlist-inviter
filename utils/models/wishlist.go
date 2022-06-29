@@ -7,21 +7,21 @@ import (
 )
 
 // The wishlist model is only used for scraping
-type Whishlist struct {
+type Wishlist struct {
 	ID     string         `json:"id"`
 	Vendor string         `json:"vendor"`
 	Name   string         `json:"name"`
 	Items  []WishlistItem `json:"items"`
 }
 
-func (whishlist *Whishlist) Bind(request *http.Request) error {
+func (whishlist *Wishlist) Bind(request *http.Request) error {
 	if whishlist.Name == "" {
 		return errors.New("name is a required field")
 	}
 	return nil
 }
 
-func (whishlist *Whishlist) Render(writer http.ResponseWriter, request *http.Request) error {
+func (whishlist *Wishlist) Render(writer http.ResponseWriter, request *http.Request) error {
 	return nil
 }
 
