@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-from amazon_scrapper.models.item import Item
+from amazon_adapter.models.item import Item
 
 
 class Wishlist(BaseModel):

@@ -3,8 +3,8 @@ from requests import Session
 from bs4 import BeautifulSoup, Tag
 from typing import List, Optional
 
-from amazon_scrapper.models.wishlist import Wishlist
-from amazon_scrapper.models.item import Item
+from amazon_adapter.models.wishlist import Wishlist
+from amazon_adapter.models.item import Item
 
 #
 # Links looks like: https://www.amazon.de/hz/wishlist/ls/194N1KF03IPTL

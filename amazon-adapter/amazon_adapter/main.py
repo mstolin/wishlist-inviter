@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from amazon_scrapper.scrapper.scrapper import Scrapper
+from amazon_adapter.scrapper.scrapper import Scrapper
 
 app = FastAPI()
 
