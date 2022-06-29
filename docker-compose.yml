@@ -39,7 +39,7 @@ services:
     restart: always
     depends_on:
       - user-service
-      #- wishlist-service
+      - scrapper-facade
       #- mail-service
     networks:
       - user-service-network
