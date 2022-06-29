@@ -15,7 +15,7 @@ func (facade ScrapperFacade) ScrapAmazonWishlist(wishlistId string) (models.Whis
 		return wishlist, httpErrors.ErrServerErrorRenderer(err)
 	}
 
-	url := fmt.Sprintf("%s/wishlist/%s", facade.AmazonScrapper, wishlistId) // TODO wishlist => wishlists
+	url := fmt.Sprintf("%s/wishlists/%s", facade.AmazonScrapper, wishlistId)
 	res, err := httpFacadeInstance.DoGet(url)
 	if err != nil {
 		return wishlist, err
