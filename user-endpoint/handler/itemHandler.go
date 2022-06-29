@@ -4,12 +4,10 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
-	"github.com/mstolin/present-roulette/utils/models"
 )
 
 const WISHLIST_ID_KEY = "wishlistId"
@@ -31,28 +29,21 @@ func wishlistCtx(nxt http.Handler) http.Handler {
 			return
 		}
 
-		// convert id to int
-		id, err := strconv.Atoi(wishlistId)
-		if err != nil {
-			render.Render(w, r, httpErrors.ErrServerErrorRenderer(fmt.Errorf("invalid wishlist ID")))
-		}
-
-		ctx := context.WithValue(r.Context(), WISHLIST_ID_KEY, id)
+		ctx := context.WithValue(r.Context(), WISHLIST_ID_KEY, wishlistId)
 		nxt.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
 func importWishlist(w http.ResponseWriter, r *http.Request) {
-	wishlistId := ""
+	wishlistId := r.Context().Value(WISHLIST_ID_KEY).(string)
 
-	itemLst, err := wishlistClientInstance.ImportAmazonWishlist(wishlistId)
+	wishlist, err := wishlistClientInstance.ImportAmazonWishlist(wishlistId)
 	if err != nil {
 		render.Render(w, r, err)
 		return
 	}
 
-	itemLstRenderer := models.NewItemResponseListRenderer(itemLst)
-	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
+	if err := render.Render(w, r, &wishlist); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}

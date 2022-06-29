@@ -27,18 +27,23 @@ func NewWishlistClient(url string) (WishlistClient, error) {
 	return client, nil
 }
 
-// Sends a request to the item service to import all items from an Amazon wishlist
-func (client WishlistClient) ImportAmazonWishlist(wishlistId string) (models.ItemList, *httpErrors.ErrorResponse) {
-	itemLst := models.ItemList{}
+/*
+	Also das problem is folgendes: hier bekommen wir wishlist zurueck, aber wir brauchen nur die itemlist
+	fur alles weitere, daher itemlist aus wishlist rausnehmen und nur die weitergeben ...
+*/
 
-	url := fmt.Sprintf("%s/amazon/wishlist/%s", client.URL, wishlistId)
+// Sends a request to the item service to import all items from an Amazon wishlist
+func (client WishlistClient) ImportAmazonWishlist(wishlistId string) (models.Wishlist, *httpErrors.ErrorResponse) {
+	wishlist := models.Wishlist{}
+
+	url := fmt.Sprintf("%s/amazon/wishlists/%s", client.URL, wishlistId)
 	res, err := client.httpFacade.DoGet(url)
 	if err != nil {
-		return itemLst, err
+		return wishlist, err
 	}
 
-	if err := json.Unmarshal(res, &itemLst); err != nil {
-		return itemLst, httpErrors.ErrBadRequestRenderer(err)
+	if err := json.Unmarshal(res, &wishlist); err != nil {
+		return wishlist, httpErrors.ErrBadRequestRenderer(err)
 	}
-	return itemLst, nil
+	return wishlist, nil
 }
