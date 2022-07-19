@@ -7,13 +7,12 @@ import (
 
 type Mail struct {
 	Recipient string `json:"recipient"`
-	Subject   string `json:"subject"`
 	Body      string `json:"body"`
 }
 
 func (mail *Mail) Bind(request *http.Request) error {
-	if mail.Recipient == "" || mail.Subject == "" || mail.Body == "" {
-		return fmt.Errorf("a recipient, subject, and body is required")
+	if mail.Recipient == "" || mail.Body == "" {
+		return fmt.Errorf("a recipient, body is required")
 	}
 	return nil
 }

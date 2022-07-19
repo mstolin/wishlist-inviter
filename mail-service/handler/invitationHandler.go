@@ -78,7 +78,6 @@ func contains(search uint, array []uint) bool {
 func genInvitationMail(subject string, recipient string, items []models.Item) models.Mail {
 	message := msgFactoryInstance.GenInvitationMsg("", recipient, subject, items)
 	return models.Mail{
-		Subject:   subject,
 		Recipient: recipient,
 		Body:      message,
 	}
