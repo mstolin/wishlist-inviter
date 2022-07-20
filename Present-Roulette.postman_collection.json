@@ -1,0 +1,710 @@
+{
+	"info": {
+		"_postman_id": "6b4375b7-fa37-4659-8a77-378ea0c810db",
+		"name": "Present-Roulette",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User-Endpoint",
+			"item": [
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Create User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{USER-ENDPOINT}}/users",
+									"host": [
+										"{{USER-ENDPOINT}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}",
+									"host": [
+										"{{USER-ENDPOINT}}"
+									],
+									"path": [
+										"users",
+										"{{USER-ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items",
+									"host": [
+										"{{USER-ENDPOINT}}"
+									],
+									"path": [
+										"users",
+										"{{USER-ID}}",
+										"items"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create/Add Items",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84\n    },\n    {\n        \"id\": 4,\n        \"created_at\": \"2022-06-26T16:56:06.633983Z\",\n        \"updated_at\": \"2022-06-26T16:56:06.633983Z\",\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8,\n        \"vendor\": \"amazon\",\n        \"vendor_id\": \"IP0OBIK4UO9AG\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items",
+									"host": [
+										"{{USER-ENDPOINT}}"
+									],
+									"path": [
+										"users",
+										"{{USER-ID}}",
+										"items"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Items",
+					"item": [
+						{
+							"name": "Get Games Wishlist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER-ENDPOINT}}/items/amazon/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+									"host": [
+										"{{USER-ENDPOINT}}"
+									],
+									"path": [
+										"items",
+										"amazon",
+										"wishlists",
+										"{{AMAZON-WISHLIST-GAMES}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Coffee Wishlist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER-ENDPOINT}}/items/amazon/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+									"host": [
+										"{{USER-ENDPOINT}}"
+									],
+									"path": [
+										"items",
+										"amazon",
+										"wishlists",
+										"{{AMAZON-WISHLIST-COFFEE}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User-Service",
+			"item": [
+				{
+					"name": "Items",
+					"item": [
+						{
+							"name": "Single Item",
+							"item": [
+								{
+									"name": "Get Item",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"host": [
+												"{{USER-SERVICE}}"
+											],
+											"path": [
+												"users",
+												"{{USER-ID}}",
+												"items",
+												"{{ITEM-ID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "XXX Update Item",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"host": [
+												"{{USER-SERVICE}}"
+											],
+											"path": [
+												"users",
+												"{{USER-ID}}",
+												"items",
+												"{{ITEM-ID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Item",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"host": [
+												"{{USER-SERVICE}}"
+											],
+											"path": [
+												"users",
+												"{{USER-ID}}",
+												"items",
+												"{{ITEM-ID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Create/Add Items",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84\n    },\n    {\n        \"vendor_id\": \"IP0OBIK4UO9AG\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/",
+									"host": [
+										"{{USER-SERVICE}}"
+									],
+									"path": [
+										"users",
+										"{{USER-ID}}",
+										"items",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items",
+									"host": [
+										"{{USER-SERVICE}}"
+									],
+									"path": [
+										"users",
+										"{{USER-ID}}",
+										"items"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{USER-SERVICE}}/users",
+							"host": [
+								"{{USER-SERVICE}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER-SERVICE}}/users/{{USER-ID}}",
+							"host": [
+								"{{USER-SERVICE}}"
+							],
+							"path": [
+								"users",
+								"{{USER-ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{USER-SERVICE}}/users/{{USER-ID}}",
+							"host": [
+								"{{USER-SERVICE}}"
+							],
+							"path": [
+								"users",
+								"{{USER-ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Database-Adapter",
+			"item": [
+				{
+					"name": "Items",
+					"item": [
+						{
+							"name": "Single Item",
+							"item": [
+								{
+									"name": "Get Item",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"host": [
+												"{{DATABASE-ADAPTER}}"
+											],
+											"path": [
+												"users",
+												"{{USER-ID}}",
+												"items",
+												"{{ITEM-ID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Item",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"host": [
+												"{{DATABASE-ADAPTER}}"
+											],
+											"path": [
+												"users",
+												"{{USER-ID}}",
+												"items",
+												"{{ITEM-ID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Create/Add Items",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84\n    },\n    {\n        \"vendor_id\": \"IP0OBIK4UO9AG\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/",
+									"host": [
+										"{{DATABASE-ADAPTER}}"
+									],
+									"path": [
+										"users",
+										"{{USER-ID}}",
+										"items",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items",
+									"host": [
+										"{{DATABASE-ADAPTER}}"
+									],
+									"path": [
+										"users",
+										"{{USER-ID}}",
+										"items"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{DATABASE-ADAPTER}}/users",
+							"host": [
+								"{{DATABASE-ADAPTER}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}",
+							"host": [
+								"{{DATABASE-ADAPTER}}"
+							],
+							"path": [
+								"users",
+								"{{USER-ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}",
+							"host": [
+								"{{DATABASE-ADAPTER}}"
+							],
+							"path": [
+								"users",
+								"{{USER-ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Amazon-Adapter",
+			"item": [
+				{
+					"name": "Get Coffee Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{AMAZON-ADAPTER}}/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+							"host": [
+								"{{AMAZON-ADAPTER}}"
+							],
+							"path": [
+								"wishlists",
+								"{{AMAZON-WISHLIST-COFFEE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Games Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{AMAZON-ADAPTER}}/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+							"host": [
+								"{{AMAZON-ADAPTER}}"
+							],
+							"path": [
+								"wishlists",
+								"{{AMAZON-WISHLIST-GAMES}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Scrapper-Facade",
+			"item": [
+				{
+					"name": "Amazon",
+					"item": [
+						{
+							"name": "Get Games Wishlist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{SCRAPPER-FACADE}}/amazon/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+									"host": [
+										"{{SCRAPPER-FACADE}}"
+									],
+									"path": [
+										"amazon",
+										"wishlists",
+										"{{AMAZON-WISHLIST-GAMES}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Coffee Wishlist",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{SCRAPPER-FACADE}}/amazon/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+									"host": [
+										"{{SCRAPPER-FACADE}}"
+									],
+									"path": [
+										"amazon",
+										"wishlists",
+										"{{AMAZON-WISHLIST-COFFEE}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GMail-Adapter",
+			"item": [
+				{
+					"name": "Send Mail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\":\"mstolin@mailbox.org\",\n    \"body\":\"To: <mstolin@mailbox.org>\\nFrom: <marcelstolin@gmail.com>\\nSubject: Someones sharing his wishlist\\nHi,\\nyou have been invited to buy the following items:\\nHario 400 ml Olive Wood New Coffee Server, Transparent, 54.84€\\nHario V60 Glass Coffee Dripper, 50.80€\\nCheers!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{GMAIL-ADAPTER}}/mail",
+							"host": [
+								"{{GMAIL-ADAPTER}}"
+							],
+							"path": [
+								"mail"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mail-Service",
+			"item": [
+				{
+					"name": "Send Invitation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"mstolin@mailbox.org\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [12, 13]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAIL-SERVICE}}/invitations",
+							"host": [
+								"{{MAIL-SERVICE}}"
+							],
+							"path": [
+								"invitations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "USER-ENDPOINT",
+			"value": "http://localhost:8080",
+			"type": "default"
+		},
+		{
+			"key": "USER-ID",
+			"value": "dbc055a6-6375-4708-a635-50588afdec8d",
+			"type": "default"
+		},
+		{
+			"key": "USER-SERVICE",
+			"value": "http://localhost:8071",
+			"type": "default"
+		},
+		{
+			"key": "DATABASE-ADAPTER",
+			"value": "http://localhost:8061",
+			"type": "default"
+		},
+		{
+			"key": "ITEM-ID",
+			"value": "1",
+			"type": "default"
+		},
+		{
+			"key": "AMAZON-ADAPTER",
+			"value": "http://localhost:8042",
+			"type": "default"
+		},
+		{
+			"key": "AMAZON-WISHLIST-GAMES",
+			"value": "3IGO1OHMRSUUM",
+			"type": "default"
+		},
+		{
+			"key": "AMAZON-WISHLIST-COFFEE",
+			"value": "194N1KF03IPTL",
+			"type": "default"
+		},
+		{
+			"key": "SCRAPPER-FACADE",
+			"value": "http://localhost:8022",
+			"type": "default"
+		},
+		{
+			"key": "GMAIL-ADAPTER",
+			"value": "http://localhost:8043",
+			"type": "default"
+		},
+		{
+			"key": "MAIL-SERVICE",
+			"value": "http://localhost:8021",
+			"type": "default"
+		}
+	]
+}
