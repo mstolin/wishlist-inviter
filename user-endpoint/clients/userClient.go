@@ -37,7 +37,7 @@ func (client UserClient) CreateEmptyUser() (models.User, *httpErrors.ErrorRespon
 		return user, httpErrors.ErrBadRequestRenderer(err)
 	}
 	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
-	if err != nil {
+	if httpErr != nil {
 		return user, httpErr
 	}
 
@@ -89,7 +89,7 @@ func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (mod
 	}
 
 	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
-	if err != nil {
+	if httpErr != nil {
 		return itemLst, httpErr
 	}
 

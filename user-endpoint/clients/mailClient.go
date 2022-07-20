@@ -36,7 +36,7 @@ func (client MailClient) SendInvitation(invitation models.Invitation) (models.Ma
 
 	url := fmt.Sprintf("%s/invitation", client.URL)
 	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
-	if err != nil {
+	if httpErr != nil {
 		return mailRes, httpErr
 	}
 

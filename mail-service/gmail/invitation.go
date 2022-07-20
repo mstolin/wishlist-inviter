@@ -13,12 +13,14 @@ func (gClient GMailClient) SendInvitation(invitation models.Mail) (models.Mail, 
 	gmailResp := models.Mail{}
 
 	url := fmt.Sprintf("%s/mail", gClient.URL)
-	jsonStr, err := json.Marshal(fmt.Sprintf(`{"recipient":"%s","body":"%s"}`, invitation.Recipient, invitation.Body))
+	jsonData, err := json.Marshal(invitation)
+
 	if err != nil {
 		return gmailResp, httpErrors.ErrServerErrorRenderer(err)
 	}
-	res, httpErr := gClient.httpFacade.DoPost(url, jsonStr)
-	if err != nil {
+
+	res, httpErr := gClient.httpFacade.DoPost(url, jsonData)
+	if httpErr != nil {
 		return gmailResp, httpErr
 	}
 

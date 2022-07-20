@@ -101,7 +101,7 @@ func (client DatabaseClient) AddItemsToUser(userId string, items models.ItemList
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
 	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
-	if err != nil {
+	if httpErr != nil {
 		return addedItems, httpErr
 	}
 
@@ -137,7 +137,7 @@ func (client DatabaseClient) UpdateItemByUser(userId string, itemId int, update 
 
 	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
 	res, httpErr := client.httpFacade.DoPut(url, jsonStr)
-	if err != nil {
+	if httpErr != nil {
 		return updatedItem, httpErr
 	}
 
