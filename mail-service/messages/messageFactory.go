@@ -4,7 +4,4 @@ type MessageFactory struct {
 	DatabaseService string
 }
 
-const mailBody = "To: <%s>\n" +
-	"From: <%s>\n" +
-	"Subject: %s\n" +
-	"%s"
+const mailBody = "To: <%s>\nFrom: <%s>\nSubject: %s\n%s"

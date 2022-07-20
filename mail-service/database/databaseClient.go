@@ -26,7 +26,7 @@ func NewDatabaseClient(url string) (DatabaseClient, error) {
 }
 
 // Requests all items of a specific user
-func (client DatabaseClient) GetItemsForUser(userId string) (models.ItemList, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) GetItemsForUser(userId string, wantedIds []uint) (models.ItemList, *httpErrors.ErrorResponse) {
 	items := models.ItemList{}
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
@@ -38,5 +38,26 @@ func (client DatabaseClient) GetItemsForUser(userId string) (models.ItemList, *h
 	if err := json.Unmarshal(res, &items); err != nil {
 		return items, httpErrors.ErrServerErrorRenderer(err)
 	}
-	return items, nil
+	return filterItems(items, wantedIds), nil
+}
+
+// Filters an array of items based on their IDs
+func filterItems(items []models.Item, wantedIds []uint) []models.Item {
+	filteredItems := []models.Item{}
+	for _, item := range items {
+		if contains(item.ID, wantedIds) {
+			filteredItems = append(filteredItems, item)
+		}
+	}
+	return filteredItems
+}
+
+// Check if the wanted number is in the given array.
+func contains(search uint, array []uint) bool {
+	for _, id := range array {
+		if search == id {
+			return true
+		}
+	}
+	return false
 }

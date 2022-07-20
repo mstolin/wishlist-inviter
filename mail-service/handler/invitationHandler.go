@@ -22,18 +22,18 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get all items
-	items, err := getItemsForUser(invitation.UserId, invitation.Items)
+	items, err := dbClientInstance.GetItemsForUser(invitation.UserId, invitation.Items)
 	if err != nil {
 		render.Render(w, r, err)
 		return
 	}
 
 	// Generate invitation
-	invitationMail := genInvitationMail(invitation.Subject, invitation.Recipient, items)
+	invitationMail := genInvitationMail(invitation.Recipient, items)
 
 	// Send Invitation
 	resp, httpErr := gmailClientInstance.SendInvitation(invitationMail)
-	if err != nil {
+	if httpErr != nil {
 		render.Render(w, r, httpErr)
 		return
 	}
@@ -44,39 +44,10 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Returns an array of all requested user items
-func getItemsForUser(userId string, wantedIds []uint) ([]models.Item, *httpErrors.ErrorResponse) {
-	itemLst, err := dbClientInstance.GetItemsForUser(userId)
-	if err != nil {
-		return []models.Item{}, err
-	}
-	return filterItems(itemLst, wantedIds), nil
-}
-
-// Filters an array of items based on their IDs
-func filterItems(items []models.Item, wantedIds []uint) []models.Item {
-	filteredItems := []models.Item{}
-	for _, item := range items {
-		if contains(item.ID, wantedIds) {
-			filteredItems = append(filteredItems, item)
-		}
-	}
-	return filteredItems
-}
-
-// Check if the wanted number is in the given array.
-func contains(search uint, array []uint) bool {
-	for _, id := range array {
-		if search == id {
-			return true
-		}
-	}
-	return false
-}
-
 // Creates an instance of an Invitation.
-func genInvitationMail(subject string, recipient string, items []models.Item) models.Mail {
-	message := msgFactoryInstance.GenInvitationMsg("", recipient, subject, items)
+func genInvitationMail(recipient string, items []models.Item) models.Mail {
+	// TODO Read mail from env
+	message := msgFactoryInstance.GenInvitationMail("marcelstolin@gmail.com", recipient, items)
 	return models.Mail{
 		Recipient: recipient,
 		Body:      message,

@@ -7,35 +7,36 @@ import (
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
-const invitationMsg = "Hi,\n" +
-	"you have been invited to buy the following items:\n" +
-	"%s\n" +
-	"Cheers!"
+const invitationMsg = "Hi,\nyou have been invited to buy the following items:\n\n%s\n\nCheers!"
 
-func (factory MessageFactory) GenInvitationMsg(from string, to string, subject string, items []models.Item) string {
+const invitationSubject = "Someones sharing his wishlist"
+
+func (factory MessageFactory) GenInvitationMail(from string, to string, items []models.Item) string {
 	// 1. Generate text
-	txt := factory.genInvitationTxt(items)
+	msg := factory.genInvitationMsg(items)
 	// 2. Generate mail content
-	return fmt.Sprintf(mailBody, to, from, subject, txt)
+	content := fmt.Sprintf(mailBody, to, from, invitationSubject, msg)
+	return content
 }
 
 // Generates an invitation message for multiple items.
-func (factory MessageFactory) genInvitationTxt(items []models.Item) string {
-	itemTxts := getItemTexts(items)
-	itemStr := strings.Join(itemTxts, "\n")
-	return fmt.Sprint(invitationMsg, itemStr)
+func (factory MessageFactory) genInvitationMsg(items []models.Item) string {
+	itemTxts := genItemTxt(items)
+	content := fmt.Sprintf(invitationMsg, itemTxts)
+	return content
 }
 
 // Returns an array of Item string representations.
-func getItemTexts(items []models.Item) []string {
+func genItemTxt(items []models.Item) string {
 	texts := []string{}
 	for _, item := range items {
-		texts = append(texts, generateTextFromitem(item))
+		texts = append(texts, generateTextFromItem(item))
 	}
-	return texts
+	return strings.Join(texts, "\n")
 }
 
 // Returns a string representation of an Item.
-func generateTextFromitem(item models.Item) string {
-	return fmt.Sprintf("%s, %.2f€", item.Name, item.Price)
+func generateTextFromItem(item models.Item) string {
+	url := fmt.Sprintf("https://www.amazon.com/dp/%s/", item.VendorID)
+	return fmt.Sprintf("  - %s, %.2f€ (%s)", item.Name, item.Price, url)
 }
