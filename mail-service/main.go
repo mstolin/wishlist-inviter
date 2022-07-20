@@ -13,13 +13,13 @@ import (
 
 func main() {
 	// GMail client
-	gmailService := os.Getenv("GMAIL_SERVICE")
+	gmailService := os.Getenv("GMAIL_ADAPTER")
 	gmailClient, err := gmail.NewGMailClient(gmailService)
 	if err != nil {
 		log.Fatalf("Could not create GMail client: %v", err)
 	}
 	// DB client
-	dbService := os.Getenv("DATABASE_SERVICE")
+	dbService := os.Getenv("DATABASE_ADAPTER")
 	dbClient, err := database.NewDatabaseClient(dbService)
 	if err != nil {
 		log.Fatalf("Could not create Database Client: %v", err)
