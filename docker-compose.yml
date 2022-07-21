@@ -34,13 +34,13 @@ services:
     environment:
       - USER_SERVICE=http://user-service:8080
       - WISHLIST_SERVICE=http://scrapper-facade:8080
-      - MAIL_SERVICE=http://mail-adapter:8080
+      - MAIL_SERVICE=http://mail-service:8080
     ports: "8080:8080"
     restart: always
     depends_on:
       - user-service
       - scrapper-facade
-      #- mail-service
+      - mail-service
     networks:
       - user-service-network
       - mail-service-network
