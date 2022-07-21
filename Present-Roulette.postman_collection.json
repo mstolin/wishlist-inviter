@@ -139,6 +139,39 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Mail",
+					"item": [
+						{
+							"name": "Send Invitation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [12, 13]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{USER-ENDPOINT}}/mail/invitations/",
+									"host": [
+										"{{USER-ENDPOINT}}"
+									],
+									"path": [
+										"mail",
+										"invitations",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
@@ -608,7 +641,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"recipient\": \"mstolin@mailbox.org\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [12, 13]\n}",
+							"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [12, 13]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -704,6 +737,11 @@
 		{
 			"key": "MAIL-SERVICE",
 			"value": "http://localhost:8021",
+			"type": "default"
+		},
+		{
+			"key": "MAIL-RECEIVER",
+			"value": "marcelpascal.stolin@studenti.unitn.it",
 			"type": "default"
 		}
 	]
