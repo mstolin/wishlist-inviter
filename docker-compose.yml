@@ -79,6 +79,7 @@ services:
     environment:
       - GMAIL_ADAPTER=http://gmail-adapter:8080
       - DATABASE_ADAPTER=http://database-adapter:8080
+      - SENDER_MAIL=marcelstolin@gmail.com
     depends_on:
       - gmail-adapter
       - database-adapter

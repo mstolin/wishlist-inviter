@@ -9,14 +9,17 @@ import (
 
 const invitationMsg = "Hi,\nyou have been invited to buy the following items:\n\n%s\n\nCheers!"
 
-const invitationSubject = "Someones sharing his wishlist"
+const invitationSubject = "Someone has invitited you to his wishlist"
 
-func (factory MessageFactory) GenInvitationMail(from string, to string, items []models.Item) string {
+func (factory MessageFactory) GenInvitationMail(to string, items []models.Item) models.Mail {
 	// 1. Generate text
 	msg := factory.genInvitationMsg(items)
 	// 2. Generate mail content
-	content := fmt.Sprintf(mailBody, to, from, invitationSubject, msg)
-	return content
+	content := fmt.Sprintf(mailBody, to, factory.senderMail, invitationSubject, msg)
+	return models.Mail{
+		Recipient: to,
+		Body:      content,
+	}
 }
 
 // Generates an invitation message for multiple items.

@@ -25,7 +25,11 @@ func main() {
 		log.Fatalf("Could not create Database Client: %v", err)
 	}
 	// Message factory
-	msgFactory := messages.MessageFactory{}
+	senderMail := os.Getenv("SENDER_MAIL")
+	msgFactory, err := messages.NewMessageFactory(senderMail)
+	if err != nil {
+		log.Fatalf("Could not initiate MessageFactory instance: %v", err)
+	}
 
 	address, exists := os.LookupEnv("ADDRESS")
 	if !exists {

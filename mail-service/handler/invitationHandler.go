@@ -29,7 +29,7 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generate invitation
-	invitationMail := genInvitationMail(invitation.Recipient, items)
+	invitationMail := msgFactoryInstance.GenInvitationMail(invitation.Recipient, items)
 
 	// Send Invitation
 	resp, httpErr := gmailClientInstance.SendInvitation(invitationMail)
@@ -41,15 +41,5 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	if err := render.Render(w, r, &resp); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
-	}
-}
-
-// Creates an instance of an Invitation.
-func genInvitationMail(recipient string, items []models.Item) models.Mail {
-	// TODO Read mail from env
-	message := msgFactoryInstance.GenInvitationMail("marcelstolin@gmail.com", recipient, items)
-	return models.Mail{
-		Recipient: recipient,
-		Body:      message,
 	}
 }
