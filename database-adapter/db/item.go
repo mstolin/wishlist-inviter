@@ -29,16 +29,23 @@ func (dbHandler DatabaseHandler) AddItemsToUser(user models.User, items []models
 	}
 }
 
-func (dbHandler DatabaseHandler) UpdateItemByUser(user models.User, itemId int, data models.Item) (models.Item, error) {
+func (dbHandler DatabaseHandler) UpdateItemByUser(user models.User, itemId int, update models.ItemUpdate) (models.Item, error) {
 	item, err := dbHandler.GetItemByUser(user, itemId)
 	if err != nil {
-		return data, err
+		return item, err
 	}
 
-	if err := dbHandler.DB.Model(&item).Updates(data).Error; err != nil {
-		return data, err
+	// TODO This is dirty, there has to be a better way
+	clone := item
+	clone.Name = update.Name
+	clone.VendorID = update.VendorID
+	clone.Price = update.Price
+	clone.HasBeenBaught = update.HasBeenBaught
+
+	if err := dbHandler.DB.Model(&item).Updates(clone).Error; err != nil {
+		return item, err
 	} else {
-		return data, nil
+		return item, nil
 	}
 }
 

@@ -21,6 +21,7 @@ func itemHandler(r chi.Router) {
 		r.Use(itemCtx)
 		r.Get("/", getItem)
 		r.Delete("/", deleteItem)
+		r.Put("/", updateItem)
 	})
 }
 
@@ -114,6 +115,36 @@ func deleteItem(w http.ResponseWriter, r *http.Request) {
 	item, err := dbHandler.DeleteItem(user, itemId)
 	if err != nil {
 		render.Render(w, r, httpErrors.ErrNotFoundRenderer(fmt.Errorf("item with id %d not found", itemId)))
+		return
+	}
+
+	if err := render.Render(w, r, &item); err != nil {
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
+		return
+	}
+}
+
+func updateItem(w http.ResponseWriter, r *http.Request) {
+	userId := r.Context().Value(USER_ID_KEY).(string)
+	user, err := dbHandler.GetUserById(userId)
+	if err != nil {
+		render.Render(w, r, httpErrors.ErrNotFoundRenderer(fmt.Errorf("user with id %s not found", userId)))
+		return
+	}
+
+	update := models.ItemUpdate{}
+	if err := render.Bind(r, &update); err != nil {
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		return
+	}
+
+	fmt.Printf("UPDATE - NAME: %s, PRICE: %f, ID: %s, BOUGHT?: %t\n",
+		update.Name, update.Price, update.VendorID, update.HasBeenBaught)
+
+	itemId := r.Context().Value(ITEM_ID_KEY).(int)
+	item, err := dbHandler.UpdateItemByUser(user, itemId, update)
+	if err != nil {
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 
