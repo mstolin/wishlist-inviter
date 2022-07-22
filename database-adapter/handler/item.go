@@ -138,9 +138,6 @@ func updateItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("UPDATE - NAME: %s, PRICE: %f, ID: %s, BOUGHT?: %t\n",
-		update.Name, update.Price, update.VendorID, update.HasBeenBaught)
-
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
 	item, err := dbHandler.UpdateItemByUser(user, itemId, update)
 	if err != nil {
