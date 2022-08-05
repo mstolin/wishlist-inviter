@@ -98,3 +98,12 @@ func (i *ItemUpdate) Bind(r *http.Request) error {
 func (*ItemUpdate) Render(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
+
+func (update ItemUpdate) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"Name":          update.Name,
+		"VendorID":      update.VendorID,
+		"Price":         update.Price,
+		"HasBeenBaught": update.HasBeenBaught,
+	}
+}
