@@ -96,21 +96,20 @@ func getItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateItem(w http.ResponseWriter, r *http.Request) {
-	// TODO Before update, check if request only has allowed data
-	item := models.Item{}
-	if err := render.Bind(r, &item); err != nil {
+	update := models.ItemUpdate{}
+	if err := render.Bind(r, &update); err != nil {
 		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
 		return
 	}
 
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
-	update, err := dbClientInstance.UpdateItemByUser(userId, itemId, item)
+	updatedItem, err := dbClientInstance.UpdateItemByUser(userId, itemId, update)
 	if err != nil {
 		render.Render(w, r, err)
 		return
 	}
-	if err := render.Render(w, r, &update); err != nil {
+	if err := render.Render(w, r, &updatedItem); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}

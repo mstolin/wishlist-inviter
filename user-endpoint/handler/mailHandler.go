@@ -9,8 +9,6 @@ import (
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
-const ITEM_ID_KEY = "itemId"
-
 func mailHandler(r chi.Router) {
 	r.Route("/invitations", func(r chi.Router) {
 		r.Post("/", sendInvitation)

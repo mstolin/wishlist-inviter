@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
@@ -12,6 +13,7 @@ import (
 )
 
 const USER_ID_KEY = "userId"
+const ITEM_ID_KEY = "itemId"
 
 func userHandler(r chi.Router) {
 	r.Post("/", createUser)
@@ -22,6 +24,11 @@ func userHandler(r chi.Router) {
 		r.Route("/items", func(r chi.Router) {
 			r.Get("/", getUserItems)
 			r.Post("/", addUserItems)
+
+			r.Route("/{itemId}", func(r chi.Router) {
+				r.Use(itemCtx)
+				r.Put("/", updateItem)
+			})
 		})
 	})
 }
@@ -35,6 +42,25 @@ func userCtx(nxt http.Handler) http.Handler {
 		}
 
 		ctx := context.WithValue(r.Context(), USER_ID_KEY, userId)
+		nxt.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+func itemCtx(nxt http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		itemId := chi.URLParam(r, ITEM_ID_KEY)
+		if itemId == "" {
+			render.Render(w, r, httpErrors.ErrBadRequestRenderer(fmt.Errorf("item ID is required")))
+			return
+		}
+
+		// convert id to int
+		id, err := strconv.Atoi(itemId)
+		if err != nil {
+			render.Render(w, r, httpErrors.ErrServerErrorRenderer(fmt.Errorf("invalid item ID")))
+		}
+
+		ctx := context.WithValue(r.Context(), ITEM_ID_KEY, id)
 		nxt.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -98,6 +124,28 @@ func addUserItems(w http.ResponseWriter, r *http.Request) {
 
 	itemLstRenderer := models.NewItemResponseListRenderer(itemLst)
 	if err := render.RenderList(w, r, itemLstRenderer); err != nil {
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
+		return
+	}
+}
+
+func updateItem(w http.ResponseWriter, r *http.Request) {
+	update := models.ItemUpdate{}
+	if err := render.Bind(r, &update); err != nil {
+		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+		return
+	}
+
+	userId := r.Context().Value(USER_ID_KEY).(string)
+	itemId := r.Context().Value(ITEM_ID_KEY).(int)
+
+	item, err := userClientInstance.UpdateItem(userId, itemId, update)
+	if err != nil {
+		render.Render(w, r, err)
+		return
+	}
+
+	if err := render.Render(w, r, &item); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}

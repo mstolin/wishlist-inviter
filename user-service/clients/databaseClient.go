@@ -128,7 +128,7 @@ func (client DatabaseClient) GetItemByUser(userId string, itemId int) (models.It
 }
 
 // Sends a PUT request to update a specific Item of a User.
-func (client DatabaseClient) UpdateItemByUser(userId string, itemId int, update models.Item) (models.Item, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) UpdateItemByUser(userId string, itemId int, update models.ItemUpdate) (models.Item, *httpErrors.ErrorResponse) {
 	updatedItem := models.Item{}
 	jsonStr, err := json.Marshal(update)
 	if err != nil {

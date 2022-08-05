@@ -98,3 +98,24 @@ func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (mod
 	}
 	return itemLst, nil
 }
+
+// Updates an item based on the givne update model
+func (client UserClient) UpdateItem(userId string, itemId int, update models.ItemUpdate) (models.Item, *httpErrors.ErrorResponse) {
+	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
+	var item models.Item
+
+	jsonStr, err := json.Marshal(update)
+	if err != nil {
+		return item, httpErrors.ErrBadRequestRenderer(err)
+	}
+
+	res, httpErr := client.httpFacade.DoPut(url, jsonStr)
+	if httpErr != nil {
+		return item, httpErr
+	}
+
+	if err := json.Unmarshal(res, &item); err != nil {
+		return item, httpErrors.ErrBadRequestRenderer(err)
+	}
+	return item, nil
+}
