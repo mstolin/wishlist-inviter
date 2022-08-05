@@ -35,14 +35,8 @@ func (dbHandler DatabaseHandler) UpdateItemByUser(user models.User, itemId int, 
 		return item, err
 	}
 
-	// TODO This is dirty, there has to be a better way
-	clone := item
-	clone.Name = update.Name
-	clone.VendorID = update.VendorID
-	clone.Price = update.Price
-	clone.HasBeenBaught = update.HasBeenBaught
-
-	if err := dbHandler.DB.Model(&item).Updates(clone).Error; err != nil {
+	// We use a map here, because hasBeenBaught can be false (zero value)
+	if err := dbHandler.DB.Model(&item).Updates(update.ToMap()).Error; err != nil {
 		return item, err
 	} else {
 		return item, nil
