@@ -7,7 +7,7 @@ This is a web scrapper, written in Python, that simply scraps a wishlist from Am
 Create a `.env` file in the root directory of this project, that contains the following environment variables:
 
 ```
-AMAZON_HOST=http://localhost:8080
+AMAZON_URL=http://localhost:8080
 ```
 
 ## Development

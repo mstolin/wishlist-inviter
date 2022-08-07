@@ -53,11 +53,11 @@ class Scrapper:
 
 
     def scrap_wishlist(self, id: str) -> Wishlist:
-        amazon_host = os.environ.get("AMAZON_HOST")
-        if amazon_host is None:
-            raise Exception("Environment variable AMAZON_HOST is not defined")
+        amazon_url = os.environ.get("AMAZON_URL")
+        if amazon_url is None:
+            raise Exception("Environment variable AMAZON_URL is not defined")
 
-        url = f"{amazon_host}/hz/wishlist/ls/{id}"
+        url = f"{amazon_url}/hz/wishlist/ls/{id}"
         try:
             page = self._requests_session.get(url, timeout=10000)
 

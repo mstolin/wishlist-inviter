@@ -33,7 +33,7 @@ services:
                 - SERVICE_PROJECT_PATH=./user-endpoint
         environment:
             - USER_SERVICE=http://user-service:8080
-            - WISHLIST_SERVICE=http://scrapper-facade:8080
+            - SCRAPPER_FACADE=http://scrapper-facade:8080
             - MAIL_SERVICE=http://mail-service:8080
         ports: "8080:8080"
         restart: always
@@ -155,7 +155,7 @@ services:
         ports:
             - "8042:8080"
         environment:
-            - AMAZON_HOST=http://amazon-clone:8041 # TODO MAKE AMAZON_URL
+            - AMAZON_URL=http://amazon-clone:8041
         restart: always
         depends_on:
             - amazon-clone
