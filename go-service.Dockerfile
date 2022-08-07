@@ -1,7 +1,7 @@
 #
 # BUILDER
 #
-FROM golang:1.18-buster AS builder
+FROM docker.io/golang:1.18-buster AS builder
 ARG WORKDIR=/app
 ARG SERVICE_NAME
 ARG SERVICE_PROJECT_PATH
