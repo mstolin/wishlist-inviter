@@ -33,10 +33,10 @@ func initClients() (clients.UserClient, clients.MailClient, clients.WishlistClie
 		log.Fatalf("Could not init MailClient: %v", err)
 	}
 
-	wishlistServiceUrl := os.Getenv("WISHLIST_SERVICE") // TODO Scrapper facade
+	wishlistServiceUrl := os.Getenv("SCRAPPER_FACADE")
 	wishlistClient, err := clients.NewWishlistClient(wishlistServiceUrl)
 	if err != nil {
-		log.Fatalf("Could not init WishlistClient: %v", err)
+		log.Fatalf("Could not init ScrapperFacade: %v", err)
 	}
 
 	return userClient, mailClient, wishlistClient
