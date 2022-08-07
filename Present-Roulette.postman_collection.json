@@ -12,6 +12,40 @@
 					"name": "Users",
 					"item": [
 						{
+							"name": "Single Item",
+							"item": [
+								{
+									"name": "Update Item",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Hario V60 Glass Coffee Dripper\",\n    \"price\": 50.8,\n    \"vendor_id\": \"IP0OBIK4UO9AG\",\n    \"has_been_baught\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"host": [
+												"{{USER-ENDPOINT}}"
+											],
+											"path": [
+												"users",
+												"{{USER-ID}}",
+												"items",
+												"{{ITEM-ID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "Create User",
 							"request": {
 								"method": "POST",
@@ -96,7 +130,7 @@
 					]
 				},
 				{
-					"name": "Items",
+					"name": "Wishlists",
 					"item": [
 						{
 							"name": "Get Games Wishlist",
@@ -205,13 +239,18 @@
 									"response": []
 								},
 								{
-									"name": "XXX Update Item",
+									"name": "Update Item",
 									"request": {
 										"method": "PUT",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": ""
+											"raw": "{\n    \"name\": \"Hario V60 Glass Coffee Dripper\",\n    \"price\": 50.8,\n    \"vendor_id\": \"IP0OBIK4UO9AG\",\n    \"has_been_baught\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
 										},
 										"url": {
 											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
@@ -389,6 +428,35 @@
 									"request": {
 										"method": "DELETE",
 										"header": [],
+										"url": {
+											"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"host": [
+												"{{DATABASE-ADAPTER}}"
+											],
+											"path": [
+												"users",
+												"{{USER-ID}}",
+												"items",
+												"{{ITEM-ID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Item",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Hario V60 Glass Coffee Dripper\",\n    \"price\": 50.8,\n    \"vendor_id\": \"IP0OBIK4UO9AG\",\n    \"has_been_baught\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
 											"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
 											"host": [
@@ -690,13 +758,23 @@
 			"type": "default"
 		},
 		{
-			"key": "USER-ID",
-			"value": "dbc055a6-6375-4708-a635-50588afdec8d",
+			"key": "USER-SERVICE",
+			"value": "http://localhost:8071",
 			"type": "default"
 		},
 		{
-			"key": "USER-SERVICE",
-			"value": "http://localhost:8071",
+			"key": "SCRAPPER-FACADE",
+			"value": "http://localhost:8022",
+			"type": "default"
+		},
+		{
+			"key": "MAIL-SERVICE",
+			"value": "http://localhost:8021",
+			"type": "default"
+		},
+		{
+			"key": "GMAIL-ADAPTER",
+			"value": "http://localhost:8043",
 			"type": "default"
 		},
 		{
@@ -705,13 +783,18 @@
 			"type": "default"
 		},
 		{
-			"key": "ITEM-ID",
-			"value": "1",
+			"key": "AMAZON-ADAPTER",
+			"value": "http://localhost:8042",
 			"type": "default"
 		},
 		{
-			"key": "AMAZON-ADAPTER",
-			"value": "http://localhost:8042",
+			"key": "USER-ID",
+			"value": "dbc055a6-6375-4708-a635-50588afdec8d",
+			"type": "default"
+		},
+		{
+			"key": "ITEM-ID",
+			"value": "1",
 			"type": "default"
 		},
 		{
@@ -722,21 +805,6 @@
 		{
 			"key": "AMAZON-WISHLIST-COFFEE",
 			"value": "194N1KF03IPTL",
-			"type": "default"
-		},
-		{
-			"key": "SCRAPPER-FACADE",
-			"value": "http://localhost:8022",
-			"type": "default"
-		},
-		{
-			"key": "GMAIL-ADAPTER",
-			"value": "http://localhost:8043",
-			"type": "default"
-		},
-		{
-			"key": "MAIL-SERVICE",
-			"value": "http://localhost:8021",
 			"type": "default"
 		},
 		{
