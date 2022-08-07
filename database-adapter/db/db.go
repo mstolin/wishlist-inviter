@@ -15,6 +15,16 @@ type DatabaseHandler struct {
 	DB *gorm.DB
 }
 
+func autoMigrate(db *gorm.DB) error {
+	if err := db.AutoMigrate(&models.User{}); err != nil {
+		return err
+	}
+	if err := db.AutoMigrate(&models.Item{}); err != nil {
+		return err
+	}
+	return nil
+}
+
 func Initialize(host, port, user, password, dbName string) (DatabaseHandler, error) {
 	handler := DatabaseHandler{}
 
@@ -28,9 +38,9 @@ func Initialize(host, port, user, password, dbName string) (DatabaseHandler, err
 	}
 
 	// auto migrate models
-	// TODO put in own method
-	db.AutoMigrate(&models.User{})
-	db.AutoMigrate(&models.Item{})
+	if err := autoMigrate(db); err != nil {
+		return handler, err
+	}
 
 	handler.DB = db
 	return handler, nil
