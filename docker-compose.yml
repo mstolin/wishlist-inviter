@@ -17,7 +17,7 @@ networks:
         driver: bridge
 
 volumes:
-    data:
+    postgres-db:
 
 services:
     #
@@ -176,7 +176,7 @@ services:
             - POSTGRES_PASSWORD=admin123
             - POSTGRES_DB=present-roulette
         volumes:
-            - data:/var/lib/postgresql/data
+            - postgres-db:/var/lib/postgresql/data
         restart: always
         networks:
             - database-network
