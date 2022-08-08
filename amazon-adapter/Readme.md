@@ -16,7 +16,7 @@ For development purposes, run the following using [Poetry](https://python-poetry
 
 ```
 $ poetry install
-$ HOST=localhost PORT=8080 poetry run start
+$ HOST=localhost PORT=8042 AMAZON_URL=http://localhost:8041 poetry run start
 ```
 
 ## Build and Run

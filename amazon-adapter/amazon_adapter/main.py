@@ -24,8 +24,10 @@ async def wishlist_handler(id: str):
     try:
         wishlist = scrapper.scrap_wishlist(id)
         return JSONResponse(content=jsonable_encoder(wishlist))
+    except HTTPException as exc:
+        raise exc
     except Exception as exc:
-        return JSONResponse(status_code=500, content={"error": str(exc)})
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
 def start():
@@ -33,4 +35,4 @@ def start():
     load_dotenv()
     host = os.environ.get("HOST")
     port = int(os.environ.get("PORT"))
-    uvicorn.run("amazon_scrapper.main:app", host=host, port=port, reload=False)
+    uvicorn.run("amazon_adapter.main:app", host=host, port=port, reload=False)

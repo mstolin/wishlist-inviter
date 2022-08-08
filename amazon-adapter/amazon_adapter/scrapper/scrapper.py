@@ -1,4 +1,5 @@
 import os
+from fastapi import HTTPException
 from requests import Session
 from bs4 import BeautifulSoup, Tag
 from typing import List, Optional
@@ -61,7 +62,9 @@ class Scrapper:
         try:
             page = self._requests_session.get(url, timeout=10000)
 
-            if page.status_code != 200:
+            if page.status_code == 404:
+                raise HTTPException(status_code=404, detail=f"wishlist at url {url} not found")
+            elif page.status_code != 200:
                 raise Exception(f"HTTP status {page.status_code} for URL {url}")
 
             wishlist = self._parse_wishlist(id, page.text)
