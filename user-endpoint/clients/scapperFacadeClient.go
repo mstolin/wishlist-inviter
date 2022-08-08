@@ -9,16 +9,16 @@ import (
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
-type WishlistClient struct {
+type ScrapperFacadeClient struct {
 	URL        string
 	httpFacade clients.HTTPFacade
 }
 
 // Instantiates a new instance
-func NewWishlistClient(url string) (WishlistClient, error) {
-	client := WishlistClient{}
+func NewScrapperFacadeClient(url string) (ScrapperFacadeClient, error) {
+	client := ScrapperFacadeClient{}
 	if url == "" {
-		return client, fmt.Errorf("wishlist service URL is not defined or empty")
+		return client, fmt.Errorf("scrapper facade URL is not defined or empty")
 	} else {
 		client.URL = url
 	}
@@ -27,13 +27,8 @@ func NewWishlistClient(url string) (WishlistClient, error) {
 	return client, nil
 }
 
-/*
-	Also das problem is folgendes: hier bekommen wir wishlist zurueck, aber wir brauchen nur die itemlist
-	fur alles weitere, daher itemlist aus wishlist rausnehmen und nur die weitergeben ...
-*/
-
 // Sends a request to the item service to import all items from an Amazon wishlist
-func (client WishlistClient) ImportAmazonWishlist(wishlistId string) (models.Wishlist, *httpErrors.ErrorResponse) {
+func (client ScrapperFacadeClient) ImportAmazonWishlist(wishlistId string) (models.Wishlist, *httpErrors.ErrorResponse) {
 	wishlist := models.Wishlist{}
 
 	url := fmt.Sprintf("%s/amazon/wishlists/%s", client.URL, wishlistId)

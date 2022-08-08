@@ -5,18 +5,18 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/go-chi/render"
 	"github.com/go-chi/cors"
+	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/user-endpoint/clients"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
 
-var wishlistClientInstance clients.WishlistClient
+var scrapperFacadeInstance clients.ScrapperFacadeClient
 var mailClientInstance clients.MailClient
 var userClientInstance clients.UserClient
 
-func NewHandler(userClient clients.UserClient, mailClient clients.MailClient, wishlistClient clients.WishlistClient) http.Handler {
-	wishlistClientInstance = wishlistClient
+func NewHandler(userClient clients.UserClient, mailClient clients.MailClient, scrapperFacade clients.ScrapperFacadeClient) http.Handler {
+	scrapperFacadeInstance = scrapperFacade
 	mailClientInstance = mailClient
 	userClientInstance = userClient
 
@@ -28,13 +28,13 @@ func newRouter() http.Handler {
 	router.Use(middleware.Logger)
 	router.Use(render.SetContentType(render.ContentTypeJSON))
 	router.Use(cors.Handler(cors.Options{
-    AllowedOrigins:   []string{"https://*", "http://*"},
-    AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
-    AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
-    ExposedHeaders:   []string{"Link"},
-    AllowCredentials: false,
-    MaxAge:           300,
-  }))
+		AllowedOrigins:   []string{"https://*", "http://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+	}))
 	router.MethodNotAllowed(methodNotAllowedHandler)
 	router.NotFound(notFoundHandler)
 	router.Route("/users", userHandler)

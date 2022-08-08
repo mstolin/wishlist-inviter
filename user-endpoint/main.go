@@ -20,7 +20,7 @@ func main() {
 	http.ListenAndServe(address, httpHandler)
 }
 
-func initClients() (clients.UserClient, clients.MailClient, clients.WishlistClient) {
+func initClients() (clients.UserClient, clients.MailClient, clients.ScrapperFacadeClient) {
 	userServiceUrl := os.Getenv("USER_SERVICE")
 	userClient, err := clients.NewUserClient(userServiceUrl)
 	if err != nil {
@@ -34,7 +34,7 @@ func initClients() (clients.UserClient, clients.MailClient, clients.WishlistClie
 	}
 
 	wishlistServiceUrl := os.Getenv("SCRAPPER_FACADE")
-	wishlistClient, err := clients.NewWishlistClient(wishlistServiceUrl)
+	wishlistClient, err := clients.NewScrapperFacadeClient(wishlistServiceUrl)
 	if err != nil {
 		log.Fatalf("Could not init ScrapperFacade: %v", err)
 	}
