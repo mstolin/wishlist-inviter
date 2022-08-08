@@ -36,7 +36,8 @@ func itemCtx(nxt http.Handler) http.Handler {
 		// convert id to int
 		id, err := strconv.Atoi(itemId)
 		if err != nil {
-			render.Render(w, r, httpErrors.ErrBadRequestRenderer(fmt.Errorf("invalid item ID")))
+			render.Render(w, r, httpErrors.ErrServerErrorRenderer(fmt.Errorf("invalid item ID")))
+			return
 		}
 
 		ctx := context.WithValue(r.Context(), ITEM_ID_KEY, id)

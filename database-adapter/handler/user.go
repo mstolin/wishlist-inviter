@@ -74,10 +74,11 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			render.Render(w, r, httpErrors.ErrNotFoundRenderer(fmt.Errorf("user with id %s not found", id)))
+			return
 		} else {
 			render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))
+			return
 		}
-		return
 	}
 
 	if err := render.Render(w, r, &user); err != nil {
