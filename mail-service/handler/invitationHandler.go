@@ -22,9 +22,9 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get all items
-	items, err := dbClientInstance.GetItemsForUser(invitation.UserId, invitation.Items)
-	if err != nil {
-		render.Render(w, r, err)
+	items, httpErr := dbClientInstance.GetItemsForUser(invitation.UserId, invitation.Items)
+	if httpErr != nil {
+		render.Render(w, r, httpErr)
 		return
 	}
 

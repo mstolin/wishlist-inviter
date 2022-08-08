@@ -30,15 +30,21 @@ func (client DatabaseClient) GetItemsForUser(userId string, wantedIds []uint) (m
 	items := models.ItemList{}
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
-	res, err := client.httpFacade.DoGet(url)
-	if err != nil {
-		return items, err
+	res, httpErr := client.httpFacade.DoGet(url)
+	if httpErr != nil {
+		return items, httpErr
 	}
 
 	if err := json.Unmarshal(res, &items); err != nil {
 		return items, httpErrors.ErrServerErrorRenderer(err)
 	}
-	return filterItems(items, wantedIds), nil
+
+	wantedItems := filterItems(items, wantedIds)
+	if len(wantedItems) <= 0 {
+		return items, &httpErrors.ErrNotFound
+	}
+
+	return wantedItems, nil
 }
 
 // Filters an array of items based on their IDs

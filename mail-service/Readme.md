@@ -7,10 +7,7 @@ This is a simple adapter service (written in Go), that is responsible to send a 
 Create a `.env` file in the root directory of this project, that contains the following environment variables:
 
 ```
-SERVICE_ADDRESS=:8080
-
-GMAIL_SERVICE_HOST=gmail-service
-GMAIL_SERVICE_PORT=8081
+ADDRESS=:8021 DATABASE_ADAPTER=http://localhost:8061 GMAIL_ADAPTER=http://localhost:8043 SENDER_MAIL=marcelstolin@gmail.com go run ./mail-service
 ```
 
 ## Build and Run
