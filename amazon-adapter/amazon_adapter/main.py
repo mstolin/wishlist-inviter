@@ -25,9 +25,26 @@ async def wishlist_handler(id: str):
         wishlist = scrapper.scrap_wishlist(id)
         return JSONResponse(content=jsonable_encoder(wishlist))
     except HTTPException as exc:
-        raise exc
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={
+                "error": {
+                    "status": exc.status_code,
+                    "message": exc.detail
+                }
+            }
+        )
     except Exception as exc:
-        raise HTTPException(status_code=500, detail=str(exc))
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": {
+                    "status": exc.status_code,
+                    "error": "Internal Server Error",
+                    "message": str(exc)
+                }
+            }
+        )
 
 
 def start():
