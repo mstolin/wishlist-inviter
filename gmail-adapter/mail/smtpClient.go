@@ -34,14 +34,15 @@ func NewSMTPClient(host, port, sender, password string) (SMTPClient, error) {
 }
 
 // Sends a mail using the SMTP protocol
-func (client SMTPClient) SendMail(mail models.Mail) error {
+func (client SMTPClient) SendMail(mail models.Mail) (models.SuccessMessage, error) {
+	successMsg := models.SuccessMessage{Message: "mail has been sent successfully"}
 	server := fmt.Sprintf("%s:%s", client.Host, client.Port)
 	auth := smtp.PlainAuth("", client.Credentials.Sender, client.Credentials.Password, client.Host)
 	body := []byte(mail.Body)
 
 	err := smtp.SendMail(server, auth, client.Credentials.Sender, []string{mail.Recipient}, body)
 	if err != nil {
-		return err
+		return successMsg, err
 	}
-	return nil
+	return successMsg, nil
 }

@@ -21,12 +21,13 @@ func send(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := smtpClientInstance.SendMail(mail); err != nil {
+	successMsg, err := smtpClientInstance.SendMail(mail)
+	if err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 
-	if err := render.Render(w, r, &mail); err != nil {
+	if err := render.Render(w, r, &successMsg); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
