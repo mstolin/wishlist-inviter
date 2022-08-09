@@ -13,6 +13,14 @@ effecting the other services of this project.
 
 ## Users Collection [/users]
 
+Via this endpoint, a new user can be created by sending
+an empty request through `POST`.
+If the request was successful, it will respond the newly created
+user instance.
+
+If the request is invalid, a 400 error is thrown. Otherwise, for
+any other error on the server side, a 500 error is thrown.
+
 ### Create a new User [POST]
 
 Use this endpoint to create a new User dataset.
@@ -20,8 +28,7 @@ To create a new user, just send an empty json request.
 
 + Request (application/json)
 
-        {
-        }
+        {}
 
 + Response 200 (application/json)
 
@@ -41,16 +48,6 @@ To create a new user, just send an empty json request.
                 "message": "GENERIC ERROR MESSAGE"
             } 
         }
-    
-+ Response 404 (application/json)
-
-        {
-            "error": {
-                "status": 404,
-                "error": "Not Found",
-                "message": "The requested resource is not available."
-            } 
-        }
 
 + Response 500 (application/json)
 
@@ -64,17 +61,47 @@ To create a new user, just send an empty json request.
         
 ## Specific User Collection [/users/{userId}]
 
-### Get a specific User [GET]
+Through this endpoint, information about a specific user
+can be requested (`GET`), or a specific user can be deleted
+(`DELETE`).
 
-This endpoint will response the user data of the requested user id.
+The response for both methods is equal. Even if the user has
+been deleted, the response will be the data of the user.
+
+If the user does not exist, a 404 error is thrown.
+For any other error that happens on the server side, a
+500 error is send.
+
+### Get a specific User [GET]
 
 + Response 200 (application/json)
 
         {
-            "id":"c8dc276b-176a-4468-b6b6-4af63f1b98f1",
-            "created_at":"2022-05-09T14:37:17.916636Z",
-            "updated_at":"2022-05-09T14:37:17.916636Z",
-            "items":[]
+            "id":"4b33f6f3-fcb9-4137-8a4e-c7e2c9eadf3f",
+            "created_at":"2022-05-10T14:47:41.836503+02:00",
+            "updated_at":"2022-05-10T14:51:34.85178+02:00",
+            "items":[
+                {
+                    "id":1,
+                    "created_at":"2022-05-09T20:06:50.141576+02:00",
+                    "updated_at":"2022-05-09T20:06:50.141576+02:00",
+                    "name": "Hades [Nintendo Switch]",
+                    "price": 64.99,
+                    "vendor": "amazon"
+                    "vendor_id":"I9RYNJAL9GAYA",
+                    "has_been_baught": false
+                },
+                {
+                    "id":2,
+                    "created_at":"2022-05-09T23:04:34.929649+02:00",
+                    "updated_at":"2022-05-09T23:04:34.929649+02:00",
+                    "name": "The Witcher 3: Wild Hunt - Complete Edition - [Nintendo Switch]",
+                    "price": 52.23,
+                    "vendor": "amazon"
+                    "vendor_id":"I7DF1D943PWDV",
+                    "has_been_baught": false
+                }
+            ]
         }
 
 + Response 404 (application/json)
@@ -83,7 +110,7 @@ This endpoint will response the user data of the requested user id.
             "error":{
                 "status":404,
                 "error":"Not Found",
-                "message":"user with id df345dfsg345 not found"
+                "message":"GENERIC ERROR MESSAGE"
             }
         }
 
@@ -99,34 +126,32 @@ This endpoint will response the user data of the requested user id.
             
 ### Delete a specific User [DELETE]
 
-This endpoint deletes the user for the given id.
-After a successful requests, it responds with user
-instance, equal to a request made to *Get a specific User*.
-
 + Response 200 (application/json)
 
-         {
+        {
             "id":"4b33f6f3-fcb9-4137-8a4e-c7e2c9eadf3f",
             "created_at":"2022-05-10T14:47:41.836503+02:00",
             "updated_at":"2022-05-10T14:51:34.85178+02:00",
             "items":[
                 {
                     "id":1,
-                    "created_at":"2022-05-10T14:51:34.852161+02:00",
-                    "updated_at":"2022-05-10T14:51:34.852161+02:00",
-                    "name":"Test Item 1",
-                    "price":4.89,
-                    "vendor":"amazon",
-                    "vendor_id":"SOME_ID"
+                    "created_at":"2022-05-09T20:06:50.141576+02:00",
+                    "updated_at":"2022-05-09T20:06:50.141576+02:00",
+                    "name": "Hades [Nintendo Switch]",
+                    "price": 64.99,
+                    "vendor": "amazon"
+                    "vendor_id":"I9RYNJAL9GAYA",
+                    "has_been_baught": false
                 },
                 {
                     "id":2,
-                    "created_at":"2022-05-10T14:51:34.852161+02:00",
-                    "updated_at":"2022-05-10T14:51:34.852161+02:00",
-                    "name":"Test Item 2",
-                    "price":4.89,
-                    "vendor":"amazon",
-                    "vendor_id":"SOME_ID"
+                    "created_at":"2022-05-09T23:04:34.929649+02:00",
+                    "updated_at":"2022-05-09T23:04:34.929649+02:00",
+                    "name": "The Witcher 3: Wild Hunt - Complete Edition - [Nintendo Switch]",
+                    "price": 52.23,
+                    "vendor": "amazon"
+                    "vendor_id":"I7DF1D943PWDV",
+                    "has_been_baught": false
                 }
             ]
         }
@@ -137,7 +162,7 @@ instance, equal to a request made to *Get a specific User*.
             "error":{
                 "status":404,
                 "error":"Not Found",
-                "message":"user with id df345dfsg345 not found"
+                "message":"GENERIC ERROR MESSAGE
             }
         }
 
@@ -153,28 +178,28 @@ instance, equal to a request made to *Get a specific User*.
         
 ## User Items Collection [/users/{userId}/items]
 
-### Add a collection of new Items to a User [POST]
-
-Using this endpoint, a collection of items can be added to a specific user.
-The collection can consist of one or more items.
+Using this endpoint, a list of all whished items of specific user
+can be requested (`GET`) or multiple items can be added to the
+wishlist of the user (`POST`).
 After a successful request, the server respons with the overall item collection
-of the user, equal to *Get all Items of a User*.
+of the user.
+
+If the user does not exists, a 404 error is thrown.
+If the request for the `POST` endpoint is invalid, a 400 error is given.
+Otherwise, for any other error, the server responds with a 500 error.
+
+### Add a collection of new Items to a User [POST]
 
 + Request (application/json)
 
         [
             {
-                "name": "Test Item 2", 
-                "price": 7.99, 
-                "vendor": "amazon", 
-                "vendor_id": "SOME_ID"
-            },
-            {
-                "name": "Test Item 3", 
-                "price": 12.60, 
-                "vendor": "amazon", 
-                "vendor_id": "SOME_ID"
-            },
+                "name": "Hades [Nintendo Switch]",
+                "price": 64.99,
+                "vendor": "amazon"
+                "vendor_id":"I9RYNJAL9GAYA",
+                "has_been_baught": false
+            }
         ]
 
 + Response 200 (application/json)
@@ -184,30 +209,43 @@ of the user, equal to *Get all Items of a User*.
                 "id":1,
                 "created_at":"2022-05-09T20:06:50.141576+02:00",
                 "updated_at":"2022-05-09T20:06:50.141576+02:00",
-                "name":"Test Item 1",
-                "price":54.78,
-                "vendor":"amazon",
-                "vendor_id":"SOME_ID"
+                "name": "Hades [Nintendo Switch]",
+                "price": 64.99,
+                "vendor": "amazon"
+                "vendor_id":"I9RYNJAL9GAYA",
+                "has_been_baught": false
             },
             {
                 "id":2,
                 "created_at":"2022-05-09T23:04:34.929649+02:00",
                 "updated_at":"2022-05-09T23:04:34.929649+02:00",
-                "name":"Test Item 2",
-                "price":7.99,
-                "vendor":"amazon",
-                "vendor_id":"SOME_ID"
+                "name": "The Witcher 3: Wild Hunt - Complete Edition - [Nintendo Switch]",
+                "price": 52.23,
+                "vendor": "amazon"
+                "vendor_id":"I7DF1D943PWDV",
+                "has_been_baught": false
             },
             {
                 "id":3,
                 "created_at":"2022-05-09T23:04:45.939046+02:00",
                 "updated_at":"2022-05-09T23:04:45.939046+02:00",
-                "name":"Test Item 3",
-                "price":12.60,
-                "vendor":"amazon",
-                "vendor_id":"SOME_ID"
+                "name": "The Legend of Zelda: Breath of the Wild [Nintendo Switch]",
+                "price": 54.99,
+                "vendor": "amazon"
+                "vendor_id":"ITTLSQBBXRYE3",
+                "has_been_baught": false
             }
         ]
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "status": 400,
+                "error": "Bad Request",
+                "message": "GENERIC ERROR MESSAGE"
+            } 
+        }
 
 + Response 404 (application/json)
 
@@ -215,7 +253,7 @@ of the user, equal to *Get all Items of a User*.
             "error":{
                 "status":404,
                 "error":"Not Found",
-                "message":"The requested resource is not available."
+                "message":"GENERIC ERROR MESSAGE"
             }
         }
 
@@ -231,8 +269,6 @@ of the user, equal to *Get all Items of a User*.
 
 ### Get all Items of a User [GET]
 
-This endpoint return all items that are associated to a specific user.
-
 + Response 200 (application/json)
 
         [
@@ -240,28 +276,31 @@ This endpoint return all items that are associated to a specific user.
                 "id":1,
                 "created_at":"2022-05-09T20:06:50.141576+02:00",
                 "updated_at":"2022-05-09T20:06:50.141576+02:00",
-                "name":"Test Item 1",
-                "price":54.78,
-                "vendor":"amazon",
-                "vendor_id":"SOME_ID"
+                "name": "Hades [Nintendo Switch]",
+                "price": 64.99,
+                "vendor": "amazon"
+                "vendor_id":"I9RYNJAL9GAYA",
+                "has_been_baught": false
             },
             {
                 "id":2,
                 "created_at":"2022-05-09T23:04:34.929649+02:00",
                 "updated_at":"2022-05-09T23:04:34.929649+02:00",
-                "name":"Test Item 2",
-                "price":7.99,
-                "vendor":"amazon",
-                "vendor_id":"SOME_ID"
+                "name": "The Witcher 3: Wild Hunt - Complete Edition - [Nintendo Switch]",
+                "price": 52.23,
+                "vendor": "amazon"
+                "vendor_id":"I7DF1D943PWDV",
+                "has_been_baught": false
             },
             {
                 "id":3,
                 "created_at":"2022-05-09T23:04:45.939046+02:00",
                 "updated_at":"2022-05-09T23:04:45.939046+02:00",
-                "name":"Test Item 3",
-                "price":12.60,
-                "vendor":"amazon",
-                "vendor_id":"SOME_ID"
+                "name": "The Legend of Zelda: Breath of the Wild [Nintendo Switch]",
+                "price": 54.99,
+                "vendor": "amazon"
+                "vendor_id":"ITTLSQBBXRYE3",
+                "has_been_baught": false
             }
         ]
 
@@ -271,7 +310,7 @@ This endpoint return all items that are associated to a specific user.
             "error":{
                 "status":404,
                 "error":"Not Found",
-                "message":"The requested resource is not available."
+                "message":"GENERIC ERROR MESSAGE"
             }
         }
 
@@ -286,6 +325,15 @@ This endpoint return all items that are associated to a specific user.
         }
         
 ## Specific User Items Collection [/users/{userId}/items/{itemId}]
+
+This endpoint allows to request information about a specific item
+from a users wishlist (`GET`), delete an item `DELETE`, or update
+an item (`PUT`).
+
+If the user or the item does not exists, a 404 error is thrown.
+If the data of the `PUT` request is invalid, a 400 error is thrown.
+Otherwise, the endpoint will respond with a 500 error for server-side
+errors.
         
 ### Delete a specific Item [DELETE]
 
@@ -299,10 +347,11 @@ the deleted Item object.
             "id":1,
             "created_at":"2022-05-09T20:06:50.141576+02:00",
             "updated_at":"2022-05-09T20:06:50.141576+02:00",
-            "name":"Test Item 1",
-            "price":54.78,
-            "vendor":"amazon",
-            "vendor_id":"SOME_ID"
+            "name": "Nintendo Luigi's Mansion 3 - [Nintendo Switch]",
+            "price": 47.94,
+            "vendor": "amazon",
+            "vendor_id":"I37NVYF3F7GSV1",
+            "has_been_baught": false
         }
 
 + Response 404 (application/json)
@@ -327,18 +376,72 @@ the deleted Item object.
 
 ### Get a specific Item [GET]
 
-This endpoint returns the user item with the given id.
-
 + Response 200 (application/json)
 
         {
             "id":1,
             "created_at":"2022-05-09T20:06:50.141576+02:00",
             "updated_at":"2022-05-09T20:06:50.141576+02:00",
-            "name":"Test Item 1",
-            "price":54.78,
-            "vendor":"amazon",
-            "vendor_id":"SOME_ID"
+            "name": "Nintendo Luigi's Mansion 3 - [Nintendo Switch]",
+            "price": 47.94,
+            "vendor": "amazon",
+            "vendor_id":"I37NVYF3F7GSV1",
+            "has_been_baught": false
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error":{
+                "status":404,
+                "error":"Not Found",
+                "message":"GENERIC ERROR MESSAGE"
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
+            }
+        }
+
+### Update a specific Item [PUT]
+
++ Request (application/json)
+
+        {
+            "name": "Hades [Nintendo Switch]",
+            "price": 64.99,
+            "vendor": "amazon"
+            "vendor_id":"I9RYNJAL9GAYA",
+            "has_been_baught": true
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id":1,
+            "created_at":"2022-05-09T20:06:50.141576+02:00",
+            "updated_at":"2022-05-09T20:08:32.234543+02:00",
+            "name": "Hades [Nintendo Switch]",
+            "price": 64.99,
+            "vendor": "amazon"
+            "vendor_id":"I9RYNJAL9GAYA",
+            "has_been_baught": true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "status": 400,
+                "error": "Bad Request",
+                "message": "GENERIC ERROR MESSAGE"
+            } 
         }
 
 + Response 404 (application/json)

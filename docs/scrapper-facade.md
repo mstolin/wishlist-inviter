@@ -1,15 +1,18 @@
 FORMAT: 1A
-HOST: http://amazon-adapter
+HOST: http://scrapper-facade
 
-# Amazon-Adapter
+# Scrapper-Facade
 
-This service provides functionality to gather information about products from
-Amazon. Currently only Amazon wishlists are supported.
+The Scrapper-Facade service is used to gather product information from
+different vendors. It forwards the request to the wanted vendor scrapper 
+and returns its response. At this point only Amazon wishlists can be 
+gathered.
 
-## Amazon wishlist [/wishlists/{wishlistId}]
+## Amazon collection [/amazon/wishlists/{wishlistId}]
 
-This endpoint is used to get a structured JSON representation
-of a specific Amazon wishlist.
+The amazon collection can be used to gather information about
+amazon products. Currently, only Amazon wishlists are supported.
+The endpoint will return an Amazon wishlist in JSON format.
 
 A 404 error is sent if the wanted wishlist does not exists.
 If any error on the server side occurs a 500 response is sent.
@@ -61,6 +64,7 @@ If any error on the server side occurs a 500 response is sent.
             {
                 "error": {
                     "status": 404,
+                    "error": "Not Found",
                     "message": "GENERIC ERROR MESSAGE"
                 }
             }
