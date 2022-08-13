@@ -20,6 +20,6 @@ func main() {
 	if !exists {
 		address = ":8080"
 	}
-	httpHandler := handler.NewHandler(dbClient)
+	httpHandler := handler.NewHandler("SUPER_SECRET", dbClient)
 	http.ListenAndServe(address, httpHandler)
 }

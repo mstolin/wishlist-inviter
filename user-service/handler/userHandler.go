@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/jwtauth/v5"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
@@ -13,13 +14,24 @@ import (
 const USER_ID_KEY = "userId"
 
 func userHandler(r chi.Router) {
-	r.Post("/", createUser)
-	r.Route("/{userId}", func(r chi.Router) {
-		r.Use(userCtx)
-		r.Get("/", getUser)
-		r.Delete("/", deleteUser)
+	// unrestricted endpoints
+	r.Group(func(r chi.Router) {
+		// registration not be restricted
+		r.Post("/", createUser)
+	})
 
-		r.Route("/items", itemHandler)
+	// restricted endpoints
+	r.Group(func(r chi.Router) {
+		r.Use(jwtauth.Verifier(tokenAuth))
+		r.Use(jwtauth.Authenticator)
+
+		r.Route("/{userId}", func(r chi.Router) {
+			r.Use(userCtx)
+			r.Get("/", getUser)
+			r.Delete("/", deleteUser)
+
+			r.Route("/items", itemHandler)
+		})
 	})
 }
 
@@ -38,9 +50,9 @@ func userCtx(nxt http.Handler) http.Handler {
 
 func createUser(w http.ResponseWriter, r *http.Request) {
 	// Create User
-	resp, err := dbClientInstance.CreateUser()
-	if err != nil {
-		render.Render(w, r, err)
+	resp, httpErr := dbClientInstance.CreateUser()
+	if httpErr != nil {
+		render.Render(w, r, httpErr)
 		return
 	}
 
@@ -52,9 +64,9 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
-	user, err := dbClientInstance.GetUser(userId)
-	if err != nil {
-		render.Render(w, r, err)
+	user, httpErr := dbClientInstance.GetUser(userId)
+	if httpErr != nil {
+		render.Render(w, r, httpErr)
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
@@ -65,9 +77,9 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 
 func deleteUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
-	user, err := dbClientInstance.DeleteUser(userId)
-	if err != nil {
-		render.Render(w, r, err)
+	user, httpErr := dbClientInstance.DeleteUser(userId)
+	if httpErr != nil {
+		render.Render(w, r, httpErr)
 		return
 	}
 	if err := render.Render(w, r, &user); err != nil {
