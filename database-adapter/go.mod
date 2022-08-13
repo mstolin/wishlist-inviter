@@ -3,13 +3,15 @@ module github.com/mstolin/present-roulette/database-adapter
 go 1.18
 
 require (
-	github.com/go-chi/chi v1.5.4
+	github.com/go-chi/chi/v5 v5.0.7
 	github.com/go-chi/render v1.0.1
+	github.com/mstolin/present-roulette/utils v0.0.0-20220809133144-370551f3e170
 	gorm.io/driver/postgres v1.3.1
 	gorm.io/gorm v1.23.3
 )
 
 require (
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.10.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect

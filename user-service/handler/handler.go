@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/user-service/clients"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
