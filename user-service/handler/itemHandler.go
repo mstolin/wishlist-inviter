@@ -46,7 +46,8 @@ func itemCtx(nxt http.Handler) http.Handler {
 
 func getItems(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
-	itemLst, err := dbClientInstance.GetItemsByUser(userId)
+	accessToken := r.Header.Get("Authorization")
+	itemLst, err := dbClientInstance.GetItemsByUser(userId, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return
@@ -66,8 +67,9 @@ func addItems(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	accessToken := r.Header.Get("Authorization")
 	userId := r.Context().Value(USER_ID_KEY).(string)
-	items, err := dbClientInstance.AddItemsToUser(userId, itemLst)
+	items, err := dbClientInstance.AddItemsToUser(userId, itemLst, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return
@@ -83,7 +85,8 @@ func addItems(w http.ResponseWriter, r *http.Request) {
 func getItem(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
-	item, err := dbClientInstance.GetItemByUser(userId, itemId)
+	accessToken := r.Header.Get("Authorization")
+	item, err := dbClientInstance.GetItemByUser(userId, itemId, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return
@@ -104,7 +107,8 @@ func updateItem(w http.ResponseWriter, r *http.Request) {
 
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
-	updatedItem, err := dbClientInstance.UpdateItemByUser(userId, itemId, update)
+	accessToken := r.Header.Get("Authorization")
+	updatedItem, err := dbClientInstance.UpdateItemByUser(userId, itemId, update, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return
@@ -118,7 +122,8 @@ func updateItem(w http.ResponseWriter, r *http.Request) {
 func deleteItem(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
-	item, err := dbClientInstance.DeleteItemByUser(userId, itemId)
+	accessToken := r.Header.Get("Authorization")
+	item, err := dbClientInstance.DeleteItemByUser(userId, itemId, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return

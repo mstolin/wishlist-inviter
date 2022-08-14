@@ -9,7 +9,7 @@ import (
 )
 
 // Sends POST request to send an invitation mail.
-func (gClient GMailClient) SendInvitation(invitation models.Mail) (models.SuccessMessage, *httpErrors.ErrorResponse) {
+func (gClient GMailClient) SendInvitation(invitation models.Mail, accessToken string) (models.SuccessMessage, *httpErrors.ErrorResponse) {
 	var successMsg models.SuccessMessage
 
 	url := fmt.Sprintf("%s/mail", gClient.URL)
@@ -18,7 +18,7 @@ func (gClient GMailClient) SendInvitation(invitation models.Mail) (models.Succes
 		return successMsg, httpErrors.ErrServerErrorRenderer(err)
 	}
 
-	res, httpErr := gClient.httpFacade.DoPost(url, jsonData)
+	res, httpErr := gClient.httpFacade.DoPost(url, accessToken, jsonData)
 	if httpErr != nil {
 		return successMsg, httpErr
 	}

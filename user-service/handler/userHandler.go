@@ -49,8 +49,8 @@ func userCtx(nxt http.Handler) http.Handler {
 }
 
 func createUser(w http.ResponseWriter, r *http.Request) {
-	// Create User
-	resp, httpErr := dbClientInstance.CreateUser()
+	accessToken := r.Header.Get("Authorization")
+	resp, httpErr := dbClientInstance.CreateUser(accessToken)
 	if httpErr != nil {
 		render.Render(w, r, httpErr)
 		return
@@ -64,7 +64,8 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
-	user, httpErr := dbClientInstance.GetUser(userId)
+	accessToken := r.Header.Get("Authorization")
+	user, httpErr := dbClientInstance.GetUser(userId, accessToken)
 	if httpErr != nil {
 		render.Render(w, r, httpErr)
 		return
@@ -77,7 +78,8 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 
 func deleteUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
-	user, httpErr := dbClientInstance.DeleteUser(userId)
+	accessToken := r.Header.Get("Authorization")
+	user, httpErr := dbClientInstance.DeleteUser(userId, accessToken)
 	if httpErr != nil {
 		render.Render(w, r, httpErr)
 		return

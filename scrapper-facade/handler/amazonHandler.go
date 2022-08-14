@@ -33,8 +33,9 @@ func wishlistCtx(next http.Handler) http.Handler {
 
 func scrapWishlist(w http.ResponseWriter, r *http.Request) {
 	whishlistId := r.Context().Value(PARAM_WISHLIST_ID).(string)
+	accessToken := r.Header.Get("Authorization")
 
-	resp, err := scrapperFacadeInstance.ScrapAmazonWishlist(whishlistId)
+	resp, err := scrapperFacadeInstance.ScrapAmazonWishlist(whishlistId, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return

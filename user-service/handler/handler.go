@@ -15,8 +15,8 @@ import (
 var tokenAuth *jwtauth.JWTAuth
 var dbClientInstance clients.DatabaseClient
 
-func NewHandler(tokenSecret string, dbClient clients.DatabaseClient) http.Handler {
-	tokenAuth = jwtauth.New("HS256", []byte(tokenSecret), nil)
+func NewHandler(signKey string, dbClient clients.DatabaseClient) http.Handler {
+	tokenAuth = jwtauth.New("HS256", []byte(signKey), nil)
 	dbClientInstance = dbClient
 	return newRouter()
 }

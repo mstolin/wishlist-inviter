@@ -21,8 +21,10 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	accessToken := r.Header.Get("Authorization")
+
 	// Get all items
-	items, httpErr := dbClientInstance.GetItemsForUser(invitation.UserId, invitation.Items)
+	items, httpErr := dbClientInstance.GetItemsForUser(invitation.UserId, invitation.Items, accessToken)
 	if httpErr != nil {
 		render.Render(w, r, httpErr)
 		return
@@ -32,7 +34,7 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 	invitationMail := msgFactoryInstance.GenInvitationMail(invitation.Recipient, items)
 
 	// Send Invitation
-	resp, httpErr := gmailClientInstance.SendInvitation(invitationMail)
+	resp, httpErr := gmailClientInstance.SendInvitation(invitationMail, accessToken)
 	if httpErr != nil {
 		render.Render(w, r, httpErr)
 		return

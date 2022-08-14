@@ -27,11 +27,11 @@ func NewDatabaseClient(url string) (DatabaseClient, error) {
 }
 
 // Sends a POST request to create a new User without any items.
-func (client DatabaseClient) CreateUser() (models.User, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) CreateUser(accessToken string) (models.User, *httpErrors.ErrorResponse) {
 	user := models.User{}
 
 	url := fmt.Sprintf("%s/users", client.URL)
-	res, err := client.httpFacade.DoPost(url, []byte{}) // send nothing
+	res, err := client.httpFacade.DoPost(url, accessToken, []byte{}) // send nothing
 	if err != nil {
 		return user, err
 	}
@@ -44,11 +44,11 @@ func (client DatabaseClient) CreateUser() (models.User, *httpErrors.ErrorRespons
 }
 
 // Sends a GET request to retrieve a specific user given its ID.
-func (client DatabaseClient) GetUser(userId string) (models.User, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) GetUser(userId, accessToken string) (models.User, *httpErrors.ErrorResponse) {
 	user := models.User{}
 
 	url := fmt.Sprintf("%s/users/%s", client.URL, userId)
-	res, err := client.httpFacade.DoGet(url)
+	res, err := client.httpFacade.DoGet(url, accessToken)
 	if err != nil {
 		return user, err
 	}
@@ -60,11 +60,11 @@ func (client DatabaseClient) GetUser(userId string) (models.User, *httpErrors.Er
 }
 
 // Sends a DELETE request to delete a specific user.
-func (client DatabaseClient) DeleteUser(userId string) (models.User, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) DeleteUser(userId, accessToken string) (models.User, *httpErrors.ErrorResponse) {
 	user := models.User{}
 
 	url := fmt.Sprintf("%s/users/%s", client.URL, userId)
-	res, err := client.httpFacade.DoDelete(url)
+	res, err := client.httpFacade.DoDelete(url, accessToken)
 	if err != nil {
 		return user, err
 	}
@@ -76,11 +76,11 @@ func (client DatabaseClient) DeleteUser(userId string) (models.User, *httpErrors
 }
 
 // Sends a GET request to retrieve all items of a specific user.
-func (client DatabaseClient) GetItemsByUser(userId string) (models.ItemList, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) GetItemsByUser(userId, accessToken string) (models.ItemList, *httpErrors.ErrorResponse) {
 	list := models.ItemList{}
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
-	res, err := client.httpFacade.DoGet(url)
+	res, err := client.httpFacade.DoGet(url, accessToken)
 	if err != nil {
 		return list, err
 	}
@@ -92,7 +92,7 @@ func (client DatabaseClient) GetItemsByUser(userId string) (models.ItemList, *ht
 }
 
 // Sends a POST request to add given Items to a given User.
-func (client DatabaseClient) AddItemsToUser(userId string, items models.ItemList) (models.ItemList, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) AddItemsToUser(userId string, items models.ItemList, accessToken string) (models.ItemList, *httpErrors.ErrorResponse) {
 	addedItems := models.ItemList{}
 	jsonStr, err := json.Marshal(items)
 	if err != nil {
@@ -100,7 +100,7 @@ func (client DatabaseClient) AddItemsToUser(userId string, items models.ItemList
 	}
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
-	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPost(url, accessToken, jsonStr)
 	if httpErr != nil {
 		return addedItems, httpErr
 	}
@@ -112,11 +112,11 @@ func (client DatabaseClient) AddItemsToUser(userId string, items models.ItemList
 }
 
 // Sends a GET request to retrieve a specific Item of a User.
-func (client DatabaseClient) GetItemByUser(userId string, itemId int) (models.Item, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) GetItemByUser(userId string, itemId int, accessToken string) (models.Item, *httpErrors.ErrorResponse) {
 	item := models.Item{}
 
 	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
-	res, err := client.httpFacade.DoGet(url)
+	res, err := client.httpFacade.DoGet(url, accessToken)
 	if err != nil {
 		return item, err
 	}
@@ -128,7 +128,7 @@ func (client DatabaseClient) GetItemByUser(userId string, itemId int) (models.It
 }
 
 // Sends a PUT request to update a specific Item of a User.
-func (client DatabaseClient) UpdateItemByUser(userId string, itemId int, update models.ItemUpdate) (models.Item, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) UpdateItemByUser(userId string, itemId int, update models.ItemUpdate, accessToken string) (models.Item, *httpErrors.ErrorResponse) {
 	updatedItem := models.Item{}
 	jsonStr, err := json.Marshal(update)
 	if err != nil {
@@ -136,7 +136,7 @@ func (client DatabaseClient) UpdateItemByUser(userId string, itemId int, update 
 	}
 
 	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
-	res, httpErr := client.httpFacade.DoPut(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPut(url, accessToken, jsonStr)
 	if httpErr != nil {
 		return updatedItem, httpErr
 	}
@@ -148,11 +148,11 @@ func (client DatabaseClient) UpdateItemByUser(userId string, itemId int, update 
 }
 
 // Sends a DELETE request to delete a specific user.
-func (client DatabaseClient) DeleteItemByUser(userId string, itemId int) (models.Item, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) DeleteItemByUser(userId string, itemId int, accessToken string) (models.Item, *httpErrors.ErrorResponse) {
 	deletedItem := models.Item{}
 
 	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
-	res, err := client.httpFacade.DoDelete(url)
+	res, err := client.httpFacade.DoDelete(url, accessToken)
 	if err != nil {
 		return deletedItem, err
 	}

@@ -26,11 +26,11 @@ func NewDatabaseClient(url string) (DatabaseClient, error) {
 }
 
 // Requests all items of a specific user
-func (client DatabaseClient) GetItemsForUser(userId string, wantedIds []uint) (models.ItemList, *httpErrors.ErrorResponse) {
+func (client DatabaseClient) GetItemsForUser(userId string, wantedIds []uint, accessToken string) (models.ItemList, *httpErrors.ErrorResponse) {
 	items := models.ItemList{}
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
-	res, httpErr := client.httpFacade.DoGet(url)
+	res, httpErr := client.httpFacade.DoGet(url, accessToken)
 	if httpErr != nil {
 		return items, httpErr
 	}

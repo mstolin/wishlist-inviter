@@ -8,7 +8,7 @@ import (
 	"github.com/mstolin/present-roulette/utils/models"
 )
 
-func (facade ScrapperFacade) ScrapAmazonWishlist(wishlistId string) (models.Wishlist, *httpErrors.ErrorResponse) {
+func (facade ScrapperFacade) ScrapAmazonWishlist(wishlistId, accessToken string) (models.Wishlist, *httpErrors.ErrorResponse) {
 	wishlist := models.Wishlist{}
 	if facade.AmazonScrapper == "" {
 		err := fmt.Errorf("can't establish connection to Amazon Scrapper, because AMAZON_SCRAPPER is empty")
@@ -16,7 +16,7 @@ func (facade ScrapperFacade) ScrapAmazonWishlist(wishlistId string) (models.Wish
 	}
 
 	url := fmt.Sprintf("%s/wishlists/%s", facade.AmazonScrapper, wishlistId)
-	res, err := httpFacadeInstance.DoGet(url)
+	res, err := httpFacadeInstance.DoGet(url, accessToken)
 	if err != nil {
 		return wishlist, err
 	}

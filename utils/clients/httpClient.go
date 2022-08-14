@@ -3,6 +3,7 @@ package clients
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -15,12 +16,13 @@ type HTTPFacade struct {
 
 // Sends a request to the given url.
 // If the request is a GET or DELETE request, data can be nil.
-func (facade HTTPFacade) do(method string, url string, data []byte) ([]byte, *httpErrors.ErrorResponse) {
+func (facade HTTPFacade) do(method, url, accessToken string, data []byte) ([]byte, *httpErrors.ErrorResponse) {
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(data))
 	if err != nil {
 		return []byte{}, httpErrors.ErrServerErrorRenderer(err)
 	}
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 
 	resp, err := facade.client.Do(req)
 	if err != nil {
@@ -53,21 +55,21 @@ func NewHTTPFacade() HTTPFacade {
 }
 
 // Sends a POST request to the given url.
-func (facade HTTPFacade) DoPost(url string, data []byte) ([]byte, *httpErrors.ErrorResponse) {
-	return facade.do("POST", url, data)
+func (facade HTTPFacade) DoPost(url, accessToken string, data []byte) ([]byte, *httpErrors.ErrorResponse) {
+	return facade.do("POST", url, accessToken, data)
 }
 
 // Sends a GET request to the given url.
-func (facade HTTPFacade) DoGet(url string) ([]byte, *httpErrors.ErrorResponse) {
-	return facade.do("GET", url, nil)
+func (facade HTTPFacade) DoGet(url, accessToken string) ([]byte, *httpErrors.ErrorResponse) {
+	return facade.do("GET", url, accessToken, nil)
 }
 
 // Sends a PUT request to the given url.
-func (facade HTTPFacade) DoPut(url string, data []byte) ([]byte, *httpErrors.ErrorResponse) {
-	return facade.do("PUT", url, data)
+func (facade HTTPFacade) DoPut(url, accessToken string, data []byte) ([]byte, *httpErrors.ErrorResponse) {
+	return facade.do("PUT", url, accessToken, data)
 }
 
 // Sends a DELETE request to the given url.
-func (facade HTTPFacade) DoDelete(url string) ([]byte, *httpErrors.ErrorResponse) {
-	return facade.do("DELETE", url, nil)
+func (facade HTTPFacade) DoDelete(url, accessToken string) ([]byte, *httpErrors.ErrorResponse) {
+	return facade.do("DELETE", url, accessToken, nil)
 }
