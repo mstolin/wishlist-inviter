@@ -17,13 +17,16 @@ type ErrorDetail struct {
 }
 
 var (
-	ErrMethodNotAllowed = ErrorDetail{Status: 405, Err: "Method Not Allowed", Message: "The target resource doesn't support this method."}
-	ErrDetailNotFound   = ErrorDetail{Status: 404, Err: "Not Found", Message: "The requested resource is not available."}
-	ErrDetailBadRequest = ErrorDetail{Status: 400, Err: "Bad Request", Message: "Received request is invalid."}
+	ErrDetailMethodNotAllowed = ErrorDetail{Status: http.StatusMethodNotAllowed, Err: http.StatusText(http.StatusMethodNotAllowed), Message: "The target resource doesn't support this method."}
+	ErrDetailNotFound         = ErrorDetail{Status: http.StatusNotFound, Err: http.StatusText(http.StatusNotFound), Message: "The requested resource is not available."}
+	ErrDetailUnauthorized     = ErrorDetail{Status: http.StatusUnauthorized, Err: http.StatusText(http.StatusUnauthorized), Message: "You are not authorized to access this resource."}
+	ErrDetailBadRequest       = ErrorDetail{Status: http.StatusBadRequest, Err: http.StatusText(http.StatusBadRequest), Message: "Received request is invalid."}
 )
 var (
-	ErrNotFound   = ErrorResponse{Detail: ErrDetailNotFound}
-	ErrBadRequest = ErrorResponse{Detail: ErrDetailBadRequest}
+	//ErrMethodNotAllowed = ErrorResponse{Detail: ErrMethodNotAllowed}
+	ErrNotFound     = ErrorResponse{Detail: ErrDetailNotFound}
+	ErrUnauthorized = ErrorResponse{Detail: ErrDetailUnauthorized}
+	ErrBadRequest   = ErrorResponse{Detail: ErrDetailBadRequest}
 )
 
 func (e *ErrorResponse) Render(w http.ResponseWriter, r *http.Request) error {
@@ -38,8 +41,8 @@ func (e *ErrorDetail) Render(w http.ResponseWriter, r *http.Request) error {
 func ErrBadRequestRenderer(err error) *ErrorResponse {
 	return &ErrorResponse{
 		Detail: ErrorDetail{
-			Status:  400,
-			Err:     "Bad Request",
+			Status:  http.StatusBadRequest,
+			Err:     http.StatusText(http.StatusBadRequest),
 			Message: err.Error(),
 		},
 	}
@@ -48,8 +51,8 @@ func ErrBadRequestRenderer(err error) *ErrorResponse {
 func ErrNotFoundRenderer(err error) *ErrorResponse {
 	return &ErrorResponse{
 		Detail: ErrorDetail{
-			Status:  404,
-			Err:     "Not Found",
+			Status:  http.StatusNotFound,
+			Err:     http.StatusText(http.StatusNotFound),
 			Message: err.Error(),
 		},
 	}
@@ -58,26 +61,19 @@ func ErrNotFoundRenderer(err error) *ErrorResponse {
 func ErrServerErrorRenderer(err error) *ErrorResponse {
 	return &ErrorResponse{
 		Detail: ErrorDetail{
-			Status:  500,
-			Err:     "Internal Server Error",
+			Status:  http.StatusInternalServerError,
+			Err:     http.StatusText(http.StatusInternalServerError),
 			Message: err.Error(),
 		},
 	}
 }
 
-/*func ErrorRenderer(err error) *ErrorResponse {
+func ErrUnauthorizedRenderer(err error) *ErrorResponse {
 	return &ErrorResponse{
-		Err:        err,
-		StatusCode: 400,
-		StatusText: "Bad request",
-		Message:    err.Error(),
+		Detail: ErrorDetail{
+			Status:  http.StatusUnauthorized,
+			Err:     http.StatusText(http.StatusUnauthorized),
+			Message: err.Error(),
+		},
 	}
 }
-func ServerErrorRenderer(err error) *ErrorResponse {
-	return &ErrorResponse{
-		Err:        err,
-		StatusCode: 500,
-		StatusText: "Internal server error",
-		Message:    err.Error(),
-	}
-}*/
