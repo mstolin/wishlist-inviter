@@ -106,7 +106,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n    {\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84\n    },\n    {\n        \"id\": 4,\n        \"created_at\": \"2022-06-26T16:56:06.633983Z\",\n        \"updated_at\": \"2022-06-26T16:56:06.633983Z\",\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8,\n        \"vendor\": \"amazon\",\n        \"vendor_id\": \"IP0OBIK4UO9AG\"\n    }\n]",
+									"raw": "[\n    {\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84,\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\"\n    },\n    {\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8,\n        \"vendor\": \"amazon\",\n        \"vendor_id\": \"IP0OBIK4UO9AG\"\n    }\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -184,7 +184,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [12, 13]\n}",
+									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [1, 2]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -213,39 +213,123 @@
 			"name": "User-Service",
 			"item": [
 				{
-					"name": "Items",
+					"name": "Users",
 					"item": [
 						{
-							"name": "Single Item",
+							"name": "Items",
 							"item": [
 								{
-									"name": "Get Item",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
-											"host": [
-												"{{USER-SERVICE}}"
-											],
-											"path": [
-												"users",
-												"{{USER-ID}}",
-												"items",
-												"{{ITEM-ID}}"
-											]
+									"name": "Single Item",
+									"item": [
+										{
+											"name": "Get Item",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+													"host": [
+														"{{USER-SERVICE}}"
+													],
+													"path": [
+														"users",
+														"{{USER-ID}}",
+														"items",
+														"{{ITEM-ID}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update Item",
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"name\": \"Hario V60 Glass Coffee Dripper\",\n    \"price\": 50.8,\n    \"vendor_id\": \"IP0OBIK4UO9AG\",\n    \"has_been_baught\": false\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+													"host": [
+														"{{USER-SERVICE}}"
+													],
+													"path": [
+														"users",
+														"{{USER-ID}}",
+														"items",
+														"{{ITEM-ID}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete Item",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+													"host": [
+														"{{USER-SERVICE}}"
+													],
+													"path": [
+														"users",
+														"{{USER-ID}}",
+														"items",
+														"{{ITEM-ID}}"
+													]
+												}
+											},
+											"response": []
 										}
+									],
+									"auth": {
+										"type": "bearer",
+										"bearer": [
+											{
+												"key": "token",
+												"value": "{{ACCESS_TOKEN}}",
+												"type": "string"
+											}
+										]
 									},
-									"response": []
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
 								},
 								{
-									"name": "Update Item",
+									"name": "Create/Add Items",
 									"request": {
-										"method": "PUT",
+										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\": \"Hario V60 Glass Coffee Dripper\",\n    \"price\": 50.8,\n    \"vendor_id\": \"IP0OBIK4UO9AG\",\n    \"has_been_baught\": false\n}",
+											"raw": "[\n    {\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84\n    },\n    {\n        \"vendor_id\": \"IP0OBIK4UO9AG\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8\n    }\n]",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -253,7 +337,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/",
 											"host": [
 												"{{USER-SERVICE}}"
 											],
@@ -261,27 +345,26 @@
 												"users",
 												"{{USER-ID}}",
 												"items",
-												"{{ITEM-ID}}"
+												""
 											]
 										}
 									},
 									"response": []
 								},
 								{
-									"name": "Delete Item",
+									"name": "Get Items",
 									"request": {
-										"method": "DELETE",
+										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items",
 											"host": [
 												"{{USER-SERVICE}}"
 											],
 											"path": [
 												"users",
 												"{{USER-ID}}",
-												"items",
-												"{{ITEM-ID}}"
+												"items"
 											]
 										}
 									},
@@ -290,103 +373,134 @@
 							]
 						},
 						{
-							"name": "Create/Add Items",
+							"name": "Create User",
 							"request": {
 								"method": "POST",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "[\n    {\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84\n    },\n    {\n        \"vendor_id\": \"IP0OBIK4UO9AG\",\n        \"vendor\": \"amazon\",\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8\n    }\n]",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/",
+									"raw": "{{USER-SERVICE}}/users",
 									"host": [
 										"{{USER-SERVICE}}"
 									],
 									"path": [
-										"users",
-										"{{USER-ID}}",
-										"items",
-										""
+										"users"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Get Items",
+							"name": "Get User Info",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items",
+									"raw": "{{USER-SERVICE}}/users/{{USER-ID}}",
 									"host": [
 										"{{USER-SERVICE}}"
 									],
 									"path": [
 										"users",
-										"{{USER-ID}}",
-										"items"
+										"{{USER-ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{USER-SERVICE}}/users/{{USER-ID}}",
+									"host": [
+										"{{USER-SERVICE}}"
+									],
+									"path": [
+										"users",
+										"{{USER-ID}}"
 									]
 								}
 							},
 							"response": []
 						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{ACCESS-TOKEN}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
 					]
 				},
 				{
-					"name": "Create User",
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Has access token\", function () {",
+									"    pm.response.to.be.ok;",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"",
+									"    const jsonData = pm.response.json();",
+									"    const accessToken = jsonData[\"access_token\"]",
+									"    console.log(accessToken)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"{{USER-ID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{USER-SERVICE}}/users",
+							"raw": "{{USER-SERVICE}}/auth",
 							"host": [
 								"{{USER-SERVICE}}"
 							],
 							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User Info",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{USER-SERVICE}}/users/{{USER-ID}}",
-							"host": [
-								"{{USER-SERVICE}}"
-							],
-							"path": [
-								"users",
-								"{{USER-ID}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete User",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{USER-SERVICE}}/users/{{USER-ID}}",
-							"host": [
-								"{{USER-SERVICE}}"
-							],
-							"path": [
-								"users",
-								"{{USER-ID}}"
+								"auth"
 							]
 						}
 					},
@@ -577,6 +691,36 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{ACCESS-TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -666,6 +810,36 @@
 						}
 					]
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{ACCESS-TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -697,6 +871,36 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{ACCESS-TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -709,7 +913,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [12, 13]\n}",
+							"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [1]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -727,6 +931,36 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{ACCESS-TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
@@ -789,7 +1023,12 @@
 		},
 		{
 			"key": "USER-ID",
-			"value": "dbc055a6-6375-4708-a635-50588afdec8d",
+			"value": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7",
+			"type": "default"
+		},
+		{
+			"key": "ACCESS-TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGE4YzNiMjQtODk5Ny00M2ZjLWI0YjItODY0ODJiM2Y3MGU3In0._VbNitzmxmlnYwoGvYqrlzTp7QqJU25RXsxDqcn_wUE",
 			"type": "default"
 		},
 		{
