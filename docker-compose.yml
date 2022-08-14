@@ -59,6 +59,8 @@ services:
                 - SERVICE_PROJECT_PATH=./user-service
         environment:
             - DATABASE_ADAPTER=http://database-adapter:8080
+        env_file:
+            - env/JWT.env
         ports: "8071:8080"
         restart: always
         depends_on:
@@ -80,6 +82,8 @@ services:
             - GMAIL_ADAPTER=http://gmail-adapter:8080
             - DATABASE_ADAPTER=http://database-adapter:8080
             - SENDER_MAIL=marcelstolin@gmail.com
+        env_file:
+            - env/JWT.env
         depends_on:
             - gmail-adapter
             - database-adapter
@@ -100,6 +104,8 @@ services:
             - "8022:8080"
         environment:
             - AMAZON_SCRAPPER=http://amazon-adapter:8080
+        env_file:
+            - env/JWT.env
         depends_on:
             - amazon-adapter
         restart: always
@@ -124,6 +130,8 @@ services:
             - DB_USER=admin
             - DB_PASSWORD=admin123
             - DB_NAME=present-roulette
+        env_file:
+            - env/JWT.env
         depends_on:
             - database
         ports: "8061:8080"
@@ -146,6 +154,8 @@ services:
         environment:
             - GMAIL_HOST=smtp.gmail.com
             - GMAIL_PORT=587
+        env_file:
+            - env/JWT.env
         restart: always
         networks:
             - gmail-adapter-network
@@ -156,6 +166,8 @@ services:
             - "8042:8080"
         environment:
             - AMAZON_URL=http://amazon-clone:8041
+        env_file:
+            - env/JWT.env
         restart: always
         depends_on:
             - amazon-clone
