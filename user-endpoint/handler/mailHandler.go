@@ -22,7 +22,8 @@ func sendInvitation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := mailClientInstance.SendInvitation(invitationReq)
+	accessToken := r.Header.Get("Authorization")
+	resp, err := mailClientInstance.SendInvitation(invitationReq, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return

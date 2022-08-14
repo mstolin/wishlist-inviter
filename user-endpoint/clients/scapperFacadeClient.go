@@ -28,11 +28,11 @@ func NewScrapperFacadeClient(url string) (ScrapperFacadeClient, error) {
 }
 
 // Sends a request to the item service to import all items from an Amazon wishlist
-func (client ScrapperFacadeClient) ImportAmazonWishlist(wishlistId string) (models.Wishlist, *httpErrors.ErrorResponse) {
+func (client ScrapperFacadeClient) ImportAmazonWishlist(wishlistId, accessToken string) (models.Wishlist, *httpErrors.ErrorResponse) {
 	wishlist := models.Wishlist{}
 
 	url := fmt.Sprintf("%s/amazon/wishlists/%s", client.URL, wishlistId)
-	res, err := client.httpFacade.DoGet(url)
+	res, err := client.httpFacade.DoGet(url, accessToken)
 	if err != nil {
 		return wishlist, err
 	}

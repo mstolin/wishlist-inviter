@@ -36,8 +36,9 @@ func wishlistCtx(nxt http.Handler) http.Handler {
 
 func importWishlist(w http.ResponseWriter, r *http.Request) {
 	wishlistId := r.Context().Value(WISHLIST_ID_KEY).(string)
+	accessToken := r.Header.Get("Authorization")
 
-	wishlist, err := scrapperFacadeInstance.ImportAmazonWishlist(wishlistId)
+	wishlist, err := scrapperFacadeInstance.ImportAmazonWishlist(wishlistId, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return

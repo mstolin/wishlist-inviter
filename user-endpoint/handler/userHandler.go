@@ -66,8 +66,8 @@ func itemCtx(nxt http.Handler) http.Handler {
 }
 
 func createUser(w http.ResponseWriter, r *http.Request) {
-	// Create User
-	resp, err := userClientInstance.CreateEmptyUser()
+	accessToken := r.Header.Get("Authorization")
+	resp, err := userClientInstance.CreateEmptyUser(accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return
@@ -81,7 +81,9 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
-	user, err := userClientInstance.GetUser(userId)
+	accessToken := r.Header.Get("Authorization")
+
+	user, err := userClientInstance.GetUser(userId, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return
@@ -94,7 +96,9 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 
 func getUserItems(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
-	itemLst, err := userClientInstance.GetUserItems(userId)
+	accessToken := r.Header.Get("Authorization")
+
+	itemLst, err := userClientInstance.GetUserItems(userId, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return
@@ -116,7 +120,8 @@ func addUserItems(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	itemLst, err := userClientInstance.AddUserItems(userId, itemLstReq)
+	accessToken := r.Header.Get("Authorization")
+	itemLst, err := userClientInstance.AddUserItems(userId, itemLstReq, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return
@@ -138,8 +143,9 @@ func updateItem(w http.ResponseWriter, r *http.Request) {
 
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	itemId := r.Context().Value(ITEM_ID_KEY).(int)
+	accessToken := r.Header.Get("Authorization")
 
-	item, err := userClientInstance.UpdateItem(userId, itemId, update)
+	item, err := userClientInstance.UpdateItem(userId, itemId, update, accessToken)
 	if err != nil {
 		render.Render(w, r, err)
 		return

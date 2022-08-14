@@ -27,7 +27,7 @@ func NewMailClient(url string) (MailClient, error) {
 }
 
 // Sends an request to the mail service to send an invitation
-func (client MailClient) SendInvitation(invitation models.Invitation) (models.Mail, *httpErrors.ErrorResponse) {
+func (client MailClient) SendInvitation(invitation models.Invitation, accessToken string) (models.Mail, *httpErrors.ErrorResponse) {
 	mailRes := models.Mail{}
 	jsonStr, err := json.Marshal(invitation)
 	if err != nil {
@@ -35,7 +35,7 @@ func (client MailClient) SendInvitation(invitation models.Invitation) (models.Ma
 	}
 
 	url := fmt.Sprintf("%s/invitations", client.URL)
-	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPost(url, accessToken, jsonStr)
 	if httpErr != nil {
 		return mailRes, httpErr
 	}

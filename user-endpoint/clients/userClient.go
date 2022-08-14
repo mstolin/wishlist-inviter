@@ -28,7 +28,7 @@ func NewUserClient(url string) (UserClient, error) {
 }
 
 // Sends a request to the user server to create an empty user.
-func (client UserClient) CreateEmptyUser() (models.User, *httpErrors.ErrorResponse) {
+func (client UserClient) CreateEmptyUser(accessToken string) (models.User, *httpErrors.ErrorResponse) {
 	user := models.User{}
 	url := fmt.Sprintf("%s/users", client.URL)
 
@@ -36,7 +36,7 @@ func (client UserClient) CreateEmptyUser() (models.User, *httpErrors.ErrorRespon
 	if err != nil {
 		return user, httpErrors.ErrBadRequestRenderer(err)
 	}
-	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPost(url, accessToken, jsonStr)
 	if httpErr != nil {
 		return user, httpErr
 	}
@@ -48,11 +48,11 @@ func (client UserClient) CreateEmptyUser() (models.User, *httpErrors.ErrorRespon
 }
 
 // Sends a GET request to the user service to receive the user given the ID.
-func (client UserClient) GetUser(userId string) (models.User, *httpErrors.ErrorResponse) {
+func (client UserClient) GetUser(userId, accessToken string) (models.User, *httpErrors.ErrorResponse) {
 	user := models.User{}
 	url := fmt.Sprintf("%s/users/%s", client.URL, userId)
 
-	res, err := client.httpFacade.DoGet(url)
+	res, err := client.httpFacade.DoGet(url, accessToken)
 	if err != nil {
 		return user, err
 	}
@@ -64,11 +64,11 @@ func (client UserClient) GetUser(userId string) (models.User, *httpErrors.ErrorR
 }
 
 // Returns all items of a specific user.
-func (client UserClient) GetUserItems(userId string) (models.ItemList, *httpErrors.ErrorResponse) {
+func (client UserClient) GetUserItems(userId, accessToken string) (models.ItemList, *httpErrors.ErrorResponse) {
 	itemLst := models.ItemList{}
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
 
-	res, err := client.httpFacade.DoGet(url)
+	res, err := client.httpFacade.DoGet(url, accessToken)
 	if err != nil {
 		return itemLst, err
 	}
@@ -80,7 +80,7 @@ func (client UserClient) GetUserItems(userId string) (models.ItemList, *httpErro
 }
 
 // Adds an item list to a specific user.
-func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (models.ItemList, *httpErrors.ErrorResponse) {
+func (client UserClient) AddUserItems(userId string, itemLst []models.Item, accessToken string) (models.ItemList, *httpErrors.ErrorResponse) {
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
 
 	jsonStr, err := json.Marshal(itemLst)
@@ -88,7 +88,7 @@ func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (mod
 		return itemLst, httpErrors.ErrBadRequestRenderer(err)
 	}
 
-	res, httpErr := client.httpFacade.DoPost(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPost(url, accessToken, jsonStr)
 	if httpErr != nil {
 		return itemLst, httpErr
 	}
@@ -100,7 +100,7 @@ func (client UserClient) AddUserItems(userId string, itemLst []models.Item) (mod
 }
 
 // Updates an item based on the givne update model
-func (client UserClient) UpdateItem(userId string, itemId int, update models.ItemUpdate) (models.Item, *httpErrors.ErrorResponse) {
+func (client UserClient) UpdateItem(userId string, itemId int, update models.ItemUpdate, accessToken string) (models.Item, *httpErrors.ErrorResponse) {
 	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
 	var item models.Item
 
@@ -109,7 +109,7 @@ func (client UserClient) UpdateItem(userId string, itemId int, update models.Ite
 		return item, httpErrors.ErrBadRequestRenderer(err)
 	}
 
-	res, httpErr := client.httpFacade.DoPut(url, jsonStr)
+	res, httpErr := client.httpFacade.DoPut(url, accessToken, jsonStr)
 	if httpErr != nil {
 		return item, httpErr
 	}
