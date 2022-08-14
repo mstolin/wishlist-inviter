@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/jwtauth/v5"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
+	"github.com/mstolin/present-roulette/utils/httpMiddleware"
 )
 
 const USER_ID_KEY = "userId"
@@ -23,7 +24,7 @@ func userHandler(r chi.Router) {
 	// restricted endpoints
 	r.Group(func(r chi.Router) {
 		r.Use(jwtauth.Verifier(tokenAuth))
-		r.Use(jwtauth.Authenticator)
+		r.Use(httpMiddleware.JSONAuthenticator)
 
 		r.Route("/{userId}", func(r chi.Router) {
 			r.Use(userCtx)

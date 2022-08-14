@@ -11,6 +11,7 @@ import (
 	"github.com/mstolin/present-roulette/mail-service/gmail"
 	"github.com/mstolin/present-roulette/mail-service/messages"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
+	"github.com/mstolin/present-roulette/utils/httpMiddleware"
 )
 
 var tokenAuth *jwtauth.JWTAuth
@@ -34,7 +35,7 @@ func newRouter() http.Handler {
 	r.NotFound(notFoundHandler)
 	r.Group(func(r chi.Router) {
 		r.Use(jwtauth.Verifier(tokenAuth))
-		r.Use(jwtauth.Authenticator)
+		r.Use(httpMiddleware.JSONAuthenticator)
 		r.Route("/invitations", invitationHandler)
 	})
 	return r
