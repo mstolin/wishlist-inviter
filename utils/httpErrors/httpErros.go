@@ -23,10 +23,10 @@ var (
 	ErrDetailBadRequest       = ErrorDetail{Status: http.StatusBadRequest, Err: http.StatusText(http.StatusBadRequest), Message: "Received request is invalid."}
 )
 var (
-	//ErrMethodNotAllowed = ErrorResponse{Detail: ErrMethodNotAllowed}
-	ErrNotFound     = ErrorResponse{Detail: ErrDetailNotFound}
-	ErrUnauthorized = ErrorResponse{Detail: ErrDetailUnauthorized}
-	ErrBadRequest   = ErrorResponse{Detail: ErrDetailBadRequest}
+	ErrMethodNotAllowed = ErrorResponse{Detail: ErrDetailMethodNotAllowed}
+	ErrNotFound         = ErrorResponse{Detail: ErrDetailNotFound}
+	ErrUnauthorized     = ErrorResponse{Detail: ErrDetailUnauthorized}
+	ErrBadRequest       = ErrorResponse{Detail: ErrDetailBadRequest}
 )
 
 func (e *ErrorResponse) Render(w http.ResponseWriter, r *http.Request) error {
