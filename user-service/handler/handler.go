@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -49,8 +50,12 @@ func auth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userObj := map[string]interface{}{"user_id": authObj.UserId}
-	_, accessToken, err := tokenAuth.Encode(userObj)
+	// create claims
+	claims := map[string]interface{}{}
+	jwtauth.SetIssuedNow(claims)
+	jwtauth.SetExpiryIn(claims, 86400*time.Second) // Expires in one day
+
+	_, accessToken, err := tokenAuth.Encode(claims)
 	if err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
