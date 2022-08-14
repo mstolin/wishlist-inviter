@@ -65,11 +65,13 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 func getUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	accessToken := r.Header.Get("Authorization")
+
 	user, httpErr := dbClientInstance.GetUser(userId, accessToken)
 	if httpErr != nil {
 		render.Render(w, r, httpErr)
 		return
 	}
+
 	if err := render.Render(w, r, &user); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
