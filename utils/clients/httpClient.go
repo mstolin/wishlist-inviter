@@ -3,7 +3,6 @@ package clients
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -16,13 +15,14 @@ type HTTPFacade struct {
 
 // Sends a request to the given url.
 // If the request is a GET or DELETE request, data can be nil.
+// Important: The access token has to start with Bearer.
 func (facade HTTPFacade) do(method, url, accessToken string, data []byte) ([]byte, *httpErrors.ErrorResponse) {
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(data))
 	if err != nil {
 		return []byte{}, httpErrors.ErrServerErrorRenderer(err)
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", accessToken))
+	req.Header.Add("Authorization", accessToken)
 
 	resp, err := facade.client.Do(req)
 	if err != nil {
