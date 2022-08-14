@@ -20,6 +20,10 @@ func main() {
 	if !exists {
 		address = ":8080"
 	}
-	httpHandler := handler.NewHandler(scrapperFacade)
+	signKey, exists := os.LookupEnv("JWT_SIGN_KEY")
+	if !exists {
+		log.Fatalf("No sign key given\n")
+	}
+	httpHandler := handler.NewHandler(signKey, scrapperFacade)
 	http.ListenAndServe(address, httpHandler)
 }

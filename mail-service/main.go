@@ -35,6 +35,10 @@ func main() {
 	if !exists {
 		address = ":8080"
 	}
-	httpHandler := handler.NewHandler(gmailClient, dbClient, msgFactory)
+	signKey, exists := os.LookupEnv("JWT_SIGN_KEY")
+	if !exists {
+		log.Fatalf("No sign key given\n")
+	}
+	httpHandler := handler.NewHandler(signKey, gmailClient, dbClient, msgFactory)
 	http.ListenAndServe(address, httpHandler)
 }

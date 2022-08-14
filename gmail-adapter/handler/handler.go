@@ -5,24 +5,41 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/jwtauth/v5"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/gmail-adapter/mail"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
 )
 
+var tokenAuth *jwtauth.JWTAuth
 var smtpClientInstance mail.SMTPClient
 
-func NewHandler(smtpClient mail.SMTPClient) http.Handler {
+func NewHandler(signKey string, smtpClient mail.SMTPClient) http.Handler {
+	tokenAuth = jwtauth.New("HS256", []byte(signKey), nil)
 	smtpClientInstance = smtpClient
-	router := chi.NewRouter()
-	router.Use(middleware.Logger)
-	router.Use(render.SetContentType(render.ContentTypeJSON))
-	router.NotFound(notFoundHandler)
-	router.Route("/mail", mailHandler)
-	return router
+	return newRouter()
+}
+
+func newRouter() http.Handler {
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Use(render.SetContentType(render.ContentTypeJSON))
+	r.NotFound(notFoundHandler)
+	r.MethodNotAllowed(methodNotAllowedHandler)
+	r.Group(func(r chi.Router) {
+		r.Use(jwtauth.Verifier(tokenAuth))
+		r.Use(jwtauth.Authenticator)
+		r.Route("/mail", mailHandler)
+	})
+	return r
 }
 
 func notFoundHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(404)
 	render.Render(writer, request, &httpErrors.ErrNotFound)
+}
+
+func methodNotAllowedHandler(writer http.ResponseWriter, request *http.Request) {
+	writer.WriteHeader(405)
+	render.Render(writer, request, &httpErrors.ErrMethodNotAllowed)
 }

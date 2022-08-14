@@ -40,7 +40,11 @@ func main() {
 			dbUser, dbHost, dbPort, dbName)
 	}
 
-	httpHandler := handler.NewHandler(database)
+	signKey, exists := os.LookupEnv("JWT_SIGN_KEY")
+	if !exists {
+		log.Fatalf("No sign key given\n")
+	}
+	httpHandler := handler.NewHandler(signKey, database)
 	server := &http.Server{
 		Handler: httpHandler,
 	}
