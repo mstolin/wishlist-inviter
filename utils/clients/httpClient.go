@@ -36,7 +36,7 @@ func (facade HTTPFacade) do(method, url, accessToken string, data []byte) ([]byt
 	}
 
 	// A non 2xx status does not cause an error
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		errResp := httpErrors.ErrorResponse{}
 		if err := json.Unmarshal(body, &errResp); err != nil {
 			return body, httpErrors.ErrServerErrorRenderer(err)
