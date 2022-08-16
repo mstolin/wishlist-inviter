@@ -19,12 +19,18 @@ This endpoint is used to generate an invitation message, for one or more product
 Then it will be redirected to the *Gmail-Adapter* and send to the recipient who is
 supposed to buy the products.
 
-If the request is invalid, a 400 error is send.
-Otherwise, a 500 error is send.
+If the request is invalid, a 400 error is send. For an unauthorized client, a 401
+error is responded. Otherwise, a 500 error is send.
 
 ### Send Invitation [POST]
 
 + Request (application/json)
+
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
+    + Body
 
         {
             "recipient": "recipient@domain.tld",
@@ -47,6 +53,16 @@ Otherwise, a 500 error is send.
                 "error": "Bad Request",
                 "message": "GENERIC ERROR MESSAGE"
             } 
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
 
 + Response 500

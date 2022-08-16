@@ -6,7 +6,7 @@ What is this about
 
 ## Architecture
 
-![Architecture](architecture.png)
+![Architecture](./img/architecture.png)
 
 The architecture of this project is separated in 4
 different layers.
@@ -30,7 +30,7 @@ resources ***THIS IS WRONG***.
 
 - [User-Endpoint](./user-endpoint.md)
 - [User-Service](./user-service.md)
-- [Wishlist-Service](./wishlist-service.md)
+- [Scrapper-Facade](./scrapper-facade.md)
 - [Mail-Service](./mail-service.md)
 - [GMail-Adapter](./gmail-adapter.md)
 - [Database-Adapter](./database-adapter.md)

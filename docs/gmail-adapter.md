@@ -12,12 +12,18 @@ It requires a simple JSON request, given the recipient of the mail, the subject,
 and the mail body.
 Usually this information should be generated via the [Mail-Servive](./mail-service.md).
 
-If the given request is invalid, the endpoint responds a 400 error.
-If any other error will occur, a 500 error is send.
+If the given request is invalid, the endpoint responds a 400 error. Unauthorized clients
+will receive a 401 error. If any other error will occur, a 500 error is send.
 
 ### Send Mail [GET]
 
 + Request (application/json)
+
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
+    + Body
 
         {
             "recipient": "recipient@domain.tld",
@@ -39,6 +45,16 @@ If any other error will occur, a 500 error is send.
                 "error": "Bad Request",
                 "message": "GENERIC ERROR MESSAGE"
             } 
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
 
 + Response 500

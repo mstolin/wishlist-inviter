@@ -28,6 +28,12 @@ To create a new user, just send an empty json request.
 
 + Request (application/json)
 
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
+    + Body
+
         {}
 
 + Response 200 (application/json)
@@ -47,6 +53,16 @@ To create a new user, just send an empty json request.
                 "error": "Bad Request",
                 "message": "GENERIC ERROR MESSAGE"
             } 
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
 
 + Response 500 (application/json)
@@ -74,6 +90,12 @@ For any other error that happens on the server side, a
 
 ### Get a specific User [GET]
 
++ Request (application/json)
+
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
 + Response 200 (application/json)
 
         {
@@ -102,6 +124,16 @@ For any other error that happens on the server side, a
                     "has_been_baught": false
                 }
             ]
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
 
 + Response 404 (application/json)
@@ -126,6 +158,12 @@ For any other error that happens on the server side, a
             
 ### Delete a specific User [DELETE]
 
++ Request (application/json)
+
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
 + Response 200 (application/json)
 
         {
@@ -154,6 +192,16 @@ For any other error that happens on the server side, a
                     "has_been_baught": false
                 }
             ]
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
 
 + Response 404 (application/json)
@@ -192,6 +240,12 @@ Otherwise, for any other error, the server responds with a 500 error.
 
 + Request (application/json)
 
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
+    + Body
+
         [
             {
                 "name": "Hades [Nintendo Switch]",
@@ -247,6 +301,16 @@ Otherwise, for any other error, the server responds with a 500 error.
             } 
         }
 
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
+        }
+
 + Response 404 (application/json)
 
         {
@@ -268,6 +332,12 @@ Otherwise, for any other error, the server responds with a 500 error.
         }
 
 ### Get all Items of a User [GET]
+
++ Request (application/json)
+
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
 + Response 200 (application/json)
 
@@ -303,6 +373,16 @@ Otherwise, for any other error, the server responds with a 500 error.
                 "has_been_baught": false
             }
         ]
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
+        }
 
 + Response 404 (application/json)
 
@@ -337,9 +417,11 @@ errors.
         
 ### Delete a specific Item [DELETE]
 
-This endpoint deletes the item with the given id.
-After a successful delete operation, it will response with
-the deleted Item object.
++ Request (application/json)
+
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
 + Response 200 (application/json)
 
@@ -352,6 +434,16 @@ the deleted Item object.
             "vendor": "amazon",
             "vendor_id":"I37NVYF3F7GSV1",
             "has_been_baught": false
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
 
 + Response 404 (application/json)
@@ -376,6 +468,12 @@ the deleted Item object.
 
 ### Get a specific Item [GET]
 
++ Request (application/json)
+
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
 + Response 200 (application/json)
 
         {
@@ -387,6 +485,16 @@ the deleted Item object.
             "vendor": "amazon",
             "vendor_id":"I37NVYF3F7GSV1",
             "has_been_baught": false
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
 
 + Response 404 (application/json)
@@ -412,6 +520,12 @@ the deleted Item object.
 ### Update a specific Item [PUT]
 
 + Request (application/json)
+
+    + Headers
+
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
+    + Body
 
         {
             "name": "Hades [Nintendo Switch]",
@@ -442,6 +556,16 @@ the deleted Item object.
                 "error": "Bad Request",
                 "message": "GENERIC ERROR MESSAGE"
             } 
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
+            }
         }
 
 + Response 404 (application/json)
