@@ -14,11 +14,13 @@ import (
 var scrapperFacadeInstance clients.ScrapperFacadeClient
 var mailClientInstance clients.MailClient
 var userClientInstance clients.UserClient
+var authClientInstance clients.AuthClient
 
-func NewHandler(userClient clients.UserClient, mailClient clients.MailClient, scrapperFacade clients.ScrapperFacadeClient) http.Handler {
+func NewHandler(userClient clients.UserClient, authClient clients.AuthClient, mailClient clients.MailClient, scrapperFacade clients.ScrapperFacadeClient) http.Handler {
 	scrapperFacadeInstance = scrapperFacade
 	mailClientInstance = mailClient
 	userClientInstance = userClient
+	authClientInstance = authClient
 
 	return newRouter()
 }
@@ -41,6 +43,7 @@ func newRouter() http.Handler {
 	r.Route("/users", userHandler)
 	r.Route("/items", itemHandler)
 	r.Route("/mail", mailHandler)
+	r.Route("/auth", authHandler)
 
 	return r
 }

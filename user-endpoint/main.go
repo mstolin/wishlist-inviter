@@ -10,21 +10,26 @@ import (
 )
 
 func main() {
-	userClient, mailClient, wishlistClient := initClients()
+	userClient, authClient, mailClient, wishlistClient := initClients()
 
 	address, exists := os.LookupEnv("ADDRESS")
 	if !exists {
 		address = ":8080"
 	}
-	httpHandler := handler.NewHandler(userClient, mailClient, wishlistClient)
+	httpHandler := handler.NewHandler(userClient, authClient, mailClient, wishlistClient)
 	http.ListenAndServe(address, httpHandler)
 }
 
-func initClients() (clients.UserClient, clients.MailClient, clients.ScrapperFacadeClient) {
+func initClients() (clients.UserClient, clients.AuthClient, clients.MailClient, clients.ScrapperFacadeClient) {
 	userServiceUrl := os.Getenv("USER_SERVICE")
 	userClient, err := clients.NewUserClient(userServiceUrl)
 	if err != nil {
 		log.Fatalf("Could not init UserClient: %v", err)
+	}
+
+	authClient, err := clients.NewAuthClient(userServiceUrl)
+	if err != nil {
+		log.Fatalf("Could not init AuthClient: %v", err)
 	}
 
 	mailServiceUrl := os.Getenv("MAIL_SERVICE")
@@ -39,5 +44,5 @@ func initClients() (clients.UserClient, clients.MailClient, clients.ScrapperFaca
 		log.Fatalf("Could not init ScrapperFacade: %v", err)
 	}
 
-	return userClient, mailClient, wishlistClient
+	return userClient, authClient, mailClient, wishlistClient
 }
