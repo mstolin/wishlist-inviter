@@ -20,6 +20,7 @@ func userHandler(r chi.Router) {
 	r.Route("/{userId}", func(r chi.Router) {
 		r.Use(userCtx)
 		r.Get("/", getUser)
+		r.Delete("/", deleteUser)
 
 		r.Route("/items", func(r chi.Router) {
 			r.Get("/", getUserItems)
@@ -27,7 +28,9 @@ func userHandler(r chi.Router) {
 
 			r.Route("/{itemId}", func(r chi.Router) {
 				r.Use(itemCtx)
-				r.Put("/", updateItem)
+				r.Get("/", getUserItem)
+				r.Put("/", updateUserItem)
+				r.Delete("/", deleteUserItem)
 			})
 		})
 	})
@@ -94,6 +97,21 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func deleteUser(w http.ResponseWriter, r *http.Request) {
+	userId := r.Context().Value(USER_ID_KEY).(string)
+	accessToken := r.Header.Get("Authorization")
+
+	user, err := userClientInstance.DeleteUser(userId, accessToken)
+	if err != nil {
+		render.Render(w, r, err)
+		return
+	}
+	if err := render.Render(w, r, &user); err != nil {
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
+		return
+	}
+}
+
 func getUserItems(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value(USER_ID_KEY).(string)
 	accessToken := r.Header.Get("Authorization")
@@ -134,7 +152,41 @@ func addUserItems(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func updateItem(w http.ResponseWriter, r *http.Request) {
+func getUserItem(w http.ResponseWriter, r *http.Request) {
+	userId := r.Context().Value(USER_ID_KEY).(string)
+	itemId := r.Context().Value(ITEM_ID_KEY).(int)
+	accessToken := r.Header.Get("Authorization")
+
+	item, err := userClientInstance.GetItem(userId, itemId, accessToken)
+	if err != nil {
+		render.Render(w, r, err)
+		return
+	}
+
+	if err := render.Render(w, r, &item); err != nil {
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
+		return
+	}
+}
+
+func deleteUserItem(w http.ResponseWriter, r *http.Request) {
+	userId := r.Context().Value(USER_ID_KEY).(string)
+	itemId := r.Context().Value(ITEM_ID_KEY).(int)
+	accessToken := r.Header.Get("Authorization")
+
+	item, err := userClientInstance.DeleteItem(userId, itemId, accessToken)
+	if err != nil {
+		render.Render(w, r, err)
+		return
+	}
+
+	if err := render.Render(w, r, &item); err != nil {
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
+		return
+	}
+}
+
+func updateUserItem(w http.ResponseWriter, r *http.Request) {
 	update := models.ItemUpdate{}
 	if err := render.Bind(r, &update); err != nil {
 		render.Render(w, r, httpErrors.ErrBadRequestRenderer(err))

@@ -63,6 +63,22 @@ func (client UserClient) GetUser(userId, accessToken string) (models.User, *http
 	return user, nil
 }
 
+// Sends a DELETE request to delete the wanted user
+func (client UserClient) DeleteUser(userId, accessToken string) (models.User, *httpErrors.ErrorResponse) {
+	user := models.User{}
+	url := fmt.Sprintf("%s/users/%s", client.URL, userId)
+
+	res, err := client.httpFacade.DoDelete(url, accessToken)
+	if err != nil {
+		return user, err
+	}
+
+	if err := json.Unmarshal(res, &user); err != nil {
+		return user, httpErrors.ErrBadRequestRenderer(err)
+	}
+	return user, nil
+}
+
 // Returns all items of a specific user.
 func (client UserClient) GetUserItems(userId, accessToken string) (models.ItemList, *httpErrors.ErrorResponse) {
 	itemLst := models.ItemList{}
@@ -99,7 +115,39 @@ func (client UserClient) AddUserItems(userId string, itemLst []models.Item, acce
 	return itemLst, nil
 }
 
-// Updates an item based on the givne update model
+// Get a specific item of a user
+func (client UserClient) GetItem(userId string, itemId int, accessToken string) (models.Item, *httpErrors.ErrorResponse) {
+	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
+	var item models.Item
+
+	res, httpErr := client.httpFacade.DoGet(url, accessToken)
+	if httpErr != nil {
+		return item, httpErr
+	}
+
+	if err := json.Unmarshal(res, &item); err != nil {
+		return item, httpErrors.ErrBadRequestRenderer(err)
+	}
+	return item, nil
+}
+
+// Get a specific item of a user
+func (client UserClient) DeleteItem(userId string, itemId int, accessToken string) (models.Item, *httpErrors.ErrorResponse) {
+	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
+	var item models.Item
+
+	res, httpErr := client.httpFacade.DoDelete(url, accessToken)
+	if httpErr != nil {
+		return item, httpErr
+	}
+
+	if err := json.Unmarshal(res, &item); err != nil {
+		return item, httpErrors.ErrBadRequestRenderer(err)
+	}
+	return item, nil
+}
+
+// Updates an item based on the given update model
 func (client UserClient) UpdateItem(userId string, itemId int, update models.ItemUpdate, accessToken string) (models.Item, *httpErrors.ErrorResponse) {
 	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
 	var item models.Item
