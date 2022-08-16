@@ -7,12 +7,59 @@ The user-Service is responsible to handle _User_ related tasks.
 This includes, creating and deleting a user using the _Database-Adapter_,
 as well as handling all requests concerning _User_ _Items_.
 
+## Authentication collection [/auth]
+
+This endpoint is used to authenticate. The request has to be a
+JSON object containing a valid user ID. This service uses JWT for
+authentication. Therefore, the response is a 24h valid JWT token.
+
+If the user is not found, the API responds with a 404 error. If
+the request is invalid in general, a 400 is sent. Otherwise, a 
+500 error.
+
+### Authenticate [POST]
+
+-   Request (application/json)
+
+            {
+                "user_id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7"
+            }
+
+-   Response 200 (application/json)
+
+            {
+                "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o"
+            }
+
+-   Response 400 (application/json)
+
+            {
+                "error": {
+                    "status": 400,
+                    "error": "Bad Request",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
+            }
+
+-   Response 500 (application/json)
+
+            {
+                "error": {
+                    "status": 500,
+                    "error": "Internal Server Error",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
+            }
+
 ## Users collection [/users]
 
 Through this endpoint, a new user instance can be created by
 sending a `POST` request. It will return the new user in a 
-JSON representation if the request was successful.
-f the request is invalid, a 400 error is send. Otherwise,
+JSON representation if the request was successful. The 
+registration/creation of a user, does not require a JWT token
+for authentication.
+
+If the request is invalid, a 400 error is send.  Otherwise, 
 if any error appears on the server, a 500 error is send.
 
 ### Create a new user [POST]
@@ -57,11 +104,17 @@ Use this endpoint to either receive information for a specific
 user, through a `GET` request, or delete an existing user via
 `DELETE`.
 
-If the user is not found, a 404 error is send.
-If any other error occurs on the server side, a 500 error is
-send.
+If the user is not found, a 404 error is send. Is the client
+unauthorized, a 401 error is repsonded. If any other error occurs 
+on the server side, a 500 error is send.
 
 ### Get a specific user [GET]
+
+-   Request
+
+    -   Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
 -   Response 200 (application/json)
 
@@ -70,6 +123,16 @@ send.
                 "created_at": "2022-08-07T13:54:49.964166Z",
                 "updated_at": "2022-08-07T13:54:49.964166Z",
                 "items": []
+            }
+
+-   Response 401 (application/json)
+
+            {
+                "error": {
+                    "status": 401,
+                    "error": "Unauthorized",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
             }
 
 -   Response 404 (application/json)
@@ -95,6 +158,12 @@ send.
 
 ### Delete a specific user [DELETE]
 
+-   Request
+
+    -   Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
 -   Response 200 (application/json)
 
             {
@@ -102,6 +171,16 @@ send.
                 "created_at": "2022-08-07T16:18:39.827566Z",
                 "updated_at": "2022-08-07T16:18:39.827566Z",
                 "items": []
+            }
+
+-   Response 401 (application/json)
+
+            {
+                "error": {
+                    "status": 401,
+                    "error": "Unauthorized",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
             }
 
 -   Response 404 (application/json)
@@ -136,6 +215,12 @@ For any other errors on the server side, a 500 error is thrown.
 
 ### Get items [GET]
 
+-   Request
+
+    -   Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
 -   Response 200 (application/json)
 
             [
@@ -161,6 +246,16 @@ For any other errors on the server side, a 500 error is thrown.
                 }
             ]
 
+-   Response 401 (application/json)
+
+            {
+                "error": {
+                    "status": 401,
+                    "error": "Unauthorized",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
+            }
+
 -   Response 404 (application/json)
 
             {
@@ -183,7 +278,13 @@ For any other errors on the server side, a 500 error is thrown.
 
 ### Add items [POST]
 
--   Request (application/json)
+-   Request Add new item (application/json)
+
+    -   Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
+    -   Body
 
             [
                 {
@@ -235,6 +336,16 @@ For any other errors on the server side, a 500 error is thrown.
                 }
             }
 
+-   Response 401 (application/json)
+
+            {
+                "error": {
+                    "status": 401,
+                    "error": "Unauthorized",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
+            }
+
 -   Response 404 (application/json)
 
             {
@@ -273,7 +384,13 @@ with a 500 error.
 
 ### Update item [PUT]
 
--   Request (application/json)
+-   Request Update item (application/json)
+
+    -   Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
+    -   Body
 
             {
                 "name": "Hario V60 Glass Coffee Dripper",
@@ -305,6 +422,16 @@ with a 500 error.
                 }
             }
 
+-   Response 401 (application/json)
+
+            {
+                "error": {
+                    "status": 401,
+                    "error": "Unauthorized",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
+            }
+
 -   Response 404 (application/json)
 
             {
@@ -328,6 +455,12 @@ with a 500 error.
 
 ### Delete item [DELETE]
 
+-   Request
+
+    -   Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
 -   Response 200 (application/json)
 
             {
@@ -339,6 +472,16 @@ with a 500 error.
                 "vendor": "amazon",
                 "vendor_id": "IP0OBIK4UO9AG",
                 "has_been_baught": true
+            }
+
+-   Response 401 (application/json)
+
+            {
+                "error": {
+                    "status": 401,
+                    "error": "Unauthorized",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
             }
 
 -   Response 404 (application/json)
@@ -363,6 +506,12 @@ with a 500 error.
 
 ### Get a specific Item [GET]
 
+-   Request
+
+    -   Headers
+
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+
 -   Response 200 (application/json)
 
             {
@@ -374,6 +523,16 @@ with a 500 error.
                 "vendor": "amazon",
                 "vendor_id": "IP0OBIK4UO9AG",
                 "has_been_baught": true
+            }
+
+-   Response 401 (application/json)
+
+            {
+                "error": {
+                    "status": 401,
+                    "error": "Unauthorized",
+                    "message": "GENERIC ERROR MESSAGE"
+                }
             }
 
 -   Response 404 (application/json)
