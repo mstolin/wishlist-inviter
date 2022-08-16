@@ -9,7 +9,6 @@ import (
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/database-adapter/db"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
-	"github.com/mstolin/present-roulette/utils/httpMiddleware"
 )
 
 var tokenAuth *jwtauth.JWTAuth
@@ -27,12 +26,7 @@ func newRouter() http.Handler {
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 	r.NotFound(notFoundHandler)
 	r.MethodNotAllowed(methodNotAllowedHandler)
-
-	r.Group(func(r chi.Router) {
-		r.Use(jwtauth.Verifier(tokenAuth))
-		r.Use(httpMiddleware.JSONAuthenticator)
-		r.Route("/users", userHandler)
-	})
+	r.Route("/users", userHandler)
 
 	return r
 }

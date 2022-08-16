@@ -7,8 +7,10 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/jwtauth/v5"
 	"github.com/go-chi/render"
 	"github.com/mstolin/present-roulette/utils/httpErrors"
+	"github.com/mstolin/present-roulette/utils/httpMiddleware"
 	"github.com/mstolin/present-roulette/utils/models"
 	"gorm.io/gorm"
 )
@@ -16,13 +18,23 @@ import (
 const USER_ID_KEY = "userId"
 
 func userHandler(r chi.Router) {
-	r.Post("/", createUser)
-	r.Route("/{userId}", func(r chi.Router) {
-		r.Use(userCtx)
-		r.Get("/", getUser)
-		r.Delete("/", deleteUser)
+	// unrestricted access
+	r.Group(func(r chi.Router) {
+		// registration should not be restricted
+		r.Post("/", createUser)
+	})
+	// restricted access
+	r.Group(func(r chi.Router) {
+		r.Use(jwtauth.Verifier(tokenAuth))
+		r.Use(httpMiddleware.JSONAuthenticator)
 
-		r.Route("/items", itemHandler)
+		r.Route("/{userId}", func(r chi.Router) {
+			r.Use(userCtx)
+			r.Get("/", getUser)
+			r.Delete("/", deleteUser)
+
+			r.Route("/items", itemHandler)
+		})
 	})
 }
 
