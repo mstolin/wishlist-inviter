@@ -21,15 +21,15 @@ will receive a 401 error. If any other error will occur, a 500 error is send.
 
     + Headers
 
-        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
     + Body
 
-        {
-            "recipient": "recipient@domain.tld",
-            "subject": "Email subject",
-            "body": "Email body"
-        }
+            {
+                "recipient": "recipient@domain.tld",
+                "subject": "Email subject",
+                "body": "Email body"
+            }
 
 + Response 200 (application/json)
 

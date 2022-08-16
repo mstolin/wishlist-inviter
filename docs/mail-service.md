@@ -28,16 +28,16 @@ error is responded. Otherwise, a 500 error is send.
 
     + Headers
 
-        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
     + Body
 
-        {
-            "recipient": "recipient@domain.tld",
-            "subject": "You have been invited",
-            "user_id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7",
-            "items": [1, 3, 4]
-        }
+            {
+                "recipient": "recipient@domain.tld",
+                "subject": "You have been invited",
+                "user_id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7",
+                "items": [1, 3, 4]
+            }
 
 + Response 200 (application/json)
 
