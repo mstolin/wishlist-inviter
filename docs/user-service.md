@@ -19,37 +19,37 @@ the request is invalid in general, a 400 is sent. Otherwise, a
 
 ### Authenticate [POST]
 
--   Request (application/json)
++ Request (application/json)
 
-            {
-                "user_id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7"
+        {
+            "user_id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "status": 400,
+                "error": "Bad Request",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 200 (application/json)
++ Response 500 (application/json)
 
-            {
-                "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o"
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
             }
-
--   Response 400 (application/json)
-
-            {
-                "error": {
-                    "status": 400,
-                    "error": "Bad Request",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
-
--   Response 500 (application/json)
-
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
+        }
 
 ## Users collection [/users]
 
@@ -59,43 +59,43 @@ JSON representation if the request was successful. The
 registration/creation of a user, does not require a JWT token
 for authentication.
 
-If the request is invalid, a 400 error is send.  Otherwise, 
+If the request is invalid, a 400 error is send. Otherwise, 
 if any error appears on the server, a 500 error is send.
 
 ### Create a new user [POST]
 
--   Request (application/json)
++ Request (application/json)
 
             {}
 
--   Response 200 (application/json)
++ Response 200 (application/json)
 
-            {
-                "id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7",
-                "created_at": "2022-08-07T13:54:49.964166093Z",
-                "updated_at": "2022-08-07T13:54:49.964166093Z",
-                "items": null
+        {
+            "id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7",
+            "created_at": "2022-08-07T13:54:49.964166093Z",
+            "updated_at": "2022-08-07T13:54:49.964166093Z",
+            "items": null
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "status": 400,
+                "error": "Bad Request",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 400 (application/json)
++ Response 500 (application/json)
 
-            {
-                "error": {
-                    "status": 400,
-                    "error": "Bad Request",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
             }
-
--   Response 500 (application/json)
-
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
+        }
 
 
 ## Specific user collection [/users/{userId}]
@@ -110,98 +110,98 @@ on the server side, a 500 error is send.
 
 ### Get a specific user [GET]
 
--   Request
++ Request
 
-    -   Headers
+    + Headers
 
             Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
--   Response 200 (application/json)
++ Response 200 (application/json)
 
-            {
-                "id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7",
-                "created_at": "2022-08-07T13:54:49.964166Z",
-                "updated_at": "2022-08-07T13:54:49.964166Z",
-                "items": []
+        {
+            "id": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7",
+            "created_at": "2022-08-07T13:54:49.964166Z",
+            "updated_at": "2022-08-07T13:54:49.964166Z",
+            "items": []
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 401 (application/json)
++ Response 404 (application/json)
 
-            {
-                "error": {
-                    "status": 401,
-                    "error": "Unauthorized",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 404,
+                "error": "Not Found",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 404 (application/json)
++ Response 500 (application/json)
 
-            {
-                "error": {
-                    "status": 404,
-                    "error": "Not Found",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
             }
-
--   Response 500 (application/json)
-
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
+        }
 
 
 ### Delete a specific user [DELETE]
 
--   Request
++ Request
 
-    -   Headers
+    + Headers
 
             Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
--   Response 200 (application/json)
++ Response 200 (application/json)
 
-            {
-                "id": "6eaade67-e087-4327-8bd5-92934baf58ed",
-                "created_at": "2022-08-07T16:18:39.827566Z",
-                "updated_at": "2022-08-07T16:18:39.827566Z",
-                "items": []
+        {
+            "id": "6eaade67-e087-4327-8bd5-92934baf58ed",
+            "created_at": "2022-08-07T16:18:39.827566Z",
+            "updated_at": "2022-08-07T16:18:39.827566Z",
+            "items": []
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 401 (application/json)
++ Response 404 (application/json)
 
-            {
-                "error": {
-                    "status": 401,
-                    "error": "Unauthorized",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 404,
+                "error": "Not Found",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 404 (application/json)
++ Response 500 (application/json)
 
-            {
-                "error": {
-                    "status": 404,
-                    "error": "Not Found",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
             }
-
--   Response 500 (application/json)
-
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
+        }
 
 
 ## User items collection [/users/{userId}/items]
@@ -209,82 +209,82 @@ on the server side, a 500 error is send.
 This collect provides to receive wished items for a specific user (`GET`), 
 or to add new items to the wishlist (`POST`).
 
-If the user does not exists, a 404 error is thrown.
-If the request for the `POST` request is invalid, a 400 error is thrown.
-For any other errors on the server side, a 500 error is thrown.
+If the user does not exists, a 404 error is thrown. If the request for the `POST` 
+request is invalid, a 400 error is thrown. Unauthenticated clients will receive 
+a 401 error.For any other errors on the server side, a 500 error is thrown.
 
 ### Get items [GET]
 
--   Request
++ Request
 
-    -   Headers
+    + Headers
 
             Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
--   Response 200 (application/json)
++ Response 200 (application/json)
 
-            [
-                {
-                    "id": 1,
-                    "created_at": "2022-08-07T14:04:46.329234Z",
-                    "updated_at": "2022-08-07T14:04:46.329234Z",
-                    "name": "Hario 400 ml Olive Wood New Coffee Server, Transparent",
-                    "price": 54.84,
-                    "vendor": "amazon",
-                    "vendor_id": "I3UCMMATCW0ATV",
-                    "has_been_baught": false
-                },
-                {
-                    "id": 2,
-                    "created_at": "2022-08-07T14:04:46.329234Z",
-                    "updated_at": "2022-08-07T14:04:46.329234Z",
-                    "name": "Hario V60 Glass Coffee Dripper",
-                    "price": 50.8,
-                    "vendor": "amazon",
-                    "vendor_id": "IP0OBIK4UO9AG",
-                    "has_been_baught": false
-                }
-            ]
-
--   Response 401 (application/json)
-
+        [
             {
-                "error": {
-                    "status": 401,
-                    "error": "Unauthorized",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
-
--   Response 404 (application/json)
-
+                "id": 1,
+                "created_at": "2022-08-07T14:04:46.329234Z",
+                "updated_at": "2022-08-07T14:04:46.329234Z",
+                "name": "Hario 400 ml Olive Wood New Coffee Server, Transparent",
+                "price": 54.84,
+                "vendor": "amazon",
+                "vendor_id": "I3UCMMATCW0ATV",
+                "has_been_baught": false
+            },
             {
-                "error": {
-                    "status": 404,
-                    "error": "Not Found",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+                "id": 2,
+                "created_at": "2022-08-07T14:04:46.329234Z",
+                "updated_at": "2022-08-07T14:04:46.329234Z",
+                "name": "Hario V60 Glass Coffee Dripper",
+                "price": 50.8,
+                "vendor": "amazon",
+                "vendor_id": "IP0OBIK4UO9AG",
+                "has_been_baught": false
             }
+        ]
 
--   Response 500 (application/json)
++ Response 401 (application/json)
 
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": {
+                "status": 404,
+                "error": "Not Found",
+                "message": "GENERIC ERROR MESSAGE"
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
+            }
+        }
 
 ### Add items [POST]
 
--   Request Add new item (application/json)
++ Request Add new item (application/json)
 
-    -   Headers
+    + Headers
 
             Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
-    -   Body
+    + Body
 
             [
                 {
@@ -301,70 +301,70 @@ For any other errors on the server side, a 500 error is thrown.
                 }
             ]
 
--   Response 200 (application/json)
++ Response 200 (application/json)
 
-            [
-                {
-                    "id": 1,
-                    "created_at": "2022-08-07T14:04:46.329234Z",
-                    "updated_at": "2022-08-07T14:04:46.329234Z",
-                    "name": "Hario 400 ml Olive Wood New Coffee Server, Transparent",
-                    "price": 54.84,
-                    "vendor": "amazon",
-                    "vendor_id": "I3UCMMATCW0ATV",
-                    "has_been_baught": false
-                },
-                {
-                    "id": 2,
-                    "created_at": "2022-08-07T14:04:46.329234Z",
-                    "updated_at": "2022-08-07T14:04:46.329234Z",
-                    "name": "Hario V60 Glass Coffee Dripper",
-                    "price": 50.8,
-                    "vendor": "amazon",
-                    "vendor_id": "IP0OBIK4UO9AG",
-                    "has_been_baught": false
-                }
-            ]
-
--   Response 400 (application/json)
-
+        [
             {
-                "error": {
-                    "status": 400,
-                    "error": "Bad Request",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
-
--   Response 401 (application/json)
-
+                "id": 1,
+                "created_at": "2022-08-07T14:04:46.329234Z",
+                "updated_at": "2022-08-07T14:04:46.329234Z",
+                "name": "Hario 400 ml Olive Wood New Coffee Server, Transparent",
+                "price": 54.84,
+                "vendor": "amazon",
+                "vendor_id": "I3UCMMATCW0ATV",
+                "has_been_baught": false
+            },
             {
-                "error": {
-                    "status": 401,
-                    "error": "Unauthorized",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+                "id": 2,
+                "created_at": "2022-08-07T14:04:46.329234Z",
+                "updated_at": "2022-08-07T14:04:46.329234Z",
+                "name": "Hario V60 Glass Coffee Dripper",
+                "price": 50.8,
+                "vendor": "amazon",
+                "vendor_id": "IP0OBIK4UO9AG",
+                "has_been_baught": false
             }
+        ]
 
--   Response 404 (application/json)
++ Response 400 (application/json)
 
-            {
-                "error": {
-                    "status": 404,
-                    "error": "Not Found",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 400,
+                "error": "Bad Request",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 500 (application/json)
++ Response 401 (application/json)
 
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": {
+                "status": 404,
+                "error": "Not Found",
+                "message": "GENERIC ERROR MESSAGE"
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
+            }
+        }
 
 ## Specific user item collection [/users/{userId}/items/{itemId}]
 
@@ -378,19 +378,19 @@ system will update its meta value `updated_at`.
 
 if the user or the item do not exist, a 404 error is thrown.
 If the request for the `PUT` request is invalid, a 400
-error is thrown.
-Otherwise, if an error occurs on the server side, it will response 
-with a 500 error.
+error is thrown. If the client is not authenticated, it will
+receive a 401 error. Otherwise, if an error occurs on the server 
+side, it will response with a 500 error.
 
 ### Update item [PUT]
 
--   Request Update item (application/json)
++ Request Update item (application/json)
 
-    -   Headers
+    + Headers
 
             Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
-    -   Body
+    + Body
 
             {
                 "name": "Hario V60 Glass Coffee Dripper",
@@ -399,158 +399,158 @@ with a 500 error.
                 "has_been_baught": true
             }
 
--   Response 200 (application/json)
++ Response 200 (application/json)
 
-            {
-                "id": 2,
-                "created_at": "2022-08-07T14:04:46.329234Z",
-                "updated_at": "2022-08-07T14:14:39.86491697Z",
-                "name": "Hario V60 Glass Coffee Dripper",
-                "price": 50.8,
-                "vendor": "amazon",
-                "vendor_id": "IP0OBIK4UO9AG",
-                "has_been_baught": true
+        {
+            "id": 2,
+            "created_at": "2022-08-07T14:04:46.329234Z",
+            "updated_at": "2022-08-07T14:14:39.86491697Z",
+            "name": "Hario V60 Glass Coffee Dripper",
+            "price": 50.8,
+            "vendor": "amazon",
+            "vendor_id": "IP0OBIK4UO9AG",
+            "has_been_baught": true
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "status": 400,
+                "error": "Bad Request",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 400 (application/json)
++ Response 401 (application/json)
 
-            {
-                "error": {
-                    "status": 400,
-                    "error": "Bad Request",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 401 (application/json)
++ Response 404 (application/json)
 
-            {
-                "error": {
-                    "status": 401,
-                    "error": "Unauthorized",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 404,
+                "error": "Not Found",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 404 (application/json)
++ Response 500 (application/json)
 
-            {
-                "error": {
-                    "status": 404,
-                    "error": "Not Found",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
             }
-
--   Response 500 (application/json)
-
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
+        }
 
 
 ### Delete item [DELETE]
 
--   Request
++ Request
 
-    -   Headers
+    + Headers
 
             Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
--   Response 200 (application/json)
++ Response 200 (application/json)
 
-            {
-                "id": 2,
-                "created_at": "2022-08-07T14:04:46.329234Z",
-                "updated_at": "2022-08-07T14:16:05.154862Z",
-                "name": "Hario V60 Glass Coffee Dripper",
-                "price": 50.8,
-                "vendor": "amazon",
-                "vendor_id": "IP0OBIK4UO9AG",
-                "has_been_baught": true
+        {
+            "id": 2,
+            "created_at": "2022-08-07T14:04:46.329234Z",
+            "updated_at": "2022-08-07T14:16:05.154862Z",
+            "name": "Hario V60 Glass Coffee Dripper",
+            "price": 50.8,
+            "vendor": "amazon",
+            "vendor_id": "IP0OBIK4UO9AG",
+            "has_been_baught": true
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 401 (application/json)
++ Response 404 (application/json)
 
-            {
-                "error": {
-                    "status": 401,
-                    "error": "Unauthorized",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 404,
+                "error": "Not Found",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 404 (application/json)
++ Response 500 (application/json)
 
-            {
-                "error": {
-                    "status": 404,
-                    "error": "Not Found",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
             }
-
--   Response 500 (application/json)
-
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
+        }
 
 ### Get a specific Item [GET]
 
--   Request
++ Request
 
-    -   Headers
+    + Headers
 
             Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o
 
--   Response 200 (application/json)
++ Response 200 (application/json)
 
-            {
-                "id": 2,
-                "created_at": "2022-08-07T14:04:46.329234Z",
-                "updated_at": "2022-08-07T14:16:05.154862Z",
-                "name": "Hario V60 Glass Coffee Dripper",
-                "price": 50.8,
-                "vendor": "amazon",
-                "vendor_id": "IP0OBIK4UO9AG",
-                "has_been_baught": true
+        {
+            "id": 2,
+            "created_at": "2022-08-07T14:04:46.329234Z",
+            "updated_at": "2022-08-07T14:16:05.154862Z",
+            "name": "Hario V60 Glass Coffee Dripper",
+            "price": 50.8,
+            "vendor": "amazon",
+            "vendor_id": "IP0OBIK4UO9AG",
+            "has_been_baught": true
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 401 (application/json)
++ Response 404 (application/json)
 
-            {
-                "error": {
-                    "status": 401,
-                    "error": "Unauthorized",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 404,
+                "error": "Not Found",
+                "message": "GENERIC ERROR MESSAGE"
             }
+        }
 
--   Response 404 (application/json)
++ Response 500 (application/json)
 
-            {
-                "error": {
-                    "status": 404,
-                    "error": "Not Found",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
             }
-
--   Response 500 (application/json)
-
-            {
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": "GENERIC ERROR MESSAGE"
-                }
-            }
+        }
