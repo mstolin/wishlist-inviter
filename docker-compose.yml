@@ -35,7 +35,8 @@ services:
             - USER_SERVICE=http://user-service:8080
             - SCRAPPER_FACADE=http://scrapper-facade:8080
             - MAIL_SERVICE=http://mail-service:8080
-        ports: "8080:8080"
+        ports: 
+            - "8080:8080"
         restart: always
         depends_on:
             - user-service
@@ -61,7 +62,8 @@ services:
             - DATABASE_ADAPTER=http://database-adapter:8080
         env_file:
             - env/JWT.env
-        ports: "8071:8080"
+        # ports: 
+        #     - "8071:8080"
         restart: always
         depends_on:
             - database-adapter
@@ -76,8 +78,8 @@ services:
             args:
                 - SERVICE_NAME=mail-service
                 - SERVICE_PROJECT_PATH=./mail-service
-        ports:
-            - "8021:8080"
+        # ports:
+        #     - "8021:8080"
         environment:
             - GMAIL_ADAPTER=http://gmail-adapter:8080
             - DATABASE_ADAPTER=http://database-adapter:8080
@@ -100,8 +102,8 @@ services:
             args:
                 - SERVICE_NAME=scrapper-facade
                 - SERVICE_PROJECT_PATH=./scrapper-facade
-        ports:
-            - "8022:8080"
+        # ports:
+        #     - "8022:8080"
         environment:
             - AMAZON_SCRAPPER=http://amazon-adapter:8080
         env_file:
@@ -134,7 +136,8 @@ services:
             - env/JWT.env
         depends_on:
             - database
-        ports: "8061:8080"
+        # ports: 
+        #     - "8061:8080"
         restart: always
         networks:
             - database-adapter-network
@@ -147,8 +150,8 @@ services:
             args:
                 - SERVICE_NAME=gmail-adapter
                 - SERVICE_PROJECT_PATH=./gmail-adapter
-        ports:
-            - "8043:8080"
+        # ports:
+        #     - "8043:8080"
         env_file:
             - env/gmail-adapter/.env
         environment:
@@ -162,8 +165,8 @@ services:
 
     amazon-adapter:
         build: ./amazon-adapter
-        ports:
-            - "8042:8080"
+        # ports:
+        #     - "8042:8080"
         environment:
             - AMAZON_URL=http://amazon-clone:8041
         env_file:
@@ -181,8 +184,8 @@ services:
 
     database:
         build: ./database
-        ports:
-            - "5432:5432"
+        # ports:
+        #     - "5432:5432"
         environment:
             - POSTGRES_USER=admin
             - POSTGRES_PASSWORD=admin123
@@ -198,9 +201,6 @@ services:
         privileged: true # Give access to filesystem
         ports:
             - "8041:8041"
-        #environment:
-        #  - NGINX_HOST=foobar.com
-        #  - NGINX_PORT=80
         volumes:
             - ./amazon-clone/nginx/html:/usr/share/nginx/html
             - ./amazon-clone/nginx/nginx.conf:/etc/nginx/nginx.conf
