@@ -12,16 +12,269 @@
 					"name": "Users",
 					"item": [
 						{
-							"name": "Single Item",
+							"name": "Items",
 							"item": [
 								{
-									"name": "Update Item",
+									"name": "Single Item",
+									"item": [
+										{
+											"name": "Update Item",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const firstItem = {",
+															"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+															"    \"price\": 54.84,",
+															"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+															"    \"vendor\": \"amazon\"",
+															"}",
+															"",
+															"pm.test(\"Status is ok/200\", function () {",
+															"    pm.response.to.be.ok;",
+															"});",
+															"",
+															"pm.test(\"Body is JSON\", function () {",
+															"    pm.response.to.be.withBody;",
+															"    pm.response.to.be.json;",
+															"});",
+															"",
+															"pm.test(\"Item ID is equal\", function () {",
+															"    const item = pm.response.json();",
+															"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+															"});",
+															"",
+															"pm.test(\"Response is equal to first item\", function () {",
+															"    const item = pm.response.json();",
+															"",
+															"    pm.expect(item.name).to.be.equal(firstItem.name);",
+															"    pm.expect(item.price).to.be.equal(firstItem.price);",
+															"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+															"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+															"});",
+															"",
+															"pm.test(\"Has been bought\", function () {",
+															"    const item = pm.response.json();",
+															"    pm.expect(item[\"has_been_baught\"]).to.be.true;",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n    \"price\": 54.84,\n    \"vendor_id\": \"I3UCMMATCW0ATV\",\n    \"has_been_baught\": true\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"host": [
+														"{{USER-ENDPOINT}}"
+													],
+													"path": [
+														"users",
+														"{{USER-ID}}",
+														"items",
+														"{{FIRST-ITEM-ID}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Item",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const firstItem = {",
+															"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+															"    \"price\": 54.84,",
+															"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+															"    \"vendor\": \"amazon\"",
+															"}",
+															"",
+															"pm.test(\"Status is ok/200\", function () {",
+															"    pm.response.to.be.ok;",
+															"});",
+															"",
+															"pm.test(\"Body is JSON\", function () {",
+															"    pm.response.to.be.withBody;",
+															"    pm.response.to.be.json;",
+															"});",
+															"",
+															"pm.test(\"Item ID is equal\", function () {",
+															"    const item = pm.response.json();",
+															"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+															"});",
+															"",
+															"pm.test(\"Response is equal to first item\", function () {",
+															"    const item = pm.response.json();",
+															"",
+															"    pm.expect(item.name).to.be.equal(firstItem.name);",
+															"    pm.expect(item.price).to.be.equal(firstItem.price);",
+															"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+															"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"host": [
+														"{{USER-ENDPOINT}}"
+													],
+													"path": [
+														"users",
+														"{{USER-ID}}",
+														"items",
+														"{{FIRST-ITEM-ID}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete Item",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const firstItem = {",
+															"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+															"    \"price\": 54.84,",
+															"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+															"    \"vendor\": \"amazon\"",
+															"}",
+															"",
+															"pm.test(\"Status is ok/200\", function () {",
+															"    pm.response.to.be.ok;",
+															"});",
+															"",
+															"pm.test(\"Body is JSON\", function () {",
+															"    pm.response.to.be.withBody;",
+															"    pm.response.to.be.json;",
+															"});",
+															"",
+															"pm.test(\"Item ID is equal\", function () {",
+															"    const item = pm.response.json();",
+															"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+															"});",
+															"",
+															"pm.test(\"Response is equal to first item\", function () {",
+															"    const item = pm.response.json();",
+															"",
+															"    pm.expect(item.name).to.be.equal(firstItem.name);",
+															"    pm.expect(item.price).to.be.equal(firstItem.price);",
+															"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+															"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"host": [
+														"{{USER-ENDPOINT}}"
+													],
+													"path": [
+														"users",
+														"{{USER-ID}}",
+														"items",
+														"{{FIRST-ITEM-ID}}"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Create/Add Items",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const items = [",
+													"    {",
+													"        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+													"        \"price\": 54.84,",
+													"        \"vendor_id\": \"I3UCMMATCW0ATV\",",
+													"        \"vendor\": \"amazon\"",
+													"    },",
+													"    {",
+													"        \"name\": \"Hario V60 Glass Coffee Dripper\",",
+													"        \"price\": 50.8,",
+													"        \"vendor\": \"amazon\",",
+													"        \"vendor_id\": \"IP0OBIK4UO9AG\"",
+													"    }",
+													"];",
+													"",
+													"pm.test(\"Status is ok/200\", function () {",
+													"    pm.response.to.be.ok;",
+													"});",
+													"",
+													"pm.test(\"Body is JSON\", function () {",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Is array\", function () {",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData).to.be.instanceOf(Array);",
+													"});",
+													"",
+													"pm.test(\"Items are equal\", function () {",
+													"    const jsonData = pm.response.json();",
+													"    const firstItem = jsonData[0];",
+													"    const secondItem = jsonData[1];",
+													"",
+													"    pm.expect(firstItem.name).to.be.equal(items[0].name);",
+													"    pm.expect(firstItem.price).to.be.equal(items[0].price);",
+													"    pm.expect(firstItem.vendor).to.be.equal(items[0].vendor);",
+													"    pm.expect(firstItem[\"vendor_id\"]).to.be.equal(items[0][\"vendor_id\"]);",
+													"",
+													"    pm.expect(secondItem.name).to.be.equal(items[1].name);",
+													"    pm.expect(secondItem.price).to.be.equal(items[1].price);",
+													"    pm.expect(secondItem.vendor).to.be.equal(items[1].vendor);",
+													"    pm.expect(secondItem[\"vendor_id\"]).to.be.equal(items[1][\"vendor_id\"]);",
+													"",
+													"    pm.environment.set(\"FIRST-ITEM-ID\", firstItem.id);",
+													"    pm.environment.set(\"SECOND-ITEM-ID\", secondItem.id);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"request": {
-										"method": "PUT",
+										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"name\": \"Hario V60 Glass Coffee Dripper\",\n    \"price\": 50.8,\n    \"vendor_id\": \"IP0OBIK4UO9AG\",\n    \"has_been_baught\": true\n}",
+											"raw": "[\n    {\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84,\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\"\n    },\n    {\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8,\n        \"vendor\": \"amazon\",\n        \"vendor_id\": \"IP0OBIK4UO9AG\"\n    }\n]",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -29,15 +282,56 @@
 											}
 										},
 										"url": {
-											"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items",
 											"host": [
 												"{{USER-ENDPOINT}}"
 											],
 											"path": [
 												"users",
 												"{{USER-ID}}",
-												"items",
-												"{{ITEM-ID}}"
+												"items"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get User Items",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status is ok/200\", function () {",
+													"    pm.response.to.be.ok;",
+													"});",
+													"",
+													"pm.test(\"Body is JSON\", function () {",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Is array\", function () {",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData).to.be.instanceOf(Array);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items",
+											"host": [
+												"{{USER-ENDPOINT}}"
+											],
+											"path": [
+												"users",
+												"{{USER-ID}}",
+												"items"
 											]
 										}
 									},
@@ -47,6 +341,32 @@
 						},
 						{
 							"name": "Create User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Has user ID\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const userId = jsonData[\"id\"];",
+											"    pm.expect(userId).to.be.a.string;",
+											"    pm.expect(userId).not.to.be.empty;",
+											"    pm.environment.set(\"USER-ID\", userId);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -64,6 +384,37 @@
 						},
 						{
 							"name": "Get User Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Has user ID\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const userId = jsonData[\"id\"];",
+											"    pm.expect(userId).to.be.a.string;",
+											"    pm.expect(userId).not.to.be.empty;",
+											"});",
+											"",
+											"pm.test(\"Has array of items\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const items = jsonData[\"items\"];",
+											"    pm.expect(items).to.be.instanceOf(Array);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -81,32 +432,83 @@
 							"response": []
 						},
 						{
-							"name": "Get User Items",
+							"name": "Delete User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"User ID is equal\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const userId = jsonData[\"id\"];",
+											"    pm.expect(userId).to.be.a.string;",
+											"    pm.expect(userId).not.to.be.empty;",
+											"    pm.expect(userId).to.be.equal(pm.environment.get(\"USER-ID\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
-								"method": "GET",
+								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items",
+									"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}",
 									"host": [
 										"{{USER-ENDPOINT}}"
 									],
 									"path": [
 										"users",
-										"{{USER-ID}}",
-										"items"
+										"{{USER-ID}}"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Create/Add Items",
+							"name": "Authenticate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Hass access token\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const accessToken = jsonData[\"access_token\"]",
+											"    pm.expect(accessToken).to.be.a.string;",
+											"    pm.expect(accessToken).not.to.be.empty;",
+											"    pm.environment.set(\"ACCESS-TOKEN\", accessToken);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n    {\n        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",\n        \"price\": 54.84,\n        \"vendor_id\": \"I3UCMMATCW0ATV\",\n        \"vendor\": \"amazon\"\n    },\n    {\n        \"name\": \"Hario V60 Glass Coffee Dripper\",\n        \"price\": 50.8,\n        \"vendor\": \"amazon\",\n        \"vendor_id\": \"IP0OBIK4UO9AG\"\n    }\n]",
+									"raw": "{\n    \"user_id\": \"{{USER-ID}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -114,14 +516,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items",
+									"raw": "{{USER-ENDPOINT}}/auth",
 									"host": [
 										"{{USER-ENDPOINT}}"
 									],
 									"path": [
-										"users",
-										"{{USER-ID}}",
-										"items"
+										"auth"
 									]
 								}
 							},
@@ -206,6 +606,36 @@
 							"response": []
 						}
 					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{ACCESS-TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -391,6 +821,31 @@
 						},
 						{
 							"name": "Get User Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Hass user ID\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const userId = jsonData[\"id\"];",
+											"    pm.expect(userId).to.be.a.string;",
+											"    pm.expect(userId).not.to.be.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -464,18 +919,21 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status test\", function () {",
+									"pm.test(\"Status is ok/200\", function () {",
 									"    pm.response.to.be.ok;",
 									"});",
 									"",
-									"pm.test(\"Has access token\", function () {",
-									"    pm.response.to.be.ok;",
+									"pm.test(\"Body is JSON\", function () {",
 									"    pm.response.to.be.withBody;",
 									"    pm.response.to.be.json;",
+									"});",
 									"",
+									"pm.test(\"Hass access token\", function () {",
 									"    const jsonData = pm.response.json();",
 									"    const accessToken = jsonData[\"access_token\"]",
-									"    console.log(accessToken)",
+									"    pm.expect(accessToken).to.be.a.string;",
+									"    pm.expect(accessToken).not.to.be.empty;",
+									"    pm.environment.set(\"ACCESS-TOKEN\", accessToken);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -495,11 +953,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{USER-SERVICE}}/auth",
+							"raw": "{{USER-SERVICE}}/users/auth",
 							"host": [
 								"{{USER-SERVICE}}"
 							],
 							"path": [
+								"users",
 								"auth"
 							]
 						}
@@ -1019,21 +1478,6 @@
 		{
 			"key": "AMAZON-ADAPTER",
 			"value": "http://localhost:8042",
-			"type": "default"
-		},
-		{
-			"key": "USER-ID",
-			"value": "8a8c3b24-8997-43fc-b4b2-86482b3f70e7",
-			"type": "default"
-		},
-		{
-			"key": "ACCESS-TOKEN",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGE4YzNiMjQtODk5Ny00M2ZjLWI0YjItODY0ODJiM2Y3MGU3In0._VbNitzmxmlnYwoGvYqrlzTp7QqJU25RXsxDqcn_wUE",
-			"type": "default"
-		},
-		{
-			"key": "ITEM-ID",
-			"value": "1",
 			"type": "default"
 		},
 		{
