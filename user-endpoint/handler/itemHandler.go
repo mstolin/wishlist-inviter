@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
 )
 
 const WISHLIST_ID_KEY = "wishlistId"

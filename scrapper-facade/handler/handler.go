@@ -7,9 +7,9 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/jwtauth/v5"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/scrapper-facade/scrapper"
-	"github.com/mstolin/present-roulette/utils/httpErrors"
-	"github.com/mstolin/present-roulette/utils/httpMiddleware"
+	"github.com/mstolin/wishlist-inviter/scrapper-facade/scrapper"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/utils/httpMiddleware"
 )
 
 var tokenAuth *jwtauth.JWTAuth

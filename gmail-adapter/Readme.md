@@ -22,13 +22,13 @@ You can find an explanation on how to create app passwords at https://support.go
 The first step to build the image of this service. This can be either done with Docker or Padman.
 
 ```
-$ podman build -t localhost/present-roulette/gmail-service .
+$ podman build -t localhost/wishlist-inviter/gmail-service .
 ```
 
 Next, it is possible to run the service using the following command:
 
 ```
-$ podman run -d -p 8080:8080 --rm --env-file .env localhost/present-roulette/gmail-service
+$ podman run -d -p 8080:8080 --rm --env-file .env localhost/wishlist-inviter/gmail-service
 ```
 
 It is important to map the exact same OS port to the container port.

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mstolin/present-roulette/utils/models"
+	"github.com/mstolin/wishlist-inviter/utils/models"
 )
 
 const invitationMsg = "Hi,\nyou have been invited to buy the following items:\n\n%s\n\nCheers!"

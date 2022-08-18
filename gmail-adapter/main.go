@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/mstolin/present-roulette/gmail-adapter/handler"
-	"github.com/mstolin/present-roulette/gmail-adapter/mail"
+	"github.com/mstolin/wishlist-inviter/gmail-adapter/handler"
+	"github.com/mstolin/wishlist-inviter/gmail-adapter/mail"
 )
 
 func main() {

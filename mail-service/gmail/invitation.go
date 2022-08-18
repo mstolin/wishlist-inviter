@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/mstolin/present-roulette/utils/httpErrors"
-	"github.com/mstolin/present-roulette/utils/models"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/utils/models"
 )
 
 // Sends POST request to send an invitation mail.

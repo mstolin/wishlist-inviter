@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/mstolin/present-roulette/scrapper-facade/handler"
-	"github.com/mstolin/present-roulette/scrapper-facade/scrapper"
+	"github.com/mstolin/wishlist-inviter/scrapper-facade/handler"
+	"github.com/mstolin/wishlist-inviter/scrapper-facade/scrapper"
 )
 
 func main() {

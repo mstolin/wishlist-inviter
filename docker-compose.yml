@@ -131,7 +131,7 @@ services:
             - DB_PORT=5432
             - DB_USER=admin
             - DB_PASSWORD=admin123
-            - DB_NAME=present-roulette
+            - DB_NAME=wishlist-inviter
         env_file:
             - env/JWT.env
         depends_on:
@@ -189,7 +189,7 @@ services:
         environment:
             - POSTGRES_USER=admin
             - POSTGRES_PASSWORD=admin123
-            - POSTGRES_DB=present-roulette
+            - POSTGRES_DB=wishlist-inviter
         volumes:
             - postgres-db:/var/lib/postgresql/data
         restart: always

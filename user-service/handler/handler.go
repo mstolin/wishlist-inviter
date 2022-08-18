@@ -8,9 +8,9 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/jwtauth/v5"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/user-service/clients"
-	"github.com/mstolin/present-roulette/utils/httpErrors"
-	"github.com/mstolin/present-roulette/utils/models"
+	"github.com/mstolin/wishlist-inviter/user-service/clients"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/utils/models"
 )
 
 var tokenAuth *jwtauth.JWTAuth

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/mstolin/present-roulette/user-service/clients"
-	"github.com/mstolin/present-roulette/user-service/handler"
+	"github.com/mstolin/wishlist-inviter/user-service/clients"
+	"github.com/mstolin/wishlist-inviter/user-service/handler"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package gmail
 import (
 	"fmt"
 
-	"github.com/mstolin/present-roulette/utils/clients"
+	"github.com/mstolin/wishlist-inviter/utils/clients"
 )
 
 type GMailClient struct {

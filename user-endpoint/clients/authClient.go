@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/mstolin/present-roulette/utils/httpErrors"
-	"github.com/mstolin/present-roulette/utils/models"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/utils/models"
 )
 
 type AuthClient struct {

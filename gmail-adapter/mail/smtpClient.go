@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/smtp"
 
-	"github.com/mstolin/present-roulette/utils/models"
+	"github.com/mstolin/wishlist-inviter/utils/models"
 )
 
 type SMTPAuthCredentials struct {

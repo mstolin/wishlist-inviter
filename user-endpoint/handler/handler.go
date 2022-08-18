@@ -7,8 +7,8 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/user-endpoint/clients"
-	"github.com/mstolin/present-roulette/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/user-endpoint/clients"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
 )
 
 var scrapperFacadeInstance clients.ScrapperFacadeClient

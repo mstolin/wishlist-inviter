@@ -1,6 +1,6 @@
 package scrapper
 
-import "github.com/mstolin/present-roulette/utils/clients"
+import "github.com/mstolin/wishlist-inviter/utils/clients"
 
 type ScrapperFacade struct {
 	AmazonScrapper string

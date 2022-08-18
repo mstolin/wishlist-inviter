@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/mstolin/present-roulette/utils/clients"
-	"github.com/mstolin/present-roulette/utils/httpErrors"
-	"github.com/mstolin/present-roulette/utils/models"
+	"github.com/mstolin/wishlist-inviter/utils/clients"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/utils/models"
 )
 
 type MailClient struct {

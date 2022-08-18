@@ -13,7 +13,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_USER=admin
 DB_PASSWORD=admin123
-DB_NAME=present-roulette
+DB_NAME=wishlist-inviter
 ```
 
 ## Development
@@ -24,7 +24,7 @@ If needed, set the environment varibles accordingly.
 ```
 $ ./run.sh
 # or from root directory
-$ ADDRESS=:8061 DB_HOST=localhost DB_PORT=5432 DB_USER=admin DB_PASSWORD=admin123 DB_NAME=present-roulette go run ./database-adapter
+$ ADDRESS=:8061 DB_HOST=localhost DB_PORT=5432 DB_USER=admin DB_PASSWORD=admin123 DB_NAME=wishlist-inviter go run ./database-adapter
 ```
 
 ## Build and Run
@@ -32,13 +32,13 @@ $ ADDRESS=:8061 DB_HOST=localhost DB_PORT=5432 DB_USER=admin DB_PASSWORD=admin12
 The first step to build the image of this service. This can be either done with Docker or Padman.
 
 ```
-$ podman build -t localhost/present-roulette/database-adapter .
+$ podman build -t localhost/wishlist-inviter/database-adapter .
 ```
 
 Next, it is possible to run the service using the following command:
 
 ```
-$ podman run -d -p 8080:8080 --rm --env-file .env localhost/present-roulette/database-adapter
+$ podman run -d -p 8080:8080 --rm --env-file .env localhost/wishlist-inviter/database-adapter
 ```
 
 It is important to map the exact same OS port to the container port.

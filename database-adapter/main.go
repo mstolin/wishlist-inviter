@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mstolin/present-roulette/database-adapter/db"
-	"github.com/mstolin/present-roulette/database-adapter/handler"
+	"github.com/mstolin/wishlist-inviter/database-adapter/db"
+	"github.com/mstolin/wishlist-inviter/database-adapter/handler"
 )
 
 func main() {

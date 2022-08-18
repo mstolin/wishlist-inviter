@@ -8,8 +8,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
-	"github.com/mstolin/present-roulette/utils/httpErrors"
-	"github.com/mstolin/present-roulette/utils/models"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/utils/models"
 )
 
 const ITEM_ID_KEY = "itemId"

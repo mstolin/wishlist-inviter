@@ -1,15 +1,16 @@
-module github.com/mstolin/present-roulette/utils
+module github.com/mstolin/wishlist-inviter/utils
 
 go 1.18
 
 require (
 	github.com/go-chi/jwtauth/v5 v5.0.2
-	github.com/go-chi/render v1.0.1
+	github.com/go-chi/render v1.0.2
 	github.com/google/uuid v1.3.0
 	github.com/lestrrat-go/jwx v1.2.25
 )
 
 require (
+	github.com/ajg/form v1.5.1 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.0-20210816181553-5444fa50b93d // indirect
 	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/lestrrat-go/backoff/v2 v2.0.8 // indirect

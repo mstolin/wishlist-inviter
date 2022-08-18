@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/mstolin/present-roulette/mail-service/database"
-	"github.com/mstolin/present-roulette/mail-service/gmail"
-	"github.com/mstolin/present-roulette/mail-service/handler"
-	"github.com/mstolin/present-roulette/mail-service/messages"
+	"github.com/mstolin/wishlist-inviter/mail-service/database"
+	"github.com/mstolin/wishlist-inviter/mail-service/gmail"
+	"github.com/mstolin/wishlist-inviter/mail-service/handler"
+	"github.com/mstolin/wishlist-inviter/mail-service/messages"
 )
 
 func main() {

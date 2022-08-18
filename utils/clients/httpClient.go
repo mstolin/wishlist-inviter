@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/mstolin/present-roulette/utils/httpErrors"
+	"github.com/mstolin/wishlist-inviter/utils/httpErrors"
 )
 
 type HTTPFacade struct {

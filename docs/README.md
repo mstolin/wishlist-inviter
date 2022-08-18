@@ -1,4 +1,4 @@
-# Present-Roulette Documentation
+# wishlist-inviter Documentation
 
 ## Overall
 
