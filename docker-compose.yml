@@ -154,11 +154,10 @@ services:
         #     - "8043:8080"
         env_file:
             - env/gmail-adapter/.env
+            - env/JWT.env
         environment:
             - GMAIL_HOST=smtp.gmail.com
             - GMAIL_PORT=587
-        env_file:
-            - env/JWT.env
         restart: always
         networks:
             - gmail-adapter-network
