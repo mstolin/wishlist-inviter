@@ -95,7 +95,7 @@ The ID is visible via the URL. For example, if your wishlist URL is
 ### JWT
 
 For authentication purposes, a JWT token is necessary. You can create a random
-secret at https://www.random.org/bytes/.
+secret at https://bitwarden.com/password-generator/.
 
 Save the secret at `/env/JWT.env`.
 
