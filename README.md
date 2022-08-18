@@ -66,6 +66,16 @@ single user. It represents if an item has been bought by a buyer or not.
 
 ## Set up
 
+### Add wishlists
+
+The [Amazon-Clone](./amazon-clone/) requires some wishlists exported from
+Amazon.com. You can open a wishlist on Amazon and save it using your browser.
+Then, save the content to `amazon-clone/nginx/hz/wishlist/ls/WISHLIST-ID`.
+
+The ID is visible via the URL. For example, if your wishlist URL is
+`https://www.amazon.com/hz/wishlist/ls/194N1KF03IPTL/`, the ID is 
+`194N1KF03IPTL`.
+
 ### JWT
 
 For authentication purposes, a JWT token is necessary. You can create a random
