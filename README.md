@@ -126,7 +126,7 @@ services using Podman, you have to publish its ports in the
 ## Testing
 
 To test this project, a [Postman](https://www.postman.com/) collection is 
-provided at `/Present-Roulette.postman_collection.json`.
+provided at `/Wishlist-Inviter.postman_collection.json`.
 
 # License
 
