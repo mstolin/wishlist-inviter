@@ -66,6 +66,22 @@ single user. It represents if an item has been bought by a buyer or not.
 
 ## Set up
 
+### Go workspace
+
+To simplify working with this multi-module application, Go 
+[workspaces](https://go.dev/blog/get-familiar-with-workspaces) come in handy. It
+can be initialized using the following command:
+
+```
+$ go work use utils \
+    user-endpoint \
+    user-service \
+    mail-service \
+    scrapper-facade \
+    database-adapter \
+    gmail-adapter
+```
+
 ### Add wishlists
 
 The [Amazon-Clone](./amazon-clone/) requires some wishlists exported from
