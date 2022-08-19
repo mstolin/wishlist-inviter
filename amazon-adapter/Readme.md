@@ -1,47 +1,63 @@
 # Amazon Scrapper
 
-This is a web scrapper, written in Python, that simply scraps a wishlist from Amazon.
+This is a web scraper written in Python, that simply scraps a wishlist from 
+Amazon.
+
+# Development
 
 ## Configuration
 
-Create a `.env` file in the root directory of this project, that contains the following environment variables:
+Tu run properly, the service requires the following environment variables:
 
 ```
-AMAZON_URL=http://localhost:8080
+HOST=localhost
+PORT=8080
+JWT_SIGN_KEY=SUPER_SECRET
+AMAZON_URL=http://localhost:8041
 ```
 
-## Development
+## Set up
 
-For development purposes, run the following using [Poetry](https://python-poetry.org/).
+This project uses [Poetry](https://python-poetry.org/) for dependency
+management. TO instell dependencies, run the following command:
 
 ```
 $ poetry install
-$ HOST=localhost PORT=8042 AMAZON_URL=http://localhost:8041 poetry run start
 ```
 
-## Build and Run
+## Run using Poetry
 
-The first step to build the image of this service. This can be either done with Docker or Padman.
-
-```
-$ podman build -t localhost/wishlist-inviter/amazon-scrapper .
-```
-
-Next, it is possible to run the service using the following command:
+Run this project for development purposes using Poetry:
 
 ```
-$ podman run -d -p 8080:8080 --rm --env-file .env localhost/wishlist-inviter/amazon-scrapper
+$ HOST=localhost PORT=8042 AMAZON_URL=http://localhost:8041 JWT_SIGN_KEY=SECRET poetry run start
 ```
 
-It is important to map the exact same OS port to the container port.
+## Build and Run using Podman
 
-## REST Endpoints
-
--   Endpoint: `/wishlist/WISHLIST_ID` \
-    Method: GET
-
-## Send Requests
+First you can build the image using the following command:
 
 ```
-$ curl http://localhost:8080/wishlist/194N1KF03IPTL
+$ sudo podman build -t localhost/wishlist-inviter/amazon-scrapper .
+```
+
+Next, it is possible to run the service with `podman run`. In this example, an
+environment file was created containing all the variables introduced in
+[Configuration](#configuration).
+
+```
+$ sudo podman run -d --rm \
+    -p 8080:8080 \
+    --env-file .env \
+    localhost/wishlist-inviter/amazon-scrapper
+```
+
+Another way is to use `podman-compose`. For that, follow the instructions from
+[Set up](../README.md#set-up).
+
+Use this command to only run the Amazon-Adapter. By default no ports are exposed
+to the outside.
+
+```
+$ sudo podman-compose up amazon-adapter
 ```
