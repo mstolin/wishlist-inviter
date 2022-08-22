@@ -1,14 +1,17 @@
 # Database Adapter
 
-This is a simple adapter service (written in Go), to access a Postgresql database.
+This adapter is used to abstract the usage of a PostgresDB. It will perform
+CRUD operations
+
+# Development
 
 ## Configuration
 
-Create a `.env` file in the root directory of this project, that contains the following environment variables:
+The following environment variables are:
 
 ```
-SERVICE_ADDRESS=:8080
-
+ADDRESS=:8080
+JWT_SIGN_KEY=SUPER_SECRET
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=admin
@@ -16,63 +19,47 @@ DB_PASSWORD=admin123
 DB_NAME=wishlist-inviter
 ```
 
-## Development
+## Run
 
-For development purposes, just run the `run.sh` script.
-If needed, set the environment varibles accordingly.
+For development purposes, this service can be started using the following 
+command from the root directory:
 
 ```
-$ ./run.sh
-# or from root directory
-$ ADDRESS=:8061 DB_HOST=localhost DB_PORT=5432 DB_USER=admin DB_PASSWORD=admin123 DB_NAME=wishlist-inviter go run ./database-adapter
+$ ADDRESS=:8061 \
+  JWT_SIGN_KEY=SUPER_SECRET \
+  DB_HOST=localhost \
+  DB_PORT=5432 \
+  DB_USER=admin \
+  DB_PASSWORD=admin123 \
+  DB_NAME=wishlist-inviter \
+  go run ./database-adapter
 ```
 
-## Build and Run
+## Build and Run using Podman
 
-The first step to build the image of this service. This can be either done with Docker or Padman.
+Use this command to build an image of the service:
 
 ```
 $ podman build -t localhost/wishlist-inviter/database-adapter .
 ```
 
-Next, it is possible to run the service using the following command:
+Next, we can start a container using `podman run`. In this example, an
+environment file was created containing all the variables introduced in
+[Configuration](#configuration).
 
 ```
-$ podman run -d -p 8080:8080 --rm --env-file .env localhost/wishlist-inviter/database-adapter
+$ podman run -d --rm \
+  -p 8080:8080 \
+  --env-file .env \
+  localhost/wishlist-inviter/database-adapter
 ```
 
-It is important to map the exact same OS port to the container port.
+Another way is to use `podman-compose`. For that, follow the instructions from
+[Set up](../README.md#set-up).
 
-## REST Endpoint
-
-```
-$ curl -X POST http://localhost:8080/users \
-  -H 'Content-Type: application/json' \
-  -d '{}'
-```
+Use this command to only run the Amazon-Adapter. By default no ports are exposed
+to the outside.
 
 ```
-$ curl http://localhost:8080/users/c8dc276b-176a-4468-b6b6-4af63f1b98f1
-```
-
-```
-$ curl -X DELETE http://localhost:8080/users/c8dc276b-176a-4468-b6b6-4af63f1b98f1
-```
-
-```
-$ curl http://localhost:8080/users/7dd27df6-5af3-4968-92cd-ad28b6e644f6/items
-```
-
-```
-$ curl -X POST http://localhost:8080/users/7dd27df6-5af3-4968-92cd-ad28b6e644f6/items \
-  -H 'Content-Type: application/json' \
-  -d '[{"name": "Test Item 1", "price": 4.89, "vendor": "amazon", "vendor_id": "SOME_ID"}, {"name": "Test Item 2", "price": 4.89, "vendor": "amazon", "vendor_id": "SOME_ID"}]'
-```
-
-```
-$ curl http://localhost:8080/users/7dd27df6-5af3-4968-92cd-ad28b6e644f6/items/14
-```
-
-```
-$ curl -X DELETE http://localhost:8080/users/7dd27df6-5af3-4968-92cd-ad28b6e644f6/items/14
+$ sudo podman-compose up database-adapter
 ```
