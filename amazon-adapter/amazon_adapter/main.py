@@ -3,16 +3,30 @@ import requests
 import uvicorn
 import jwt
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 
 from amazon_adapter.scrapper.scrapper import Scrapper
 from amazon_adapter.authHandler import AuthHandler
+from amazon_adapter.jsonHTTPException import JSONHTTPException
 
 app = FastAPI()
 auth_handler = AuthHandler()
+
+@app.exception_handler(JSONHTTPException)
+async def json_exception_handler(request: Request, exc: JSONHTTPException):
+    return JSONResponse(
+        status_code=exc.status, 
+        content={
+            "error": {
+                "status": exc.status,
+                "error": exc.error,
+                "message": exc.message
+            }
+        }
+    )
 
 @app.on_event("startup")
 async def on_startup():
