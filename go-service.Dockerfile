@@ -1,7 +1,7 @@
 #
 # BUILDER
 #
-FROM docker.io/golang:1.18-buster AS builder
+FROM docker.io/golang:1.19-alpine AS builder
 ARG WORKDIR=/app
 ARG SERVICE_NAME
 ARG SERVICE_PROJECT_PATH
@@ -22,11 +22,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /go/bin/http-serv
 #
 # RUNNER
 #
-FROM alpine:3.15.0
-# Install certificates for HTTPS
-RUN apk --no-cache add ca-certificates
-RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
-
+FROM scratch
 COPY --from=builder /go/bin/http-service /bin/http-service
 EXPOSE 8080
 ENTRYPOINT /bin/http-service
