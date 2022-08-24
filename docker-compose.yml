@@ -196,7 +196,7 @@ services:
             - database-network
 
     amazon-clone:
-        image: docker.io/nginx:latest
+        image: docker.io/nginx:1.23.1
         privileged: true # Give access to filesystem
         ports:
             - "8041:8041"
