@@ -16,9 +16,9 @@ func (facade ScrapperFacade) ScrapAmazonWishlist(wishlistId, accessToken string)
 	}
 
 	url := fmt.Sprintf("%s/wishlists/%s", facade.AmazonScrapper, wishlistId)
-	res, err := httpFacadeInstance.DoGet(url, accessToken)
-	if err != nil {
-		return wishlist, err
+	res, httpErr := httpFacadeInstance.DoGet(url, accessToken)
+	if httpErr != nil {
+		return wishlist, httpErr
 	}
 
 	if err := json.Unmarshal(res, &wishlist); err != nil {

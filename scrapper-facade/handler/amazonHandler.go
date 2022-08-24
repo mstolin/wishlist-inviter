@@ -35,9 +35,9 @@ func scrapWishlist(w http.ResponseWriter, r *http.Request) {
 	whishlistId := r.Context().Value(PARAM_WISHLIST_ID).(string)
 	accessToken := r.Header.Get("Authorization")
 
-	resp, err := scrapperFacadeInstance.ScrapAmazonWishlist(whishlistId, accessToken)
-	if err != nil {
-		render.Render(w, r, err)
+	resp, httpErr := scrapperFacadeInstance.ScrapAmazonWishlist(whishlistId, accessToken)
+	if httpErr != nil {
+		render.Render(w, r, httpErr)
 		return
 	}
 
