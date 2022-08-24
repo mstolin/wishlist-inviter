@@ -127,6 +127,12 @@ whole multi-service application. After that, the _User-Endpoint_ is available at
 $ sudo podman-compose up --build
 ```
 
+After that, you can delete all _builder_ images using:
+
+```
+$ sudo podman image prune --filter label=stage=builder
+```
+
 You can also use podman-compose to build and run a specific collection of 
 services.
 
