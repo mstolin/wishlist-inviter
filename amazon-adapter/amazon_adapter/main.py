@@ -1,7 +1,6 @@
 import os
 import requests
 import uvicorn
-import jwt
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends, Request, status
 from fastapi.encoders import jsonable_encoder
@@ -57,7 +56,7 @@ async def wishlist_handler(id: str):
             status_code=500,
             content={
                 "error": {
-                    "status": exc.status_code,
+                    "status": 500,
                     "error": "Internal Server Error",
                     "message": str(exc)
                 }
