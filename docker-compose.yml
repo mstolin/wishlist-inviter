@@ -166,6 +166,7 @@ services:
         build: ./amazon-adapter
         # ports:
         #     - "8042:8080"
+        command: "--host 0.0.0.0 --port 8080"
         environment:
             - AMAZON_URL=http://amazon-clone:8041
         env_file:
