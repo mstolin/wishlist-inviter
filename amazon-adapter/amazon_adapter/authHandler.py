@@ -10,14 +10,13 @@ from amazon_adapter.jsonHTTPException import JSONHTTPException
 class AuthHandler:
 
     _security = HTTPBearer()
-    _secret = ""
 
-    def set_secret(self, secret: str):
-        self._secret = secret
+    def __init__(self, settings):
+        self._settings = settings
 
     def decode_token(self, token: str):
         try:
-            payload = jwt.decode(token, self._secret, algorithms=['HS256'])
+            payload = jwt.decode(token, self._settings.jwt_sign_key, algorithms=['HS256'])
             return payload
         except ExpiredSignatureError:
             raise JSONHTTPException("Unauthorized", 401, "token is expired")

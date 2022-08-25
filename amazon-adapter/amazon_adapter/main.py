@@ -1,7 +1,5 @@
-import os
 import requests
 import uvicorn
-from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -10,9 +8,12 @@ from fastapi.security import OAuth2PasswordBearer
 from amazon_adapter.scrapper.scrapper import Scrapper
 from amazon_adapter.authHandler import AuthHandler
 from amazon_adapter.jsonHTTPException import JSONHTTPException
+from amazon_adapter.settings import Settings
 
 app = FastAPI()
-auth_handler = AuthHandler()
+settings = Settings()
+auth_handler = AuthHandler(settings)
+
 
 @app.exception_handler(JSONHTTPException)
 async def json_exception_handler(request: Request, exc: JSONHTTPException):
@@ -42,33 +43,11 @@ async def wishlist_handler(id: str):
         wishlist = scrapper.scrap_wishlist(id)
         return JSONResponse(content=jsonable_encoder(wishlist))
     except HTTPException as exc:
-        return JSONResponse(
-            status_code=exc.status_code,
-            content={
-                "error": {
-                    "status": exc.status_code,
-                    "message": exc.detail
-                }
-            }
-        )
+        raise JSONHTTPException("", exc.status_code, exc.detail)
     except Exception as exc:
-        return JSONResponse(
-            status_code=500,
-            content={
-                "error": {
-                    "status": 500,
-                    "error": "Internal Server Error",
-                    "message": str(exc)
-                }
-            }
-        )
+        raise JSONHTTPException("Internal Server Error", 500, str(exc))
 
 
 def start():
     """Launched with `poetry run start` at root level"""
-    load_dotenv()
-    host = os.environ.get("HOST")
-    port = int(os.environ.get("PORT"))
-    secret = os.environ.get("JWT_SIGN_KEY")
-    auth_handler.set_secret(secret)
-    uvicorn.run("amazon_adapter.main:app", host=host, port=port, reload=False)
+    uvicorn.run("amazon_adapter.main:app", reload=False)
