@@ -17,16 +17,16 @@ GMAIL_MAIL=yourmail@gmail.com
 GMAIL_PASSWORD=APP_PASSWORD
 ```
 
-You can find an explanation on how to create app passwords at 
+You can find an explanation on how to create app passwords at
 https://support.google.com/mail/answer/185833.
 
 ### Run
 
-For development purposes, this service can be started using the following 
+For development purposes, this service can be started using the following
 command from the root directory:
 
 ```
-$ ADDRESS=:8061 \
+$ ADDRESS=:8043 \
   JWT_SIGN_KEY=SUPER_SECRET \
   GMAIL_HOST=smtp.gmail.com \
   GMAIL_PORT=587 \
@@ -40,7 +40,7 @@ $ ADDRESS=:8061 \
 Use this command to build an image of the service:
 
 ```
-$ podman build -t localhost/wishlist-inviter/database-adapter .
+$ podman build -t localhost/wishlist-inviter/gmail-adapter .
 ```
 
 Next, we can start a container using `podman run`. In this example, an
@@ -57,7 +57,7 @@ $ podman run -d --rm \
 Another way is to use `podman-compose`. For that, follow the instructions from
 [Set up](../README.md#set-up).
 
-Use this command to only run the Amazon-Adapter. By default no ports are exposed
+Use this command to only run the GMail-Adapter. By default no ports are exposed
 to the outside.
 
 ```

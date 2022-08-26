@@ -1,7 +1,7 @@
-# Mail-Service
+# Scrapper-Facade
 
-The Mail-Service is a business services that is responsible to handle all mail-
-related tasks.
+The Scrapper-Facade abstracts the usage of all vendor-specific adapter services
+like the Amazon-Adapter.
 
 # Development
 
@@ -10,11 +10,9 @@ related tasks.
 The following environment variables are required:
 
 ```
-ADDRESS=:8021
+SERVICE_ADDRESS=:8022
 JWT_SIGN_KEY=SUPER_SECRET
-GMAIL_ADAPTER=http://localhost:8043
-DATABASE_ADAPTER=http://localhost:8061
-SENDER_MAIL=sender@domain.tld
+AMAZON_SCRAPPER=http://localhost:8042
 ```
 
 ## Run
@@ -22,12 +20,11 @@ SENDER_MAIL=sender@domain.tld
 For development use the following command from the root directory:
 
 ```
-$ ADDRESS=:8021 \
+$ SERVICE_ADDRESS=:8022 \
   JWT_SIGN_KEY=SUPER_SECRET \
-  GMAIL_ADAPTER=http://localhost:8043 \
-  DATABASE_ADAPTER=http://localhost:8061 \
-  SENDER_MAIL=sender@domain.tld \
-  go run ./mail-service
+  AMAZON_SCRAPPER=http://localhost:8042 \
+  JWT_SIGN_KEY=SUPER_SECRET \
+  go run ./scrapper-facade
 ```
 
 ## Build and Run using Podman
@@ -35,7 +32,7 @@ $ ADDRESS=:8021 \
 To build this service use `podman build`:
 
 ```
-$ podman build -t localhost/wishlist-inviter/mail-service .
+$ podman build -t localhost/wishlist-inviter/scrapper-facade .
 ```
 
 Next, we can start a container using `podman run`. In this example, an
@@ -46,15 +43,15 @@ environment file was created containing all the variables introduced in
 $ podman run -d --rm \
   -p 8080:8080 \
   --env-file .env \
-  localhost/wishlist-inviter/mail-service
+  localhost/wishlist-inviter/scrapper-facade
 ```
 
 Another way is to use `podman-compose`. For that, follow the instructions from
 [Set up](../README.md#set-up).
 
-Use this command to only run the Mail-Service. By default no ports are exposed
-to the outside.
+Use this command to only run the Scrapper-Facade. By default no ports are
+exposed to the outside.
 
 ```
-$ sudo podman-compose up mail-service
+$ sudo podman-compose up scrapper-facade
 ```

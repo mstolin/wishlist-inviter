@@ -1,7 +1,7 @@
-# Mail-Service
+# User-Endpoint
 
-The Mail-Service is a business services that is responsible to handle all mail-
-related tasks.
+The User-Endpoint serves as the gateway for all client requests. It communicates
+with the underlying business services.
 
 # Development
 
@@ -10,11 +10,11 @@ related tasks.
 The following environment variables are required:
 
 ```
-ADDRESS=:8021
+SERVICE_ADDRESS=:8080
 JWT_SIGN_KEY=SUPER_SECRET
-GMAIL_ADAPTER=http://localhost:8043
-DATABASE_ADAPTER=http://localhost:8061
-SENDER_MAIL=sender@domain.tld
+USER_SERVICE=http://localhost:8071
+MAIL_SERVICE=http://localhost:8021
+SCRAPPER_FACADE=http://localhost:8022
 ```
 
 ## Run
@@ -22,12 +22,12 @@ SENDER_MAIL=sender@domain.tld
 For development use the following command from the root directory:
 
 ```
-$ ADDRESS=:8021 \
+$ ADDRESS=:8080 \
+  USER_SERVICE=http://localhost:8071 \
+  MAIL_SERVICE=http://localhost:8021 \
+  SCRAPPER_FACADE=http://localhost:8022 \
   JWT_SIGN_KEY=SUPER_SECRET \
-  GMAIL_ADAPTER=http://localhost:8043 \
-  DATABASE_ADAPTER=http://localhost:8061 \
-  SENDER_MAIL=sender@domain.tld \
-  go run ./mail-service
+  go run ./user-endpoint
 ```
 
 ## Build and Run using Podman
@@ -35,7 +35,7 @@ $ ADDRESS=:8021 \
 To build this service use `podman build`:
 
 ```
-$ podman build -t localhost/wishlist-inviter/mail-service .
+$ podman build -t localhost/wishlist-inviter/user-endpoint .
 ```
 
 Next, we can start a container using `podman run`. In this example, an
@@ -46,15 +46,15 @@ environment file was created containing all the variables introduced in
 $ podman run -d --rm \
   -p 8080:8080 \
   --env-file .env \
-  localhost/wishlist-inviter/mail-service
+  localhost/wishlist-inviter/user-endpoint
 ```
 
 Another way is to use `podman-compose`. For that, follow the instructions from
 [Set up](../README.md#set-up).
 
-Use this command to only run the Mail-Service. By default no ports are exposed
+Use this command to only run the User-Endpoint. By default no ports are exposed
 to the outside.
 
 ```
-$ sudo podman-compose up mail-service
+$ sudo podman-compose up user-endpoint
 ```
