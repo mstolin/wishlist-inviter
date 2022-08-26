@@ -27,7 +27,7 @@ func NewDatabaseClient(url string) (DatabaseClient, error) {
 
 // Requests all items of a specific user
 func (client DatabaseClient) GetItemsForUser(userId string, wantedIds []uint, accessToken string) (models.ItemList, *httpErrors.ErrorResponse) {
-	items := models.ItemList{}
+	var items models.ItemList
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
 	res, httpErr := client.httpFacade.DoGet(url, accessToken)
@@ -41,7 +41,7 @@ func (client DatabaseClient) GetItemsForUser(userId string, wantedIds []uint, ac
 
 	wantedItems := filterItems(items, wantedIds)
 	if len(wantedItems) <= 0 {
-		return items, &httpErrors.ErrNotFound
+		return items, httpErrors.ErrNotFoundRenderer(fmt.Errorf("no items found for the given IDs"))
 	}
 
 	return wantedItems, nil
