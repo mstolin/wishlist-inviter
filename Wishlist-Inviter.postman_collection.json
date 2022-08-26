@@ -76,10 +76,12 @@
 													}
 												},
 												"url": {
-													"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"protocol": "http",
 													"host": [
-														"{{USER-ENDPOINT}}"
+														"{{SERVER-ADDRESS}}"
 													],
+													"port": "{{USER-ENDPOINT-PORT}}",
 													"path": [
 														"users",
 														"{{USER-ID}}",
@@ -135,10 +137,12 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"protocol": "http",
 													"host": [
-														"{{USER-ENDPOINT}}"
+														"{{SERVER-ADDRESS}}"
 													],
+													"port": "{{USER-ENDPOINT-PORT}}",
 													"path": [
 														"users",
 														"{{USER-ID}}",
@@ -194,10 +198,12 @@
 												"method": "DELETE",
 												"header": [],
 												"url": {
-													"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"protocol": "http",
 													"host": [
-														"{{USER-ENDPOINT}}"
+														"{{SERVER-ADDRESS}}"
 													],
+													"port": "{{USER-ENDPOINT-PORT}}",
 													"path": [
 														"users",
 														"{{USER-ID}}",
@@ -282,10 +288,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items",
+											"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/users/{{USER-ID}}/items",
+											"protocol": "http",
 											"host": [
-												"{{USER-ENDPOINT}}"
+												"{{SERVER-ADDRESS}}"
 											],
+											"port": "{{USER-ENDPOINT-PORT}}",
 											"path": [
 												"users",
 												"{{USER-ID}}",
@@ -324,10 +332,12 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}/items",
+											"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/users/{{USER-ID}}/items",
+											"protocol": "http",
 											"host": [
-												"{{USER-ENDPOINT}}"
+												"{{SERVER-ADDRESS}}"
 											],
+											"port": "{{USER-ENDPOINT-PORT}}",
 											"path": [
 												"users",
 												"{{USER-ID}}",
@@ -361,6 +371,12 @@
 											"    pm.expect(userId).to.be.a.string;",
 											"    pm.expect(userId).not.to.be.empty;",
 											"    pm.environment.set(\"USER-ID\", userId);",
+											"});",
+											"",
+											"pm.test(\"Has array of items\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const items = jsonData[\"items\"];",
+											"    pm.expect(items).to.be.instanceOf(Array);",
 											"});"
 										],
 										"type": "text/javascript"
@@ -371,10 +387,12 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/users",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/users",
+									"protocol": "http",
 									"host": [
-										"{{USER-ENDPOINT}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-ENDPOINT-PORT}}",
 									"path": [
 										"users"
 									]
@@ -419,10 +437,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/users/{{USER-ID}}",
+									"protocol": "http",
 									"host": [
-										"{{USER-ENDPOINT}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-ENDPOINT-PORT}}",
 									"path": [
 										"users",
 										"{{USER-ID}}"
@@ -463,10 +483,12 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/users/{{USER-ID}}",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/users/{{USER-ID}}",
+									"protocol": "http",
 									"host": [
-										"{{USER-ENDPOINT}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-ENDPOINT-PORT}}",
 									"path": [
 										"users",
 										"{{USER-ID}}"
@@ -516,10 +538,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/auth",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/auth",
+									"protocol": "http",
 									"host": [
-										"{{USER-ENDPOINT}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-ENDPOINT-PORT}}",
 									"path": [
 										"auth"
 									]
@@ -534,14 +558,47 @@
 					"item": [
 						{
 							"name": "Get Games Wishlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Information are correct\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData[\"id\"]).to.be.equal(pm.variables.get(\"AMAZON-WISHLIST-GAMES\"));",
+											"    pm.expect(jsonData[\"vendor\"]).to.be.equal(\"amazon\");",
+											"    pm.expect(jsonData[\"name\"]).to.be.equal(\"Games\");",
+											"});",
+											"",
+											"pm.test(\"Items are correct\", function () {",
+											"    const items = pm.response.json()[\"items\"];",
+											"    pm.expect(items).to.be.instanceOf(Array);",
+											"    pm.expect(items).to.be.not.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/items/amazon/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/items/amazon/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+									"protocol": "http",
 									"host": [
-										"{{USER-ENDPOINT}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-ENDPOINT-PORT}}",
 									"path": [
 										"items",
 										"amazon",
@@ -554,14 +611,47 @@
 						},
 						{
 							"name": "Get Coffee Wishlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Information are correct\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData[\"id\"]).to.be.equal(pm.variables.get(\"AMAZON-WISHLIST-COFFEE\"));",
+											"    pm.expect(jsonData[\"vendor\"]).to.be.equal(\"amazon\");",
+											"    pm.expect(jsonData[\"name\"]).to.be.equal(\"Kaffee-Zeug\");",
+											"});",
+											"",
+											"pm.test(\"Items are correct\", function () {",
+											"    const items = pm.response.json()[\"items\"];",
+											"    pm.expect(items).to.be.instanceOf(Array);",
+											"    pm.expect(items).to.be.not.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/items/amazon/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/items/amazon/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+									"protocol": "http",
 									"host": [
-										"{{USER-ENDPOINT}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-ENDPOINT-PORT}}",
 									"path": [
 										"items",
 										"amazon",
@@ -579,12 +669,35 @@
 					"item": [
 						{
 							"name": "Send Invitation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Information are correct\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData[\"message\"]).to.be.equal(\"mail has been sent successfully\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [1, 2]\n}",
+									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [{{FIRST-ITEM-ID}}, {{SECOND-ITEM-ID}}]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -592,10 +705,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{USER-ENDPOINT}}/mail/invitations/",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-ENDPOINT-PORT}}/mail/invitations/",
+									"protocol": "http",
 									"host": [
-										"{{USER-ENDPOINT}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-ENDPOINT-PORT}}",
 									"path": [
 										"mail",
 										"invitations",
@@ -653,19 +768,60 @@
 									"item": [
 										{
 											"name": "Get Item",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const firstItem = {",
+															"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+															"    \"price\": 54.84,",
+															"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+															"    \"vendor\": \"amazon\"",
+															"}",
+															"",
+															"pm.test(\"Status is ok/200\", function () {",
+															"    pm.response.to.be.ok;",
+															"});",
+															"",
+															"pm.test(\"Body is JSON\", function () {",
+															"    pm.response.to.be.withBody;",
+															"    pm.response.to.be.json;",
+															"});",
+															"",
+															"pm.test(\"Item ID is equal\", function () {",
+															"    const item = pm.response.json();",
+															"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+															"});",
+															"",
+															"pm.test(\"Response is equal to first item\", function () {",
+															"    const item = pm.response.json();",
+															"",
+															"    pm.expect(item.name).to.be.equal(firstItem.name);",
+															"    pm.expect(item.price).to.be.equal(firstItem.price);",
+															"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+															"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
 											"request": {
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+													"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"protocol": "http",
 													"host": [
-														"{{USER-SERVICE}}"
+														"{{SERVER-ADDRESS}}"
 													],
+													"port": "{{USER-SERVICE-PORT}}",
 													"path": [
 														"users",
 														"{{USER-ID}}",
 														"items",
-														"{{ITEM-ID}}"
+														"{{FIRST-ITEM-ID}}"
 													]
 												}
 											},
@@ -673,6 +829,50 @@
 										},
 										{
 											"name": "Update Item",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const firstItem = {",
+															"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+															"    \"price\": 54.84,",
+															"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+															"    \"vendor\": \"amazon\"",
+															"}",
+															"",
+															"pm.test(\"Status is ok/200\", function () {",
+															"    pm.response.to.be.ok;",
+															"});",
+															"",
+															"pm.test(\"Body is JSON\", function () {",
+															"    pm.response.to.be.withBody;",
+															"    pm.response.to.be.json;",
+															"});",
+															"",
+															"pm.test(\"Item ID is equal\", function () {",
+															"    const item = pm.response.json();",
+															"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+															"});",
+															"",
+															"pm.test(\"Response is equal to first item\", function () {",
+															"    const item = pm.response.json();",
+															"",
+															"    pm.expect(item.name).to.be.equal(firstItem.name);",
+															"    pm.expect(item.price).to.be.equal(firstItem.price);",
+															"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+															"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+															"});",
+															"",
+															"pm.test(\"Has been bought\", function () {",
+															"    const item = pm.response.json();",
+															"    pm.expect(item[\"has_been_baught\"]).to.be.true;",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
 											"request": {
 												"method": "PUT",
 												"header": [],
@@ -686,15 +886,17 @@
 													}
 												},
 												"url": {
-													"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+													"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"protocol": "http",
 													"host": [
-														"{{USER-SERVICE}}"
+														"{{SERVER-ADDRESS}}"
 													],
+													"port": "{{USER-SERVICE-PORT}}",
 													"path": [
 														"users",
 														"{{USER-ID}}",
 														"items",
-														"{{ITEM-ID}}"
+														"{{FIRST-ITEM-ID}}"
 													]
 												}
 											},
@@ -702,19 +904,60 @@
 										},
 										{
 											"name": "Delete Item",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const firstItem = {",
+															"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+															"    \"price\": 54.84,",
+															"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+															"    \"vendor\": \"amazon\"",
+															"}",
+															"",
+															"pm.test(\"Status is ok/200\", function () {",
+															"    pm.response.to.be.ok;",
+															"});",
+															"",
+															"pm.test(\"Body is JSON\", function () {",
+															"    pm.response.to.be.withBody;",
+															"    pm.response.to.be.json;",
+															"});",
+															"",
+															"pm.test(\"Item ID is equal\", function () {",
+															"    const item = pm.response.json();",
+															"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+															"});",
+															"",
+															"pm.test(\"Response is equal to first item\", function () {",
+															"    const item = pm.response.json();",
+															"",
+															"    pm.expect(item.name).to.be.equal(firstItem.name);",
+															"    pm.expect(item.price).to.be.equal(firstItem.price);",
+															"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+															"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
 											"request": {
 												"method": "DELETE",
 												"header": [],
 												"url": {
-													"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+													"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+													"protocol": "http",
 													"host": [
-														"{{USER-SERVICE}}"
+														"{{SERVER-ADDRESS}}"
 													],
+													"port": "{{USER-SERVICE-PORT}}",
 													"path": [
 														"users",
 														"{{USER-ID}}",
 														"items",
-														"{{ITEM-ID}}"
+														"{{FIRST-ITEM-ID}}"
 													]
 												}
 											},
@@ -754,6 +997,60 @@
 								},
 								{
 									"name": "Create/Add Items",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const items = [",
+													"    {",
+													"        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+													"        \"price\": 54.84,",
+													"        \"vendor_id\": \"I3UCMMATCW0ATV\",",
+													"        \"vendor\": \"amazon\"",
+													"    },",
+													"    {",
+													"        \"name\": \"Hario V60 Glass Coffee Dripper\",",
+													"        \"price\": 50.8,",
+													"        \"vendor\": \"amazon\",",
+													"        \"vendor_id\": \"IP0OBIK4UO9AG\"",
+													"    }",
+													"];",
+													"",
+													"pm.test(\"Status is ok/200\", function () {",
+													"    pm.response.to.be.ok;",
+													"});",
+													"",
+													"pm.test(\"Body is JSON\", function () {",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Is array\", function () {",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData).to.be.instanceOf(Array);",
+													"});",
+													"",
+													"pm.test(\"Items are equal\", function () {",
+													"    const jsonData = pm.response.json();",
+													"    const firstItem = jsonData[0];",
+													"    const secondItem = jsonData[1];",
+													"",
+													"    pm.expect(firstItem.name).to.be.equal(items[0].name);",
+													"    pm.expect(firstItem.price).to.be.equal(items[0].price);",
+													"    pm.expect(firstItem.vendor).to.be.equal(items[0].vendor);",
+													"    pm.expect(firstItem[\"vendor_id\"]).to.be.equal(items[0][\"vendor_id\"]);",
+													"",
+													"    pm.expect(secondItem.name).to.be.equal(items[1].name);",
+													"    pm.expect(secondItem.price).to.be.equal(items[1].price);",
+													"    pm.expect(secondItem.vendor).to.be.equal(items[1].vendor);",
+													"    pm.expect(secondItem[\"vendor_id\"]).to.be.equal(items[1][\"vendor_id\"]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"request": {
 										"method": "POST",
 										"header": [],
@@ -767,10 +1064,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items/",
+											"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/{{USER-ID}}/items/",
+											"protocol": "http",
 											"host": [
-												"{{USER-SERVICE}}"
+												"{{SERVER-ADDRESS}}"
 											],
+											"port": "{{USER-SERVICE-PORT}}",
 											"path": [
 												"users",
 												"{{USER-ID}}",
@@ -783,14 +1082,39 @@
 								},
 								{
 									"name": "Get Items",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status is ok/200\", function () {",
+													"    pm.response.to.be.ok;",
+													"});",
+													"",
+													"pm.test(\"Body is JSON\", function () {",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Is array\", function () {",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData).to.be.instanceOf(Array);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"request": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{USER-SERVICE}}/users/{{USER-ID}}/items",
+											"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/{{USER-ID}}/items",
+											"protocol": "http",
 											"host": [
-												"{{USER-SERVICE}}"
+												"{{SERVER-ADDRESS}}"
 											],
+											"port": "{{USER-SERVICE-PORT}}",
 											"path": [
 												"users",
 												"{{USER-ID}}",
@@ -804,14 +1128,47 @@
 						},
 						{
 							"name": "Create User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Has user ID\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const userId = jsonData[\"id\"];",
+											"    pm.expect(userId).to.be.a.string;",
+											"    pm.expect(userId).not.to.be.empty;",
+											"});",
+											"",
+											"pm.test(\"Has array of items\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const items = jsonData[\"items\"];",
+											"    pm.expect(items).to.be.instanceOf(Array);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{USER-SERVICE}}/users",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users",
+									"protocol": "http",
 									"host": [
-										"{{USER-SERVICE}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-SERVICE-PORT}}",
 									"path": [
 										"users"
 									]
@@ -835,11 +1192,17 @@
 											"    pm.response.to.be.json;",
 											"});",
 											"",
-											"pm.test(\"Hass user ID\", function () {",
+											"pm.test(\"Has user ID\", function () {",
 											"    const jsonData = pm.response.json();",
 											"    const userId = jsonData[\"id\"];",
 											"    pm.expect(userId).to.be.a.string;",
 											"    pm.expect(userId).not.to.be.empty;",
+											"});",
+											"",
+											"pm.test(\"Has array of items\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const items = jsonData[\"items\"];",
+											"    pm.expect(items).to.be.instanceOf(Array);",
 											"});"
 										],
 										"type": "text/javascript"
@@ -850,10 +1213,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{USER-SERVICE}}/users/{{USER-ID}}",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/{{USER-ID}}",
+									"protocol": "http",
 									"host": [
-										"{{USER-SERVICE}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-SERVICE-PORT}}",
 									"path": [
 										"users",
 										"{{USER-ID}}"
@@ -864,14 +1229,42 @@
 						},
 						{
 							"name": "Delete User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"User ID is equal\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const userId = jsonData[\"id\"];",
+											"    pm.expect(userId).to.be.a.string;",
+											"    pm.expect(userId).not.to.be.empty;",
+											"    pm.expect(userId).to.be.equal(pm.environment.get(\"USER-ID\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{USER-SERVICE}}/users/{{USER-ID}}",
+									"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/{{USER-ID}}",
+									"protocol": "http",
 									"host": [
-										"{{USER-SERVICE}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{USER-SERVICE-PORT}}",
 									"path": [
 										"users",
 										"{{USER-ID}}"
@@ -933,7 +1326,6 @@
 									"    const accessToken = jsonData[\"access_token\"]",
 									"    pm.expect(accessToken).to.be.a.string;",
 									"    pm.expect(accessToken).not.to.be.empty;",
-									"    pm.environment.set(\"ACCESS-TOKEN\", accessToken);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -953,10 +1345,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{USER-SERVICE}}/users/auth",
+							"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/auth",
+							"protocol": "http",
 							"host": [
-								"{{USER-SERVICE}}"
+								"{{SERVER-ADDRESS}}"
 							],
+							"port": "{{USER-SERVICE-PORT}}",
 							"path": [
 								"users",
 								"auth"
@@ -978,19 +1372,60 @@
 							"item": [
 								{
 									"name": "Get Item",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const firstItem = {",
+													"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+													"    \"price\": 54.84,",
+													"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+													"    \"vendor\": \"amazon\"",
+													"}",
+													"",
+													"pm.test(\"Status is ok/200\", function () {",
+													"    pm.response.to.be.ok;",
+													"});",
+													"",
+													"pm.test(\"Body is JSON\", function () {",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Item ID is equal\", function () {",
+													"    const item = pm.response.json();",
+													"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+													"});",
+													"",
+													"pm.test(\"Response is equal to first item\", function () {",
+													"    const item = pm.response.json();",
+													"",
+													"    pm.expect(item.name).to.be.equal(firstItem.name);",
+													"    pm.expect(item.price).to.be.equal(firstItem.price);",
+													"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+													"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"request": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+											"protocol": "http",
 											"host": [
-												"{{DATABASE-ADAPTER}}"
+												"{{SERVER-ADDRESS}}"
 											],
+											"port": "{{DATABASE-ADAPTER-PORT}}",
 											"path": [
 												"users",
 												"{{USER-ID}}",
 												"items",
-												"{{ITEM-ID}}"
+												"{{FIRST-ITEM-ID}}"
 											]
 										}
 									},
@@ -998,19 +1433,60 @@
 								},
 								{
 									"name": "Delete Item",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const firstItem = {",
+													"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+													"    \"price\": 54.84,",
+													"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+													"    \"vendor\": \"amazon\"",
+													"}",
+													"",
+													"pm.test(\"Status is ok/200\", function () {",
+													"    pm.response.to.be.ok;",
+													"});",
+													"",
+													"pm.test(\"Body is JSON\", function () {",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Item ID is equal\", function () {",
+													"    const item = pm.response.json();",
+													"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+													"});",
+													"",
+													"pm.test(\"Response is equal to first item\", function () {",
+													"    const item = pm.response.json();",
+													"",
+													"    pm.expect(item.name).to.be.equal(firstItem.name);",
+													"    pm.expect(item.price).to.be.equal(firstItem.price);",
+													"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+													"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"request": {
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+											"protocol": "http",
 											"host": [
-												"{{DATABASE-ADAPTER}}"
+												"{{SERVER-ADDRESS}}"
 											],
+											"port": "{{DATABASE-ADAPTER-PORT}}",
 											"path": [
 												"users",
 												"{{USER-ID}}",
 												"items",
-												"{{ITEM-ID}}"
+												"{{FIRST-ITEM-ID}}"
 											]
 										}
 									},
@@ -1018,6 +1494,50 @@
 								},
 								{
 									"name": "Update Item",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const firstItem = {",
+													"    \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+													"    \"price\": 54.84,",
+													"    \"vendor_id\": \"I3UCMMATCW0ATV\",",
+													"    \"vendor\": \"amazon\"",
+													"}",
+													"",
+													"pm.test(\"Status is ok/200\", function () {",
+													"    pm.response.to.be.ok;",
+													"});",
+													"",
+													"pm.test(\"Body is JSON\", function () {",
+													"    pm.response.to.be.withBody;",
+													"    pm.response.to.be.json;",
+													"});",
+													"",
+													"pm.test(\"Item ID is equal\", function () {",
+													"    const item = pm.response.json();",
+													"    pm.expect(item.id).to.be.equal(pm.environment.get(\"FIRST-ITEM-ID\"));",
+													"});",
+													"",
+													"pm.test(\"Response is equal to first item\", function () {",
+													"    const item = pm.response.json();",
+													"",
+													"    pm.expect(item.name).to.be.equal(firstItem.name);",
+													"    pm.expect(item.price).to.be.equal(firstItem.price);",
+													"    pm.expect(item.vendor).to.be.equal(firstItem.vendor);",
+													"    pm.expect(item[\"vendor_id\"]).to.be.equal(firstItem[\"vendor_id\"]);",
+													"});",
+													"",
+													"pm.test(\"Has been bought\", function () {",
+													"    const item = pm.response.json();",
+													"    pm.expect(item[\"has_been_baught\"]).to.be.true;",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"request": {
 										"method": "PUT",
 										"header": [],
@@ -1031,15 +1551,17 @@
 											}
 										},
 										"url": {
-											"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/{{ITEM-ID}}",
+											"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users/{{USER-ID}}/items/{{FIRST-ITEM-ID}}",
+											"protocol": "http",
 											"host": [
-												"{{DATABASE-ADAPTER}}"
+												"{{SERVER-ADDRESS}}"
 											],
+											"port": "{{DATABASE-ADAPTER-PORT}}",
 											"path": [
 												"users",
 												"{{USER-ID}}",
 												"items",
-												"{{ITEM-ID}}"
+												"{{FIRST-ITEM-ID}}"
 											]
 										}
 									},
@@ -1049,6 +1571,60 @@
 						},
 						{
 							"name": "Create/Add Items",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const items = [",
+											"    {",
+											"        \"name\": \"Hario 400 ml Olive Wood New Coffee Server, Transparent\",",
+											"        \"price\": 54.84,",
+											"        \"vendor_id\": \"I3UCMMATCW0ATV\",",
+											"        \"vendor\": \"amazon\"",
+											"    },",
+											"    {",
+											"        \"name\": \"Hario V60 Glass Coffee Dripper\",",
+											"        \"price\": 50.8,",
+											"        \"vendor\": \"amazon\",",
+											"        \"vendor_id\": \"IP0OBIK4UO9AG\"",
+											"    }",
+											"];",
+											"",
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Is array\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.instanceOf(Array);",
+											"});",
+											"",
+											"pm.test(\"Items are equal\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const firstItem = jsonData[0];",
+											"    const secondItem = jsonData[1];",
+											"",
+											"    pm.expect(firstItem.name).to.be.equal(items[0].name);",
+											"    pm.expect(firstItem.price).to.be.equal(items[0].price);",
+											"    pm.expect(firstItem.vendor).to.be.equal(items[0].vendor);",
+											"    pm.expect(firstItem[\"vendor_id\"]).to.be.equal(items[0][\"vendor_id\"]);",
+											"",
+											"    pm.expect(secondItem.name).to.be.equal(items[1].name);",
+											"    pm.expect(secondItem.price).to.be.equal(items[1].price);",
+											"    pm.expect(secondItem.vendor).to.be.equal(items[1].vendor);",
+											"    pm.expect(secondItem[\"vendor_id\"]).to.be.equal(items[1][\"vendor_id\"]);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -1062,10 +1638,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items/",
+									"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users/{{USER-ID}}/items/",
+									"protocol": "http",
 									"host": [
-										"{{DATABASE-ADAPTER}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{DATABASE-ADAPTER-PORT}}",
 									"path": [
 										"users",
 										"{{USER-ID}}",
@@ -1078,14 +1656,39 @@
 						},
 						{
 							"name": "Get Items",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Is array\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.instanceOf(Array);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}/items",
+									"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users/{{USER-ID}}/items",
+									"protocol": "http",
 									"host": [
-										"{{DATABASE-ADAPTER}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{DATABASE-ADAPTER-PORT}}",
 									"path": [
 										"users",
 										"{{USER-ID}}",
@@ -1099,14 +1702,47 @@
 				},
 				{
 					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is ok/200\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Body is JSON\", function () {",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Has user ID\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    const userId = jsonData[\"id\"];",
+									"    pm.expect(userId).to.be.a.string;",
+									"    pm.expect(userId).not.to.be.empty;",
+									"});",
+									"",
+									"pm.test(\"Has array of items\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    const items = jsonData[\"items\"];",
+									"    pm.expect(items).to.be.instanceOf(Array);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{DATABASE-ADAPTER}}/users",
+							"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users",
+							"protocol": "http",
 							"host": [
-								"{{DATABASE-ADAPTER}}"
+								"{{SERVER-ADDRESS}}"
 							],
+							"port": "{{DATABASE-ADAPTER-PORT}}",
 							"path": [
 								"users"
 							]
@@ -1116,14 +1752,47 @@
 				},
 				{
 					"name": "Get User Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is ok/200\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Body is JSON\", function () {",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Has user ID\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    const userId = jsonData[\"id\"];",
+									"    pm.expect(userId).to.be.a.string;",
+									"    pm.expect(userId).not.to.be.empty;",
+									"});",
+									"",
+									"pm.test(\"Has array of items\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    const items = jsonData[\"items\"];",
+									"    pm.expect(items).to.be.instanceOf(Array);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}",
+							"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users/{{USER-ID}}",
+							"protocol": "http",
 							"host": [
-								"{{DATABASE-ADAPTER}}"
+								"{{SERVER-ADDRESS}}"
 							],
+							"port": "{{DATABASE-ADAPTER-PORT}}",
 							"path": [
 								"users",
 								"{{USER-ID}}"
@@ -1134,14 +1803,42 @@
 				},
 				{
 					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is ok/200\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Body is JSON\", function () {",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"User ID is equal\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    const userId = jsonData[\"id\"];",
+									"    pm.expect(userId).to.be.a.string;",
+									"    pm.expect(userId).not.to.be.empty;",
+									"    pm.expect(userId).to.be.equal(pm.environment.get(\"USER-ID\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{DATABASE-ADAPTER}}/users/{{USER-ID}}",
+							"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users/{{USER-ID}}",
+							"protocol": "http",
 							"host": [
-								"{{DATABASE-ADAPTER}}"
+								"{{SERVER-ADDRESS}}"
 							],
+							"port": "{{DATABASE-ADAPTER-PORT}}",
 							"path": [
 								"users",
 								"{{USER-ID}}"
@@ -1186,36 +1883,102 @@
 			"name": "Amazon-Adapter",
 			"item": [
 				{
-					"name": "Get Coffee Wishlist",
+					"name": "Get Games Wishlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is ok/200\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Body is JSON\", function () {",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Information are correct\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData[\"id\"]).to.be.equal(pm.variables.get(\"AMAZON-WISHLIST-GAMES\"));",
+									"    pm.expect(jsonData[\"vendor\"]).to.be.equal(\"amazon\");",
+									"    pm.expect(jsonData[\"name\"]).to.be.equal(\"Games\");",
+									"});",
+									"",
+									"pm.test(\"Items are correct\", function () {",
+									"    const items = pm.response.json()[\"items\"];",
+									"    pm.expect(items).to.be.instanceOf(Array);",
+									"    pm.expect(items).to.be.not.empty;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{AMAZON-ADAPTER}}/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+							"raw": "http://{{SERVER-ADDRESS}}:{{AMAZON-ADAPTER-PORT}}/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+							"protocol": "http",
 							"host": [
-								"{{AMAZON-ADAPTER}}"
+								"{{SERVER-ADDRESS}}"
 							],
+							"port": "{{AMAZON-ADAPTER-PORT}}",
 							"path": [
 								"wishlists",
-								"{{AMAZON-WISHLIST-COFFEE}}"
+								"{{AMAZON-WISHLIST-GAMES}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get Games Wishlist",
+					"name": "Get Coffee Wishlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is ok/200\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Body is JSON\", function () {",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Information are correct\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData[\"id\"]).to.be.equal(pm.variables.get(\"AMAZON-WISHLIST-COFFEE\"));",
+									"    pm.expect(jsonData[\"vendor\"]).to.be.equal(\"amazon\");",
+									"    pm.expect(jsonData[\"name\"]).to.be.equal(\"Kaffee-Zeug\");",
+									"});",
+									"",
+									"pm.test(\"Items are correct\", function () {",
+									"    const items = pm.response.json()[\"items\"];",
+									"    pm.expect(items).to.be.instanceOf(Array);",
+									"    pm.expect(items).to.be.not.empty;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{AMAZON-ADAPTER}}/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+							"raw": "http://{{SERVER-ADDRESS}}:{{AMAZON-ADAPTER-PORT}}/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+							"protocol": "http",
 							"host": [
-								"{{AMAZON-ADAPTER}}"
+								"{{SERVER-ADDRESS}}"
 							],
+							"port": "{{AMAZON-ADAPTER-PORT}}",
 							"path": [
 								"wishlists",
-								"{{AMAZON-WISHLIST-GAMES}}"
+								"{{AMAZON-WISHLIST-COFFEE}}"
 							]
 						}
 					},
@@ -1261,14 +2024,47 @@
 					"item": [
 						{
 							"name": "Get Games Wishlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Information are correct\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData[\"id\"]).to.be.equal(pm.variables.get(\"AMAZON-WISHLIST-GAMES\"));",
+											"    pm.expect(jsonData[\"vendor\"]).to.be.equal(\"amazon\");",
+											"    pm.expect(jsonData[\"name\"]).to.be.equal(\"Games\");",
+											"});",
+											"",
+											"pm.test(\"Items are correct\", function () {",
+											"    const items = pm.response.json()[\"items\"];",
+											"    pm.expect(items).to.be.instanceOf(Array);",
+											"    pm.expect(items).to.be.not.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{SCRAPPER-FACADE}}/amazon/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+									"raw": "http://{{SERVER-ADDRESS}}:{{SCRAPPER-FACADE-PORT}}/amazon/wishlists/{{AMAZON-WISHLIST-GAMES}}",
+									"protocol": "http",
 									"host": [
-										"{{SCRAPPER-FACADE}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{SCRAPPER-FACADE-PORT}}",
 									"path": [
 										"amazon",
 										"wishlists",
@@ -1280,14 +2076,47 @@
 						},
 						{
 							"name": "Get Coffee Wishlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is ok/200\", function () {",
+											"    pm.response.to.be.ok;",
+											"});",
+											"",
+											"pm.test(\"Body is JSON\", function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"});",
+											"",
+											"pm.test(\"Information are correct\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData[\"id\"]).to.be.equal(pm.variables.get(\"AMAZON-WISHLIST-COFFEE\"));",
+											"    pm.expect(jsonData[\"vendor\"]).to.be.equal(\"amazon\");",
+											"    pm.expect(jsonData[\"name\"]).to.be.equal(\"Kaffee-Zeug\");",
+											"});",
+											"",
+											"pm.test(\"Items are correct\", function () {",
+											"    const items = pm.response.json()[\"items\"];",
+											"    pm.expect(items).to.be.instanceOf(Array);",
+											"    pm.expect(items).to.be.not.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{SCRAPPER-FACADE}}/amazon/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+									"raw": "http://{{SERVER-ADDRESS}}:{{SCRAPPER-FACADE-PORT}}/amazon/wishlists/{{AMAZON-WISHLIST-COFFEE}}",
+									"protocol": "http",
 									"host": [
-										"{{SCRAPPER-FACADE}}"
+										"{{SERVER-ADDRESS}}"
 									],
+									"port": "{{SCRAPPER-FACADE-PORT}}",
 									"path": [
 										"amazon",
 										"wishlists",
@@ -1336,6 +2165,29 @@
 			"item": [
 				{
 					"name": "Send Mail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is ok/200\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Body is JSON\", function () {",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Information are correct\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData[\"message\"]).to.be.equal(\"mail has been sent successfully\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1349,10 +2201,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{GMAIL-ADAPTER}}/mail",
+							"raw": "http://{{SERVER-ADDRESS}}:{{GMAIL-ADAPTER-PORT}}/mail",
+							"protocol": "http",
 							"host": [
-								"{{GMAIL-ADAPTER}}"
+								"{{SERVER-ADDRESS}}"
 							],
+							"port": "{{GMAIL-ADAPTER-PORT}}",
 							"path": [
 								"mail"
 							]
@@ -1397,12 +2251,35 @@
 			"item": [
 				{
 					"name": "Send Invitation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is ok/200\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Body is JSON\", function () {",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Information are correct\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData[\"message\"]).to.be.equal(\"mail has been sent successfully\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [1]\n}",
+							"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [{{FIRST-ITEM-ID}}, {{SECOND-ITEM-ID}}]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1410,10 +2287,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{MAIL-SERVICE}}/invitations",
+							"raw": "http://{{SERVER-ADDRESS}}:{{MAIL-SERVICE-PORT}}/invitations",
+							"protocol": "http",
 							"host": [
-								"{{MAIL-SERVICE}}"
+								"{{SERVER-ADDRESS}}"
 							],
+							"port": "{{MAIL-SERVICE-PORT}}",
 							"path": [
 								"invitations"
 							]
@@ -1476,38 +2355,43 @@
 	],
 	"variable": [
 		{
-			"key": "USER-ENDPOINT",
-			"value": "http://localhost:8080",
+			"key": "SERVER-ADDRESS",
+			"value": "localhost",
 			"type": "default"
 		},
 		{
-			"key": "USER-SERVICE",
-			"value": "http://localhost:8071",
+			"key": "USER-ENDPOINT-PORT",
+			"value": "8080",
 			"type": "default"
 		},
 		{
-			"key": "SCRAPPER-FACADE",
-			"value": "http://localhost:8022",
+			"key": "USER-SERVICE-PORT",
+			"value": "8071",
 			"type": "default"
 		},
 		{
-			"key": "MAIL-SERVICE",
-			"value": "http://localhost:8021",
+			"key": "SCRAPPER-FACADE-PORT",
+			"value": "8022",
 			"type": "default"
 		},
 		{
-			"key": "GMAIL-ADAPTER",
-			"value": "http://localhost:8043",
+			"key": "MAIL-SERVICE-PORT",
+			"value": "8021",
 			"type": "default"
 		},
 		{
-			"key": "DATABASE-ADAPTER",
-			"value": "http://localhost:8061",
+			"key": "GMAIL-ADAPTER-PORT",
+			"value": "8043",
 			"type": "default"
 		},
 		{
-			"key": "AMAZON-ADAPTER",
-			"value": "http://localhost:8042",
+			"key": "DATABASE-ADAPTER-PORT",
+			"value": "8061",
+			"type": "default"
+		},
+		{
+			"key": "AMAZON-ADAPTER-PORT",
+			"value": "8042",
 			"type": "default"
 		},
 		{
