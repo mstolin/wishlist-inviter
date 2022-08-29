@@ -13,9 +13,9 @@ This endpoint is used to authenticate. The request has to be a
 JSON object containing a valid user ID. This service uses JWT for
 authentication. Therefore, the response is a 24h valid JWT token.
 
-If the user is not found, the API responds with a 404 error. If
-the request is invalid in general, a 400 is sent. Otherwise, a 
-500 error.
+If the user is not found, the API responds with a 404 error. If the user
+is invalid, it will respond a 406 error. If the request is invalid in general, 
+a 400 is sent. Otherwise, a 500 error is sent.
 
 ### Authenticate [POST]
 
@@ -38,6 +38,16 @@ the request is invalid in general, a 400 is sent. Otherwise, a
                 "status": 400,
                 "error": "Bad Request",
                 "message": "GENERIC ERROR MESSAGE"
+            }
+        }
+
++ Response 406 (application/json)
+
+        {
+            "error": {
+                "status": 406,
+                "error": "Not Acceptable",
+                "message": "Request is not acceptable."
             }
         }
 

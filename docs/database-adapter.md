@@ -587,3 +587,41 @@ errors.
                 "message": "GENERIC ERROR MESSAGE"
             }
         }
+
+## Verify User Collection [/users/verify/{userId}]
+
+This endpoint is used to verify an existing user. It is used
+by the User-Service to check if the given user is valid for 
+authentication.
+
+If the user does not exist, a 406 error is thrown.
+For any other error that happens on the server side, a
+500 error is send.
+
+### Get a specific User [GET]
+
++ Response 200 (application/json)
+
+        {
+            "is_valid": true
+        }
+
++ Response 406 (application/json)
+
+        {
+            "error": {
+                "status": 406,
+                "error": "Not Acceptable",
+                "message": "Request is not acceptable."
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "error": {
+                "status": 500,
+                "error": "Internal Server Error",
+                "message": "GENERIC ERROR MESSAGE"
+            }
+        }
