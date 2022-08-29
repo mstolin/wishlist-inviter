@@ -20,8 +20,12 @@ const USER_ID_KEY = "userId"
 func userHandler(r chi.Router) {
 	// unrestricted access
 	r.Group(func(r chi.Router) {
-		// registration should not be restricted
+		// registration and verification should not be restricted
 		r.Post("/", createUser)
+		r.Route("/verify/{userId}", func(r chi.Router) {
+			r.Use(userCtx)
+			r.Get("/", verifyUser)
+		})
 	})
 	// restricted access
 	r.Group(func(r chi.Router) {
@@ -61,6 +65,21 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := render.Render(w, r, &model); err != nil {
+		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
+		return
+	}
+}
+
+func verifyUser(w http.ResponseWriter, r *http.Request) {
+	id := r.Context().Value(USER_ID_KEY).(string)
+	_, err := dbHandler.GetUserById(id)
+	if err != nil {
+		render.Render(w, r, &httpErrors.ErrNotAcceptable)
+		return
+	}
+
+	verificationModel := models.UserVerification{ IsVerified: true }
+	if err := render.Render(w, r, &verificationModel); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
