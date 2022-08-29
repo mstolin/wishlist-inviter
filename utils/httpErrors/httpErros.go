@@ -17,16 +17,18 @@ type ErrorDetail struct {
 }
 
 var (
-	ErrDetailMethodNotAllowed = ErrorDetail{Status: http.StatusMethodNotAllowed, Err: http.StatusText(http.StatusMethodNotAllowed), Message: "The target resource doesn't support this method."}
-	ErrDetailNotFound         = ErrorDetail{Status: http.StatusNotFound, Err: http.StatusText(http.StatusNotFound), Message: "The requested resource is not available."}
-	ErrDetailUnauthorized     = ErrorDetail{Status: http.StatusUnauthorized, Err: http.StatusText(http.StatusUnauthorized), Message: "You are not authorized to access this resource."}
 	ErrDetailBadRequest       = ErrorDetail{Status: http.StatusBadRequest, Err: http.StatusText(http.StatusBadRequest), Message: "Received request is invalid."}
+	ErrDetailUnauthorized     = ErrorDetail{Status: http.StatusUnauthorized, Err: http.StatusText(http.StatusUnauthorized), Message: "You are not authorized to access this resource."}
+	ErrDetailNotFound         = ErrorDetail{Status: http.StatusNotFound, Err: http.StatusText(http.StatusNotFound), Message: "The requested resource is not available."}
+	ErrDetailMethodNotAllowed = ErrorDetail{Status: http.StatusMethodNotAllowed, Err: http.StatusText(http.StatusMethodNotAllowed), Message: "The target resource doesn't support this method."}
+	ErrDetailNotAcceptable    = ErrorDetail{Status: http.StatusNotAcceptable, Err: http.StatusText(http.StatusNotAcceptable), Message: "Request is not acceptable."}
 )
 var (
-	ErrMethodNotAllowed = ErrorResponse{Detail: ErrDetailMethodNotAllowed}
-	ErrNotFound         = ErrorResponse{Detail: ErrDetailNotFound}
-	ErrUnauthorized     = ErrorResponse{Detail: ErrDetailUnauthorized}
 	ErrBadRequest       = ErrorResponse{Detail: ErrDetailBadRequest}
+	ErrUnauthorized     = ErrorResponse{Detail: ErrDetailUnauthorized}
+	ErrNotFound         = ErrorResponse{Detail: ErrDetailNotFound}
+	ErrMethodNotAllowed = ErrorResponse{Detail: ErrDetailMethodNotAllowed}
+	ErrNotAcceptable    = ErrorResponse{Detail: ErrDetailNotAcceptable}
 )
 
 func (e *ErrorResponse) Render(w http.ResponseWriter, r *http.Request) error {
