@@ -697,7 +697,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [{{FIRST-ITEM-ID}}, {{SECOND-ITEM-ID}}]\n}",
+									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [{{FIRST-ITEM-ID}}]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1345,14 +1345,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/users/auth",
+							"raw": "http://{{SERVER-ADDRESS}}:{{USER-SERVICE-PORT}}/auth",
 							"protocol": "http",
 							"host": [
 								"{{SERVER-ADDRESS}}"
 							],
 							"port": "{{USER-SERVICE-PORT}}",
 							"path": [
-								"users",
 								"auth"
 							]
 						}
@@ -1841,6 +1840,51 @@
 							"port": "{{DATABASE-ADAPTER-PORT}}",
 							"path": [
 								"users",
+								"{{USER-ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is ok/200\", function () {",
+									"    pm.response.to.be.ok;",
+									"});",
+									"",
+									"pm.test(\"Body is JSON\", function () {",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Is verified\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    const isVerified = jsonData[\"is_verified\"];",
+									"    pm.expect(isVerified).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{SERVER-ADDRESS}}:{{DATABASE-ADAPTER-PORT}}/users/verify/{{USER-ID}}",
+							"protocol": "http",
+							"host": [
+								"{{SERVER-ADDRESS}}"
+							],
+							"port": "{{DATABASE-ADAPTER-PORT}}",
+							"path": [
+								"users",
+								"verify",
 								"{{USER-ID}}"
 							]
 						}
