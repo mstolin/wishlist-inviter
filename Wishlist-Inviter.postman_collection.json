@@ -267,8 +267,8 @@
 													"    pm.expect(secondItem.vendor).to.be.equal(items[1].vendor);",
 													"    pm.expect(secondItem[\"vendor_id\"]).to.be.equal(items[1][\"vendor_id\"]);",
 													"",
-													"    pm.environment.set(\"FIRST-ITEM-ID\", firstItem.id);",
-													"    pm.environment.set(\"SECOND-ITEM-ID\", secondItem.id);",
+													"    pm.variables.set(\"FIRST-ITEM-ID\", firstItem.id);",
+													"    pm.variables.set(\"SECOND-ITEM-ID\", secondItem.id);",
 													"});"
 												],
 												"type": "text/javascript"
@@ -370,7 +370,7 @@
 											"    const userId = jsonData[\"id\"];",
 											"    pm.expect(userId).to.be.a.string;",
 											"    pm.expect(userId).not.to.be.empty;",
-											"    pm.environment.set(\"USER-ID\", userId);",
+											"    pm.variables.set(\"USER-ID\", userId);",
 											"});",
 											"",
 											"pm.test(\"Has array of items\", function () {",
@@ -518,7 +518,7 @@
 											"    const accessToken = jsonData[\"access_token\"]",
 											"    pm.expect(accessToken).to.be.a.string;",
 											"    pm.expect(accessToken).not.to.be.empty;",
-											"    pm.environment.set(\"ACCESS-TOKEN\", accessToken);",
+											"    pm.variables.set(\"ACCESS-TOKEN\", accessToken);",
 											"});"
 										],
 										"type": "text/javascript"
@@ -2451,6 +2451,26 @@
 		{
 			"key": "MAIL-RECEIVER",
 			"value": "marcelpascal.stolin@studenti.unitn.it",
+			"type": "default"
+		},
+		{
+			"key": "USER-ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "ACCESS-TOKEN",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "FIRST-ITEM-ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "SECOND-ITEM-ID",
+			"value": "",
 			"type": "default"
 		}
 	]
