@@ -50,17 +50,24 @@ func auth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// create claims
+	// create claims/access token
 	claims := map[string]interface{}{}
 	jwtauth.SetIssuedNow(claims)
 	jwtauth.SetExpiryIn(claims, 86400*time.Second) // Expires in one day
-
 	_, accessToken, err := tokenAuth.Encode(claims)
 	if err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))
 		return
 	}
 
+	// check if user is valid
+	userVerification, httpErr := dbClientInstance.VerifyUser(authObj.UserId)
+	if httpErr != nil || !userVerification.IsVerified {
+		render.Render(w, r, &httpErrors.ErrNotAcceptable)
+		return
+	}
+
+	// return token
 	atObj := models.AccessToken{AccessToken: accessToken}
 	if err := render.Render(w, r, &atObj); err != nil {
 		render.Render(w, r, httpErrors.ErrServerErrorRenderer(err))

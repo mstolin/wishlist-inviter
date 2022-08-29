@@ -31,9 +31,9 @@ func (client DatabaseClient) CreateUser(accessToken string) (models.User, *httpE
 	user := models.User{}
 
 	url := fmt.Sprintf("%s/users", client.URL)
-	res, err := client.httpFacade.DoPost(url, accessToken, []byte{}) // send nothing
-	if err != nil {
-		return user, err
+	res, httpErr := client.httpFacade.DoPost(url, accessToken, []byte{}) // send nothing
+	if httpErr != nil {
+		return user, httpErr
 	}
 
 	if err := json.Unmarshal(res, &user); err != nil {
@@ -43,14 +43,30 @@ func (client DatabaseClient) CreateUser(accessToken string) (models.User, *httpE
 	return user, nil
 }
 
+// Sends a GET request to validate a user.
+func (client DatabaseClient) VerifyUser(userId string) (models.UserVerification, *httpErrors.ErrorResponse) {
+	var userVerification models.UserVerification
+
+	url := fmt.Sprintf("%s/users/verify/%s", client.URL, userId)
+	res, httpErr := client.httpFacade.DoGet(url, "")
+	if httpErr != nil {
+		return userVerification, httpErr
+	}
+
+	if err := json.Unmarshal(res, &userVerification); err != nil {
+		return userVerification, httpErrors.ErrServerErrorRenderer(err)
+	}
+	return userVerification, nil
+}
+
 // Sends a GET request to retrieve a specific user given its ID.
 func (client DatabaseClient) GetUser(userId, accessToken string) (models.User, *httpErrors.ErrorResponse) {
 	user := models.User{}
 
 	url := fmt.Sprintf("%s/users/%s", client.URL, userId)
-	res, err := client.httpFacade.DoGet(url, accessToken)
-	if err != nil {
-		return user, err
+	res, httpErr := client.httpFacade.DoGet(url, accessToken)
+	if httpErr != nil {
+		return user, httpErr
 	}
 
 	if err := json.Unmarshal(res, &user); err != nil {
@@ -64,9 +80,9 @@ func (client DatabaseClient) DeleteUser(userId, accessToken string) (models.User
 	user := models.User{}
 
 	url := fmt.Sprintf("%s/users/%s", client.URL, userId)
-	res, err := client.httpFacade.DoDelete(url, accessToken)
-	if err != nil {
-		return user, err
+	res, httpErr := client.httpFacade.DoDelete(url, accessToken)
+	if httpErr != nil {
+		return user, httpErr
 	}
 
 	if err := json.Unmarshal(res, &user); err != nil {
@@ -80,9 +96,9 @@ func (client DatabaseClient) GetItemsByUser(userId, accessToken string) (models.
 	list := models.ItemList{}
 
 	url := fmt.Sprintf("%s/users/%s/items", client.URL, userId)
-	res, err := client.httpFacade.DoGet(url, accessToken)
-	if err != nil {
-		return list, err
+	res, httpErr := client.httpFacade.DoGet(url, accessToken)
+	if httpErr != nil {
+		return list, httpErr
 	}
 
 	if err := json.Unmarshal(res, &list); err != nil {
@@ -116,9 +132,9 @@ func (client DatabaseClient) GetItemByUser(userId string, itemId int, accessToke
 	item := models.Item{}
 
 	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
-	res, err := client.httpFacade.DoGet(url, accessToken)
-	if err != nil {
-		return item, err
+	res, httpErr := client.httpFacade.DoGet(url, accessToken)
+	if httpErr != nil {
+		return item, httpErr
 	}
 
 	if err := json.Unmarshal(res, &item); err != nil {
@@ -152,9 +168,9 @@ func (client DatabaseClient) DeleteItemByUser(userId string, itemId int, accessT
 	deletedItem := models.Item{}
 
 	url := fmt.Sprintf("%s/users/%s/items/%d", client.URL, userId, itemId)
-	res, err := client.httpFacade.DoDelete(url, accessToken)
-	if err != nil {
-		return deletedItem, err
+	res, httpErr := client.httpFacade.DoDelete(url, accessToken)
+	if httpErr != nil {
+		return deletedItem, httpErr
 	}
 
 	if err := json.Unmarshal(res, &deletedItem); err != nil {
