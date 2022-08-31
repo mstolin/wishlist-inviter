@@ -41,26 +41,36 @@ single user. It represents if an item has been bought by a buyer or not.
 # Documentation
 
 -   User-Endpoint
-    -   [API](./docs/user-endpoint.md)
+    -   [API](./docs/user-endpoint.html) ((_[Apib-file](./docs/user-endpoint.apib)_))
     -   [Usage](./user-endpoint/Readme.md)
 -   User-Service
-    -   [API](./docs/user-service.md)
+    -   [API](./docs/user-service.html) ((_[Apib-file](./docs/user-service.apib)_))
     -   [Usage](./user-service/Readme.md)
 -   Mail-Service
-    -   [API](./docs/mail-service.md)
+    -   [API](./docs/mail-service.html) ((_[Apib-file](./docs/mail-service.apib)_))
     -   [Usage](./mail-service/Readme.md)
 -   Scrapper-Facade
-    -   [API](./docs/scrapper-facade.md)
+    -   [API](./docs/scrapper-facade.html) ((_[Apib-file](./docs/scrapper-facade.apib)_))
     -   [Usage](./scrapper-facade/Readme.md)
 -   Database-Adapter
-    -   [API](./docs/database-adapter.md)
+    -   [API](./docs/database-adapter.html) ((_[Apib-file](./docs/database-adapter.apib)_))
     -   [Usage](./database-adapter/Readme.md)
 -   GMail-Adapter
-    -   [API](./docs/gmail-adapter.md)
+    -   [API](./docs/gmail-adapter.html) ((_[Apib-file](./docs/gmail-adapter.apib)_))
     -   [Usage](./gmail-adapter/Readme.md)
 -   Amazon-Adapter
-    -   [API](./docs/amazon-adapter.md)
+    -   [API](./docs/amazon-adapter.html) ((_[Apib-file](./docs/amazon-adapter.apib)_))
     -   [Usage](./amazon-adapter/Readme.md)
+
+## Generate HTML decoumentation
+
+You will find a script called `genHtml.sh` in `docs/`. This will transform all `.apib` files
+in the folder into `.html` files using _[Aglio](https://github.com/danielgtaylor/aglio)_.
+
+```sh
+$ cd docs/
+$ ./genHtml.sh
+```
 
 # Usage
 
@@ -72,7 +82,7 @@ To simplify working with this multi-module application, Go
 [workspaces](https://go.dev/blog/get-familiar-with-workspaces) come in handy. It
 can be initialized using the following command:
 
-```
+```sh
 $ go work use utils \
     user-endpoint \
     user-service \
@@ -99,7 +109,7 @@ secret at https://bitwarden.com/password-generator/.
 
 Save the secret at `/env/JWT.env`.
 
-```
+```sh
 JWT_SIGN_KEY=THIS-IS-THE-RANDOM-SECRET
 ```
 
@@ -109,7 +119,7 @@ To send mails via the Google-Mail SMTP server an app password is necessary. This
 is explained at https://support.google.com/mail/answer/185833?hl=en. Save your 
 GMail address and the app password at `/env/gmail-adapter/.env`.
 
-```
+```sh
 GMAIL_MAIL=yourgmail@gmail.com
 GMAIL_PASSWORD=THE-APP-PASSWORD
 ```
@@ -123,20 +133,20 @@ project, that can be used with
 whole multi-service application. After that, the _User-Endpoint_ is available at 
 [http://localhost:8080](http://localhost:8080).
 
-```
+```sh
 $ sudo podman-compose up --build
 ```
 
 After that, you can delete all _builder_ images using:
 
-```
+```sh
 $ sudo podman image prune --filter label=stage=builder
 ```
 
 You can also use podman-compose to build and run a specific collection of 
 services.
 
-```
+```sh
 $ sudo podman-compose up --build database-adapter database
 ```
 
