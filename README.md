@@ -41,25 +41,25 @@ single user. It represents if an item has been bought by a buyer or not.
 # Documentation
 
 -   User-Endpoint
-    -   [API](./docs/user-endpoint.html) ((_[Apib-file](./docs/user-endpoint.apib)_))
+    -   [API](./docs/user-endpoint.apib) (_[HTML-file](./docs/user-endpoint.html)_)
     -   [Usage](./user-endpoint/Readme.md)
 -   User-Service
-    -   [API](./docs/user-service.html) ((_[Apib-file](./docs/user-service.apib)_))
+    -   [API](./docs/user-service.apib) (_[HTML-file](./docs/user-service.html)_)
     -   [Usage](./user-service/Readme.md)
 -   Mail-Service
-    -   [API](./docs/mail-service.html) ((_[Apib-file](./docs/mail-service.apib)_))
+    -   [API](./docs/mail-service.apib) (_[HTML-file](./docs/mail-service.html)_)
     -   [Usage](./mail-service/Readme.md)
 -   Scrapper-Facade
-    -   [API](./docs/scrapper-facade.html) ((_[Apib-file](./docs/scrapper-facade.apib)_))
+    -   [API](./docs/scrapper-facade.apib) (_[HTML-file](./docs/scrapper-facade.html)_)
     -   [Usage](./scrapper-facade/Readme.md)
 -   Database-Adapter
-    -   [API](./docs/database-adapter.html) ((_[Apib-file](./docs/database-adapter.apib)_))
+    -   [API](./docs/database-adapter.apib) (_[HTML-file](./docs/database-adapter.html)_)
     -   [Usage](./database-adapter/Readme.md)
 -   GMail-Adapter
-    -   [API](./docs/gmail-adapter.html) ((_[Apib-file](./docs/gmail-adapter.apib)_))
+    -   [API](./docs/gmail-adapter.apib) (_[HTML-file](./docs/gmail-adapter.html)_)
     -   [Usage](./gmail-adapter/Readme.md)
 -   Amazon-Adapter
-    -   [API](./docs/amazon-adapter.html) ((_[Apib-file](./docs/amazon-adapter.apib)_))
+    -   [API](./docs/amazon-adapter.apib) (_[HTML-file](./docs/amazon-adapter.html)_)
     -   [Usage](./amazon-adapter/Readme.md)
 
 ## Generate HTML decoumentation
