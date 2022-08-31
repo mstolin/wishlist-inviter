@@ -2,7 +2,7 @@
 <section id="" class="resource-group"><h2 class="group-heading">Resource Group <a href="#" class="permalink">&para;</a></h2><div id="mail-endpoint" class="resource"><h3 class="resource-heading">Mail Endpoint <a href="#mail-endpoint" class="permalink">&nbsp;&para;</a></h3><p>This endpoint will send an email through Google-Mails SMTP server.
 It requires a simple JSON request, given the recipient of the mail, the subject,
 and the mail body.
-Usually this information should be generated via the <a href="./mail-service.md">Mail-Servive</a>.</p>
+Usually this information should be generated via the Mail-Servive.</p>
 <p>If the given request is invalid, the endpoint responds a 400 error. Unauthorized clients
 will receive a 401 error. If any other error will occur, a 500 error is send.</p>
 <div id="mail-endpoint-get" class="action get"><h4 class="action-heading"><div class="name">Send Mail</div><a href="#mail-endpoint-get" class="method get">GET</a><code class="uri">/mail</code></h4><h4>Example URI</h4><div class="definition"><span class="method get">GET</span>&nbsp;<span class="uri"><span class="hostname">http://gmail-adapter/</span>/mail</span></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span><br><span class="hljs-attribute">Authorization</span>: <span class="hljs-string">Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjA3NDk4MTksImlhdCI6MTY2MDY2MzQxOX0.fTF35iyBNsflkDlv2vdIQNjH6X0GexD7Q5MaEpg_T8o</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
