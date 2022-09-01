@@ -41,25 +41,25 @@ single user. It represents if an item has been bought by a buyer or not.
 # Documentation
 
 -   User-Endpoint
-    -   [API](./docs/user-endpoint.apib) (_[HTML-file](./docs/user-endpoint.html)_)
+    -   [API](https://mstolin.github.io/wishlist-inviter/user-endpoint.html)
     -   [Usage](./user-endpoint/Readme.md)
 -   User-Service
-    -   [API](./docs/user-service.apib) (_[HTML-file](./docs/user-service.html)_)
+    -   [API](https://mstolin.github.io/wishlist-inviter/user-service.html)
     -   [Usage](./user-service/Readme.md)
 -   Mail-Service
-    -   [API](./docs/mail-service.apib) (_[HTML-file](./docs/mail-service.html)_)
+    -   [API](https://mstolin.github.io/wishlist-inviter/mail-service.html)
     -   [Usage](./mail-service/Readme.md)
 -   Scrapper-Facade
-    -   [API](./docs/scrapper-facade.apib) (_[HTML-file](./docs/scrapper-facade.html)_)
+    -   [API](https://mstolin.github.io/wishlist-inviter/scrapper-facade.html)
     -   [Usage](./scrapper-facade/Readme.md)
 -   Database-Adapter
-    -   [API](./docs/database-adapter.apib) (_[HTML-file](./docs/database-adapter.html)_)
+    -   [API](https://mstolin.github.io/wishlist-inviter/database-adapter.html)
     -   [Usage](./database-adapter/Readme.md)
 -   GMail-Adapter
-    -   [API](./docs/gmail-adapter.apib) (_[HTML-file](./docs/gmail-adapter.html)_)
+    -   [API](https://mstolin.github.io/wishlist-inviter/gmail-adapter.html)
     -   [Usage](./gmail-adapter/Readme.md)
 -   Amazon-Adapter
-    -   [API](./docs/amazon-adapter.apib) (_[HTML-file](./docs/amazon-adapter.html)_)
+    -   [API](https://mstolin.github.io/wishlist-inviter/amazon-adapter.html)
     -   [Usage](./amazon-adapter/Readme.md)
 
 ## Generate HTML decoumentation
