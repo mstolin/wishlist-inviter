@@ -371,12 +371,6 @@
 											"    pm.expect(userId).to.be.a.string;",
 											"    pm.expect(userId).not.to.be.empty;",
 											"    pm.variables.set(\"USER-ID\", userId);",
-											"});",
-											"",
-											"pm.test(\"Has array of items\", function () {",
-											"    const jsonData = pm.response.json();",
-											"    const items = jsonData[\"items\"];",
-											"    pm.expect(items).to.be.instanceOf(Array);",
 											"});"
 										],
 										"type": "text/javascript"
@@ -697,7 +691,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [{{FIRST-ITEM-ID}}]\n}",
+									"raw": "{\n    \"recipient\": \"{{MAIL-RECEIVER}}\",\n    \"user_id\": \"{{USER-ID}}\",\n    \"items\": [{{FIRST-ITEM-ID}}, {{SECOND-ITEM-ID}}]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2455,22 +2449,22 @@
 		},
 		{
 			"key": "USER-ID",
-			"value": "",
+			"value": "9851359c-412d-47b0-901c-f5af6a5f4480",
 			"type": "default"
 		},
 		{
 			"key": "ACCESS-TOKEN",
-			"value": "",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjE4ODkxMTEsImlhdCI6MTY2MTgwMjcxMX0.QREyiPj9BsgeRG7w1lz6BvmjhUi-vp5n5UY8pZeFYOc",
 			"type": "default"
 		},
 		{
 			"key": "FIRST-ITEM-ID",
-			"value": "",
+			"value": "1",
 			"type": "default"
 		},
 		{
 			"key": "SECOND-ITEM-ID",
-			"value": "",
+			"value": "2",
 			"type": "default"
 		}
 	]
